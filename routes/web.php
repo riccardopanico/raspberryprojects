@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +15,20 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::any('login', [AuthController::class, 'login'])->name('login');
+Route::any('logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('signin', [AuthController::class, 'signin'])->name('signin');
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware('auth')->group(function () {
+    Route::any('/', [HomeController::class, 'home']);
+    Route::any('home', [HomeController::class, 'home'])->name('home');
+});
+
+Route::any('clear-cache', function () {
+    Artisan::call('view:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+
+    return 'Cache is cleared';
 });
