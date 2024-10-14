@@ -1,4 +1,4 @@
-<script src="{{ mix('build/js/all.js') }}"></script>
+<script src="{{ mix('build/js/all.min.js') }}"></script>
 <script>
     $.ajaxSetup({
         headers: {
