@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function home(Request $request)
     {
         extract(Impostazioni::all()->pluck('valore', 'codice')->toArray());
-        return view('home', get_defined_vars());
+        return view('template_1.home', get_defined_vars());
     }
 
 }
