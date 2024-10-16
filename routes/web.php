@@ -22,6 +22,7 @@ Route::post('signin', [AuthController::class, 'signin'])->name('signin');
 // Route::middleware('auth')->group(function () {
     Route::any('/', [HomeController::class, 'home']);
     Route::any('home', [HomeController::class, 'home'])->name('home');
+    Route::any('impostazioni', [HomeController::class, 'impostazioni'])->name('impostazioni');
 // });
 
 Route::any('clear-cache', function () {

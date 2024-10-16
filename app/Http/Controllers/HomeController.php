@@ -19,4 +19,10 @@ class HomeController extends Controller
         return view('template_1.home', get_defined_vars());
     }
 
+    public function impostazioni(Request $request)
+    {
+        extract(Impostazioni::all()->pluck('valore', 'codice')->toArray());
+        return view('template_1.impostazioni', get_defined_vars());
+    }
+
 }

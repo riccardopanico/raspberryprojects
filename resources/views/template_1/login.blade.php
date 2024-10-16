@@ -1,4 +1,4 @@
-@extends('index')
+@extends('template_1.index_login')
 @section('breadcrumb')
     <div class="content-header">
         <div class="container">

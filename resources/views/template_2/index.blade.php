@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-@include('commons.head')
+<html lang="en" style="height: auto;zoom: 1.25;">
+@include('template_2.commons.head')
 
 <body class="hold-transition layout-top-nav">
     <div class="wrapper">
-        @include('commons.navbar')
+        @include('template_2.commons.navbar')
         <div class="content-wrapper">
             @yield('breadcrumb')
             <div class="content">
@@ -13,7 +13,7 @@
                 </div>
             </div>
         </div>
-        @include('commons.script')
+        @include('template_2.commons.script')
         @yield('script')
     </div>
 </body>

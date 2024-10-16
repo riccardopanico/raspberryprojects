@@ -1,4 +1,4 @@
-@extends('index')
+@extends('template_2.index')
 @section('breadcrumb')
     <div class="content-header">
         <div class="container">
@@ -17,7 +17,7 @@
         font-weight: bold;
     }
 </style>
-    <div class="card card-primary card-outline" style="zoom: 1.1;">
+    <div class="card card-primary card-outline">
         <div class="card-body">
 
             @if ($error)
