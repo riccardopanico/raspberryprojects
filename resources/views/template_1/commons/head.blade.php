@@ -9,17 +9,5 @@
     <link rel="stylesheet" href="{{ asset('build/adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     <link rel="stylesheet" href="{{ asset('build/adminlte/dist/css/adminlte.min.css') }}">
 
-    <style>
-        .wrapper {
-            overflow: hidden;
-        }
-        body {
-            -webkit-user-select: none; /* Per Chrome, Safari, e Opera */
-            -moz-user-select: none;    /* Per Firefox */
-            -ms-user-select: none;     /* Per Internet Explorer */
-            user-select: none;         /* Standard */
-        }
-    </style>
-
-    @yield('css')
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 </head>
