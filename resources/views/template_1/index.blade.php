@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" style="height: auto;zoom: 1.25;">
 @include('template_1.commons.head')
+
 <body class="layout-fixed layout-footer-fixed layout-navbar-fixed sidebar-closed sidebar-collapse">
     <div class="wrapper">
         @include('template_1.commons.navbar')
@@ -21,4 +22,5 @@
     @include('template_1.commons.script')
     @yield('script')
 </body>
+
 </html>

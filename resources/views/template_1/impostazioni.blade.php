@@ -1,57 +1,36 @@
 @extends('template_1.index')
 @section('main')
-    {{-- <div class="card card-default color-palette-box">
-        <div class="card-header">
-            <h3 class="card-title">
-                <i class="fas fa-tag"></i>
-                Color Palette
-            </h3>
-        </div>
-        <div class="card-body"> --}}
     <div class="input-group input-group-lg mb-2 mt-2">
         <div class="input-group-prepend">
             <span class="input-group-text fixed-width">Misurazione Filo</span>
         </div>
         <input type="text" class="font-lg form-control custom-input" placeholder="Misurazione Filo" disabled value="676.24">
-        {{-- <div class="input-group-append">
-            <span class="input-group-text">100</span>
-        </div> --}}
     </div>
     <div class="input-group input-group-lg mb-2">
         <div class="input-group-prepend">
             <span class="input-group-text fixed-width">Impulsi</span>
         </div>
         <input type="text" class="font-lg form-control custom-input" placeholder="Impulsi" disabled value="0">
-        {{-- <div class="input-group-append">
-            <span class="input-group-text">id op</span>
-        </div> --}}
     </div>
     <div class="input-group input-group-lg mb-2">
         <div class="input-group-prepend">
             <span class="input-group-text fixed-width">Lunghezza totale</span>
         </div>
-        <input type="text" class="font-lg form-control custom-input" placeholder="Lunghezza totale" disabled value="0.000000 cm">
-        {{-- <div class="input-group-append">
-            <span class="input-group-text">id op</span>
-        </div> --}}
+        <input type="text" class="font-lg form-control custom-input" placeholder="Lunghezza totale" disabled
+            value="0.000000 cm">
     </div>
     <div class="input-group input-group-lg mb-2">
         <div class="input-group-prepend">
             <span class="input-group-text fixed-width">Velocità</span>
         </div>
-        <input type="text" class="font-lg form-control custom-input" placeholder="Velocità" disabled value="0.000000 m/s">
-        {{-- <div class="input-group-append">
-            <span class="input-group-text">id op</span>
-        </div> --}}
+        <input type="text" class="font-lg form-control custom-input" placeholder="Velocità" disabled
+            value="0.000000 m/s">
     </div>
     <div class="input-group input-group-lg mb-1">
         <div class="input-group-prepend">
             <span class="input-group-text fixed-width">Operatività</span>
         </div>
         <input type="text" class="font-lg form-control custom-input" placeholder="Operatività" disabled value="00:00:00">
-        {{-- <div class="input-group-append">
-            <span class="input-group-text">n com</span>
-        </div> --}}
     </div>
 
     <div class="row">
@@ -61,10 +40,6 @@
             </div>
         </div>
     </div>
-
-    {{-- </div>
-
-    </div> --}}
 @endsection
 
 @section('css')
