@@ -31,31 +31,31 @@
     <div class="row">
         <div class="col-sm-4 col-md-2">
             <div class="color-palette-set mt-4">
-                <button type="button" class="btn btn-block btn-primary btn-lg custom-button">Richiesta Filato</button>
+                <button type="button" class="btn btn-block btn-primary btn-lg custom-button" data-toggle="modal" data-target="#modal-xl">Richiesta Filato</button>
             </div>
         </div>
 
         <div class="col-sm-4 col-md-2">
             <div class="color-palette-set mt-3">
-                <button type="button" class="btn btn-block btn-primary btn-lg custom-button">Cambio Spola</button>
+                <button type="button" class="btn btn-block btn-primary btn-lg custom-button" data-toggle="modal" data-target="#modal-xl">Cambio Spola</button>
             </div>
         </div>
 
         <div class="col-sm-4 col-md-2">
             <div class="color-palette-set mt-3">
-                <button type="button" class="btn btn-block btn-primary btn-lg custom-button">Richiesta Intervento</button>
+                <button type="button" class="btn btn-block btn-primary btn-lg custom-button" data-toggle="modal" data-target="#modal-xl">Richiesta Intervento</button>
             </div>
         </div>
 
         <div class="col-sm-4 col-md-2">
             <div class="color-palette-set mt-3">
-                <button type="button" class="btn btn-block btn-primary btn-lg custom-button">Manuale d'uso</button>
+                <button type="button" class="btn btn-block btn-primary btn-lg custom-button" data-toggle="modal" data-target="#modal-xl">Manuale d'uso</button>
             </div>
         </div>
 
         <div class="col-sm-4 col-md-2">
             <div class="color-palette-set mt-3 mb-4">
-                <button type="button" class="btn btn-block btn-primary btn-lg custom-button">Scansiona</button>
+                <button type="button" class="btn btn-block btn-primary btn-lg custom-button" data-toggle="modal" data-target="#modal-xl">Scansiona</button>
             </div>
         </div>
 
@@ -67,9 +67,12 @@
 
 @section('script')
     <script>
-        $('#modal-xl').on('shown.bs.modal', function() {
-            var iframe = '<iframe src="{{ asset('pdf/manuale_uso.pdf') }}" width="100%"></iframe>';
-            $(this).find('.modal-body').html(iframe);
+        $('#modal-xl').on('shown.bs.modal', function(e) {
+            console.log(e);
+            var triggerElement = $(e.relatedTarget);
+            var modalBody = $(this).find('.modal-body');
+            // var iframe = '<iframe src="{{ asset('pdf/manuale_uso.pdf') }}" width="100%"></iframe>';
+            // $(this).find('.modal-body').html(iframe);
         });
     </script>
 @endsection
