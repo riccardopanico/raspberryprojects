@@ -1,3 +1,12 @@
+<style>
+    .fixed-width {
+        width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
 @extends('template_1.index')
 @section('main')
     <div class="input-group input-group-lg mb-2 mt-2">
@@ -56,21 +65,10 @@
     </div>
 @endsection
 
-@section('css')
-    <style>
-        .fixed-width {
-            width: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
-@endsection
-
 @section('script')
     <script>
         $('#modal-xl').on('shown.bs.modal', function() {
-            var iframe = '<iframe src="{{ asset("pdf/manuale_uso.pdf") }}" width="100%"></iframe>';
+            var iframe = '<iframe src="{{ asset('pdf/manuale_uso.pdf') }}" width="100%"></iframe>';
             $(this).find('.modal-body').html(iframe);
         });
     </script>

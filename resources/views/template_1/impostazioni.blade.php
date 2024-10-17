@@ -1,3 +1,22 @@
+<style>
+    .fixed-width {
+        width: 175px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding-right: 16px;
+    }
+
+    .custom-input {
+        width: 175px;
+        display: flex;
+        text-align: right;
+        justify-content: right;
+        align-items: center;
+        padding-right: 16px;
+    }
+</style>
+
 @extends('template_1.index')
 @section('main')
     <div class="input-group input-group-lg mb-2 mt-2">
@@ -40,27 +59,6 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('css')
-    <style>
-        .fixed-width {
-            width: 175px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            padding-right: 16px;
-        }
-
-        .custom-input {
-            width: 175px;
-            display: flex;
-            text-align: right;
-            justify-content: right;
-            align-items: center;
-            padding-right: 16px;
-        }
-    </style>
 @endsection
 
 @section('script')
