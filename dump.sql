@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `impostazioni` (
   PRIMARY KEY (`codice`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dump dei dati della tabella raspberryprojects.impostazioni: ~15 rows (circa)
+-- Dump dei dati della tabella raspberryprojects.impostazioni: ~20 rows (circa)
 DELETE FROM `impostazioni`;
 INSERT INTO `impostazioni` (`codice`, `descrizione`, `valore`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	('articolo', 'Articolo', 'ZRACHELLE-0', '2024-01-16 10:37:44', '2024-05-13 06:15:51', NULL),
@@ -40,28 +40,17 @@ INSERT INTO `impostazioni` (`codice`, `descrizione`, `valore`, `created_at`, `up
 	('gateway', 'Gateway', '192.168.10.253', '2023-06-20 10:50:37', '2024-01-12 09:56:57', NULL),
 	('id_macchina', 'ID Macchina', '1', '2023-02-27 09:58:22', '2023-11-28 10:12:39', NULL),
 	('id_operatore', 'Badge', '0010452223', '2023-06-28 15:07:22', '2024-10-08 12:21:20', NULL),
-	('id_tecnico', 'ID Tecnico', '1', '2023-06-28 15:16:02', '2024-04-12 09:36:30', NULL),
 	('ip_local_server', 'IP Server Locale', '192.168.10.207', '2023-06-22 15:12:48', '2024-01-12 09:57:20', NULL),
 	('ip_macchina', 'IP Macchina', '192.168.10.201', '2023-06-20 08:43:43', '2024-01-12 09:56:43', NULL),
 	('last_barcode', 'Ultimo Barcode Scansionato', '051296200186', '2023-05-31 09:30:21', '2024-05-13 06:15:51', NULL),
-	('lotto', 'Lotto', '2962', '2024-01-16 10:38:20', '2024-05-13 06:15:51', NULL),
 	('manuale_uso', 'Manuale d\'uso', 'manuale_uso.pdf', '2023-02-27 10:43:33', NULL, NULL),
 	('network_interface', 'Interfaccia di Rete', 'wlan0', '2023-06-07 17:21:06', NULL, NULL),
 	('network_name', 'Nome Rete', 'elata', '2023-06-20 10:51:41', '2024-01-29 15:19:36', NULL),
 	('network_password', 'Password Rete', 'Elata1923', '2023-06-20 10:52:12', '2024-01-29 15:19:36', NULL),
-	('PE1situazione', 'Pelle 1', '[{"CODART":"PLFROCORCA","QTORF":0,"QTSIT":3}]', '2024-01-10 12:43:33', '2024-05-13 06:15:53', NULL),
-	('PE2situazione', 'Pelle 2', '[{"CODART":"PELUXHAZE","QTORF":0,"QTSIT":null}]', '2024-01-10 12:43:47', '2024-05-13 06:15:53', NULL),
-	('PE3situazione', 'Pelle 3', '[]', '2024-01-10 12:44:02', '2024-05-13 06:15:53', NULL),
 	('porta_local_server', 'Porta Server Locale', '1404', '2023-06-22 15:13:27', NULL, NULL),
-	('prefisso', 'Prefisso', '2024E', '2024-01-16 10:36:38', '2024-05-13 06:15:51', NULL),
 	('richiesta_filato', 'Richiesta Filato', '0', '2024-10-08 10:45:11', '2024-10-08 11:19:20', NULL),
 	('richiesta_manutenzione', 'Richiesta Manutenzione', '0', '2023-02-27 10:02:31', '2024-10-08 11:08:45', NULL),
 	('subnet', 'Subnet', '255.255.255.0', '2023-06-20 10:49:21', '2024-01-04 16:14:01', NULL),
-	('SUsituazione', 'Suole Situazione/Ordinato', '[{"CODART":"SUCHERIEBGNA","CODMIS":"32","NLOTTO":2962,"PREFISSO":"2024E","QTORF":0,"QTSIT":0},{"CODART":"SUCHERIEBGNA","CODMIS":"33","NLOTTO":2962,"PREFISSO":"2024E","QTORF":0,"QTSIT":0},{"CODART":"SUCHERIEBGNA","CODMIS":"34","NLOTTO":2962,"PREFISSO":"2024E","QTORF":0,"QTSIT":0},{"CODART":"SUCHERIEBGNA","CODMIS":"35","NLOTTO":2962,"PREFISSO":"2024E","QTORF":0,"QTSIT":0},{"CODART":"SUCHERIEBGNA","CODMIS":"36","NLOTTO":2962,"PREFISSO":"2024E","QTORF":0,"QTSIT":0},{"CODART":"SUCHERIEBGNA","CODMIS":"37","NLOTTO":2962,"PREFISSO":"2024E","QTORF":0,"QTSIT":-1},{"CODART":"SUCHERIEBGNA","CODMIS":"38","NLOTTO":2962,"PREFISSO":"2024E","QTORF":0,"QTSIT":0},{"CODART":"SUCHERIEBGNA","CODMIS":"39","NLOTTO":2962,"PREFISSO":"2024E","QTORF":0,"QTSIT":0},{"CODART":"SUCHERIEBGNA","CODMIS":"40","NLOTTO":2962,"PREFISSO":"2024E","QTORF":0,"QTSIT":0},{"CODART":"SUCHERIEBGNA","CODMIS":"41","NLOTTO":2962,"PREFISSO":"2024E","QTORF":0,"QTSIT":0},{"CODART":"SUCHERIEBGNA","CODMIS":"42","NLOTTO":2962,"PREFISSO":"2024E","QTORF":0,"QTSIT":0},{"CODART":"SUCHERIEBGNA","CODMIS":"43","NLOTTO":2962,"PREFISSO":"2024E","QTORF":0,"QTSIT":0},{"CODART":"SUCHERIEBGNA","CODMIS":"44","NLOTTO":2962,"PREFISSO":"2024E","QTORF":0,"QTSIT":0},{"CODART":"SUCHERIEBGNA","CODMIS":"45","NLOTTO":2962,"PREFISSO":"2024E","QTORF":0,"QTSIT":0}]', '2024-01-10 10:06:24', '2024-05-13 06:15:52', NULL),
-	('T1codlavor', 'Codice Lavorante', NULL, '2023-06-26 15:15:33', '2024-05-13 06:15:51', NULL),
-	('T1data_lavor', 'Data Lavorazione', NULL, '2023-06-26 15:15:50', '2024-05-13 06:15:51', NULL),
-	('TCcodlavor', 'Codice Lavorante', NULL, '2023-06-26 11:18:08', '2024-05-13 06:15:51', NULL),
-	('TCdata_lavor', 'Data Lavorazione', NULL, '2023-06-26 11:18:49', '2024-05-13 06:15:51', NULL),
 	('token', 'Token', '123', '2023-03-02 14:48:23', NULL, NULL),
 	('ultimo_reset_olio', 'Ultimo Reset Olio', '0', '2024-10-08 10:45:58', '2024-10-08 08:46:48', NULL);
 
@@ -393,9 +382,6 @@ CREATE TABLE IF NOT EXISTS `log_orlatura` (
   `id_macchina` int(11) NOT NULL,
   `id_operatore` varchar(50) NOT NULL DEFAULT '',
   `commessa` varchar(255) NOT NULL,
-  `richiesta_manutenzione` int(1) NOT NULL,
-  `richiesta_filato` int(1) NOT NULL,
-  `distanza_reset_olio` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -416,21 +402,6 @@ INSERT INTO `operatori` (`id`, `nome`, `cognome`) VALUES
 	('0001752390', 'Mario', 'Rossi'),
 	('0001978094', 'Luigi', 'Verdi'),
 	('0010452223', 'Riccardo', 'Panico');
-
--- Dump della struttura di tabella raspberryprojects.tipi_manutenzione
-CREATE TABLE IF NOT EXISTS `tipi_manutenzione` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `descrizione` varchar(255) DEFAULT NULL,
-  `ordinamento` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
--- Dump dei dati della tabella raspberryprojects.tipi_manutenzione: ~3 rows (circa)
-DELETE FROM `tipi_manutenzione`;
-INSERT INTO `tipi_manutenzione` (`id`, `descrizione`, `ordinamento`) VALUES
-	(1, 'Intervento di regolazione', 0),
-	(2, 'Intervento di riparazione', 10),
-	(3, 'Intervento di manutenzione', 20);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
