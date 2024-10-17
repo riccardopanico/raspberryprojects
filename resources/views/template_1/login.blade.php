@@ -11,12 +11,6 @@
     </div>
 @endsection
 @section('main')
-    <style>
-        .numpad-btn {
-            font-size: 30px;
-            font-weight: bold;
-        }
-    </style>
     <div class="card card-primary card-outline" style="zoom: 1.1;">
         <div class="card-body">
 

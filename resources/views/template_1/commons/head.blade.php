@@ -9,5 +9,5 @@
     <link rel="stylesheet" href="{{ asset('build/adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     <link rel="stylesheet" href="{{ asset('build/adminlte/dist/css/adminlte.min.css') }}">
 
-    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 </head>
