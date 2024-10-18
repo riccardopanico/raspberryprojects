@@ -16,6 +16,7 @@ mix.scripts([
     'vendor/almasaeed2010/adminlte/plugins/jquery/jquery.min.js',
     'vendor/almasaeed2010/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js',
     'vendor/almasaeed2010/adminlte/dist/js/adminlte.min.js',
+    'vendor/almasaeed2010/adminlte/plugins/sweetalert2/sweetalert2.min.js',
 
     'resources/js/custom.js',
 
