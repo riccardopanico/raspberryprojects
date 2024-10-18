@@ -4,12 +4,13 @@
         <div class="container">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0" style="font-weight: bold; text-align: center;"> AUTENTICAZIONE </h1>
+                    <h1 class="m-0" style="font-weight: bold; text-align: center;">AUTENTICAZIONE</h1>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
 @section('main')
     <div class="card card-primary card-outline" style="zoom: 1.1;">
         <div class="card-body">
@@ -76,8 +77,6 @@
                     </div>
                 </div>
             </form>
-
-
         </div>
     </div>
 @endsection

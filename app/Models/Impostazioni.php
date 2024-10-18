@@ -11,6 +11,9 @@ class Impostazioni extends Model
     protected $fillable = [
         'codice',
         'descrizione',
-        'valore'
+        'valore',
+        'created_at',
+        'updated_at',
+        'deleted_at'
     ];
 }

@@ -23,6 +23,8 @@ Route::post('signin', [AuthController::class, 'signin'])->name('signin');
     Route::any('/', [HomeController::class, 'home']);
     Route::any('home', [HomeController::class, 'home'])->name('home');
     Route::any('impostazioni', [HomeController::class, 'impostazioni'])->name('impostazioni');
+    Route::post('/settingsSave', [HomeController::class, 'settingsSave'])->name('settingsSave');
+
 // });
 
 Route::any('clear-cache', function () {

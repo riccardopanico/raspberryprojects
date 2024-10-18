@@ -21,7 +21,7 @@
         "jquery-ui-dist": "^1.13.2",
         "moment": "^2.30.1",
         "socket.io": "^4.7.4",
-        "sweetalert2": "^11.10.3",
+        "sweetalert2": "^11.14.3",
         "toastr": "^2.1.4",
         "virtual-keyboard": "^1.30.4"
     }
