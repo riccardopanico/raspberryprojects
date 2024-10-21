@@ -129,11 +129,7 @@
             const cancelButton = '<button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>';
             const closeButton = '<button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>';
 
-            if (action !== null) {
-                return cancelButton + confirmButton;
-            } else {
-                return closeButton;
-            }
+            return action ? cancelButton + confirmButton : closeButton;
         }
 
         function settingsSave(setting, value) {

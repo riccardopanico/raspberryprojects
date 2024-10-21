@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LogOperatori extends Model
+class Operatori extends Model
 {
     use HasFactory;
 
-    protected $table = 'log_operatori';
+    protected $table = 'operatori';
 
     protected $fillable = [
         'nome',

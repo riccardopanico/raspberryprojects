@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Impostazioni;
 use Illuminate\Http\Request;
+use App\Models\LogOperazioni;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
