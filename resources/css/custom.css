@@ -3,10 +3,14 @@
 }
 
 body {
-    -webkit-user-select: none; /* Per Chrome, Safari, e Opera */
-    -moz-user-select: none; /* Per Firefox */
-    -ms-user-select: none; /* Per Internet Explorer */
-    user-select: none; /* Standard */
+    -webkit-user-select: none;
+    /* Per Chrome, Safari, e Opera */
+    -moz-user-select: none;
+    /* Per Firefox */
+    -ms-user-select: none;
+    /* Per Internet Explorer */
+    user-select: none;
+    /* Standard */
 }
 
 .numpad-btn {
@@ -44,3 +48,29 @@ body {
     align-items: center;
     padding-right: 16px;
 } */
+
+.blink {
+    animation: blink 3s linear infinite;
+    -webkit-animation-name: blink;
+    animation-name: blink;
+}
+
+@-webkit-keyframes blink {
+
+    0%, 100% {
+        visibility: visible;
+    }
+    50% {
+        visibility: hidden;
+    }
+}
+
+@keyframes blink {
+
+    0%, 100% {
+        visibility: visible;
+    }
+    50% {
+        visibility: hidden;
+    }
+}

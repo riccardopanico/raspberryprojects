@@ -19,13 +19,13 @@ Route::any('login', [AuthController::class, 'login'])->name('login');
 Route::any('logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('signin', [AuthController::class, 'signin'])->name('signin');
 
-// Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function () {
     Route::any('/', [HomeController::class, 'home']);
     Route::any('home', [HomeController::class, 'home'])->name('home');
     Route::any('impostazioni', [HomeController::class, 'impostazioni'])->name('impostazioni');
     Route::post('/settingsSave', [HomeController::class, 'settingsSave'])->name('settingsSave');
 
-// });
+});
 
 Route::any('clear-cache', function () {
     Artisan::call('view:clear');

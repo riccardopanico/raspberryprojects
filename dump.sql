@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Versione server:              10.4.32-MariaDB - mariadb.org binary distribution
 -- S.O. server:                  Win64
--- HeidiSQL Versione:            12.6.0.6765
+-- HeidiSQL Versione:            12.7.0.6850
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -30,29 +30,36 @@ CREATE TABLE IF NOT EXISTS `impostazioni` (
   PRIMARY KEY (`codice`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dump dei dati della tabella raspberryprojects.impostazioni: ~20 rows (circa)
+-- Dump dei dati della tabella raspberryprojects.impostazioni: ~27 rows (circa)
 DELETE FROM `impostazioni`;
 INSERT INTO `impostazioni` (`codice`, `descrizione`, `valore`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	('articolo', 'Articolo', 'ZRACHELLE-0', '2024-01-16 10:37:44', '2024-05-13 06:15:51', NULL),
+	('cambio_spola', 'Cambio Spola', '0', '2024-10-21 11:26:03', '2024-10-21 10:10:16', NULL),
 	('commessa', 'Commessa', 'abc', '2024-10-08 10:43:19', NULL, NULL),
 	('distanza_reset_olio', 'Distanza Reset Olio', '100', '2024-10-08 10:43:39', NULL, NULL),
 	('dns_nameservers', 'DNS Name Servers', '8.8.8.8', '2023-06-27 14:54:28', '2024-01-15 15:37:36', NULL),
 	('gateway', 'Gateway', '192.168.10.253', '2023-06-20 10:50:37', '2024-01-12 09:56:57', NULL),
 	('id_macchina', 'ID Macchina', '1', '2023-02-27 09:58:22', '2023-11-28 10:12:39', NULL),
-	('id_operatore', 'Badge', '0010452223', '2023-06-28 15:07:22', '2024-10-08 12:21:20', NULL),
+	('id_operatore', 'Badge', '0010452223', '2023-06-28 15:07:22', '2024-10-21 13:19:34', NULL),
+	('impulsi', 'Impulsi', '0', '2024-10-21 11:31:20', '2024-10-21 11:31:21', NULL),
 	('ip_local_server', 'IP Server Locale', '192.168.10.207', '2023-06-22 15:12:48', '2024-01-12 09:57:20', NULL),
 	('ip_macchina', 'IP Macchina', '192.168.10.201', '2023-06-20 08:43:43', '2024-01-12 09:56:43', NULL),
 	('last_barcode', 'Ultimo Barcode Scansionato', '051296200186', '2023-05-31 09:30:21', '2024-05-13 06:15:51', NULL),
+	('lunghezza_totale', 'Lunghezza totale', '0.00', '2024-10-21 11:32:17', '2024-10-21 11:32:18', NULL),
 	('manuale_uso', 'Manuale d\'uso', 'manuale_uso.pdf', '2023-02-27 10:43:33', NULL, NULL),
+	('misurazione_filo', 'Misurazione Filo', '0', '2024-10-21 11:30:13', '2024-10-21 11:30:48', NULL),
 	('network_interface', 'Interfaccia di Rete', 'wlan0', '2023-06-07 17:21:06', NULL, NULL),
 	('network_name', 'Nome Rete', 'elata', '2023-06-20 10:51:41', '2024-01-29 15:19:36', NULL),
 	('network_password', 'Password Rete', 'Elata1923', '2023-06-20 10:52:12', '2024-01-29 15:19:36', NULL),
+	('operativita', 'Operatività', '00:00:00', '2024-10-21 11:33:30', '2024-10-21 11:33:31', NULL),
+	('parametro_spola', 'Parametro Spola', '5', '2024-10-21 12:14:10', '2024-10-21 11:05:55', NULL),
 	('porta_local_server', 'Porta Server Locale', '1404', '2023-06-22 15:13:27', NULL, NULL),
-	('richiesta_filato', 'Richiesta Filato', '0', '2024-10-08 10:45:11', '2024-10-08 11:19:20', NULL),
-	('richiesta_manutenzione', 'Richiesta Manutenzione', '0', '2023-02-27 10:02:31', '2024-10-08 11:08:45', NULL),
+	('richiesta_filato', 'Richiesta Filato', '0', '2024-10-08 10:45:11', '2024-10-21 11:15:22', NULL),
+	('richiesta_intervento', 'Richiesta Intervento', '0', '2023-02-27 10:02:31', '2024-10-21 11:15:26', NULL),
 	('subnet', 'Subnet', '255.255.255.0', '2023-06-20 10:49:21', '2024-01-04 16:14:01', NULL),
 	('token', 'Token', '123', '2023-03-02 14:48:23', NULL, NULL),
-	('ultimo_reset_olio', 'Ultimo Reset Olio', '0', '2024-10-08 10:45:58', '2024-10-08 08:46:48', NULL);
+	('ultimo_reset_olio', 'Ultimo Reset Olio', '0', '2024-10-08 10:45:58', '2024-10-08 08:46:48', NULL),
+	('velocita', 'Velocità', '0.00', '2024-10-21 11:32:51', '2024-10-21 11:32:52', NULL);
 
 -- Dump della struttura di tabella raspberryprojects.log_operazioni
 CREATE TABLE IF NOT EXISTS `log_operazioni` (
@@ -66,9 +73,9 @@ CREATE TABLE IF NOT EXISTS `log_operazioni` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=303 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=395 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ROW_FORMAT=DYNAMIC;
 
--- Dump dei dati della tabella raspberryprojects.log_operazioni: ~302 rows (circa)
+-- Dump dei dati della tabella raspberryprojects.log_operazioni: ~394 rows (circa)
 DELETE FROM `log_operazioni`;
 INSERT INTO `log_operazioni` (`id`, `data`, `id_macchina`, `id_operatore`, `codice`, `valore`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(1, '2024-01-12 10:56:30', 1, '0025711970', 'network_name', 'Elata1923', '2024-01-12 09:56:30', '2024-01-12 09:56:30', NULL),
@@ -372,7 +379,99 @@ INSERT INTO `log_operazioni` (`id`, `data`, `id_macchina`, `id_operatore`, `codi
 	(299, '2024-05-10 14:44:01', 1, '0009309531', 'last_barcode', '051339700185', '2024-05-10 12:44:01', '2024-05-10 12:44:01', NULL),
 	(300, '2024-05-10 15:28:24', 1, '0009309531', 'last_barcode', '051292200180', '2024-05-10 13:28:24', '2024-05-10 13:28:24', NULL),
 	(301, '2024-05-13 08:10:15', 1, '0009309531', 'last_barcode', '051341200185', '2024-05-13 06:10:15', '2024-05-13 06:10:15', NULL),
-	(302, '2024-05-13 08:15:53', 1, '0009309531', 'last_barcode', '051296200186', '2024-05-13 06:15:53', '2024-05-13 06:15:53', NULL);
+	(302, '2024-05-13 08:15:53', 1, '0009309531', 'last_barcode', '051296200186', '2024-05-13 06:15:53', '2024-05-13 06:15:53', NULL),
+	(303, '2024-10-18 17:10:36', 0, '', 'richiesta_intervento', '1', '2024-10-18 17:10:36', NULL, NULL),
+	(304, '2024-10-18 17:10:40', 0, '', 'richiesta_filato', '1', '2024-10-18 17:10:40', NULL, NULL),
+	(305, '2024-10-18 17:15:59', 0, '', 'richiesta_intervento', '1', '2024-10-18 17:15:59', NULL, NULL),
+	(306, '2024-10-21 09:37:42', 0, '', 'richiesta_intervento', '1', '2024-10-21 09:37:42', NULL, NULL),
+	(307, '2024-10-21 09:40:13', 0, '', 'richiesta_intervento', '1', '2024-10-21 09:40:13', NULL, NULL),
+	(308, '2024-10-21 09:45:41', 0, '', 'richiesta_intervento', '1', '2024-10-21 09:45:41', NULL, NULL),
+	(309, '2024-10-21 09:46:29', 0, '', 'richiesta_filato', '1', '2024-10-21 09:46:29', NULL, NULL),
+	(310, '2024-10-21 09:47:11', 0, '', 'richiesta_filato', '1', '2024-10-21 09:47:11', NULL, NULL),
+	(311, '2024-10-21 09:49:33', 0, '', 'richiesta_intervento', '1', '2024-10-21 09:49:33', NULL, NULL),
+	(312, '2024-10-21 09:50:26', 0, '', 'richiesta_intervento', '1', '2024-10-21 09:50:26', NULL, NULL),
+	(313, '2024-10-21 09:50:51', 0, '', 'richiesta_intervento', '1', '2024-10-21 09:50:51', NULL, NULL),
+	(314, '2024-10-21 09:52:37', 0, '', 'richiesta_intervento', '1', '2024-10-21 09:52:37', NULL, NULL),
+	(315, '2024-10-21 09:53:30', 0, '', 'richiesta_intervento', '1', '2024-10-21 09:53:30', NULL, NULL),
+	(316, '2024-10-21 09:57:37', 0, '', 'richiesta_intervento', '1', '2024-10-21 09:57:37', NULL, NULL),
+	(317, '2024-10-21 09:58:23', 0, '', 'richiesta_intervento', '1', '2024-10-21 09:58:23', NULL, NULL),
+	(318, '2024-10-21 10:00:48', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:00:48', NULL, NULL),
+	(319, '2024-10-21 10:01:44', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:01:44', NULL, NULL),
+	(320, '2024-10-21 10:03:02', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:03:02', NULL, NULL),
+	(321, '2024-10-21 10:03:02', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:03:02', NULL, NULL),
+	(322, '2024-10-21 10:03:46', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:03:46', NULL, NULL),
+	(323, '2024-10-21 10:04:17', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:04:17', NULL, NULL),
+	(324, '2024-10-21 10:04:36', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:04:36', NULL, NULL),
+	(325, '2024-10-21 10:06:20', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:06:20', NULL, NULL),
+	(326, '2024-10-21 10:06:44', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:06:44', NULL, NULL),
+	(327, '2024-10-21 10:07:41', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:07:41', NULL, NULL),
+	(328, '2024-10-21 10:08:10', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:08:10', NULL, NULL),
+	(329, '2024-10-21 10:08:48', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:08:48', NULL, NULL),
+	(330, '2024-10-21 10:09:59', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:09:59', NULL, NULL),
+	(331, '2024-10-21 10:10:21', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:10:21', NULL, NULL),
+	(332, '2024-10-21 10:11:35', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:11:35', NULL, NULL),
+	(333, '2024-10-21 10:13:38', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:13:38', NULL, NULL),
+	(334, '2024-10-21 10:14:20', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:14:20', NULL, NULL),
+	(335, '2024-10-21 10:14:53', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:14:53', NULL, NULL),
+	(336, '2024-10-21 10:20:26', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:20:26', NULL, NULL),
+	(337, '2024-10-21 10:21:24', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:21:24', NULL, NULL),
+	(338, '2024-10-21 10:21:55', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:21:55', NULL, NULL),
+	(339, '2024-10-21 10:26:11', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:26:11', NULL, NULL),
+	(340, '2024-10-21 10:27:22', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:27:22', NULL, NULL),
+	(341, '2024-10-21 10:29:34', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:29:34', NULL, NULL),
+	(342, '2024-10-21 10:29:54', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:29:54', NULL, NULL),
+	(343, '2024-10-21 10:32:30', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:32:30', NULL, NULL),
+	(344, '2024-10-21 10:33:49', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:33:49', NULL, NULL),
+	(345, '2024-10-21 10:35:59', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:35:59', NULL, NULL),
+	(346, '2024-10-21 10:38:10', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:38:10', NULL, NULL),
+	(347, '2024-10-21 10:38:40', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:38:40', NULL, NULL),
+	(348, '2024-10-21 10:41:16', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:41:16', NULL, NULL),
+	(349, '2024-10-21 10:44:18', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:44:18', NULL, NULL),
+	(350, '2024-10-21 10:52:28', 0, '', 'richiesta_intervento', '1', '2024-10-21 10:52:28', NULL, NULL),
+	(351, '2024-10-21 10:52:36', 0, '', 'richiesta_filato', '1', '2024-10-21 10:52:36', NULL, NULL),
+	(352, '2024-10-21 10:54:07', 0, '', 'richiesta_filato', '1', '2024-10-21 10:54:07', NULL, NULL),
+	(353, '2024-10-21 11:13:51', 0, '', 'richiesta_intervento', '1', '2024-10-21 11:13:51', NULL, NULL),
+	(354, '2024-10-21 11:16:55', 0, '', 'richiesta_filato', '1', '2024-10-21 11:16:55', NULL, NULL),
+	(355, '2024-10-21 11:18:12', 0, '', 'richiesta_filato', '1', '2024-10-21 11:18:12', NULL, NULL),
+	(356, '2024-10-21 11:18:44', 0, '', 'richiesta_intervento', '1', '2024-10-21 11:18:44', NULL, NULL),
+	(357, '2024-10-21 11:18:44', 0, '', 'richiesta_intervento', '1', '2024-10-21 11:18:44', NULL, NULL),
+	(358, '2024-10-21 11:20:50', 0, '', 'richiesta_spola', '1', '2024-10-21 11:20:50', NULL, NULL),
+	(359, '2024-10-21 11:25:04', 0, '', 'richiesta_spola', '1', '2024-10-21 11:25:04', NULL, NULL),
+	(360, '2024-10-21 11:25:21', 0, '', 'richiesta_filato', '1', '2024-10-21 11:25:21', NULL, NULL),
+	(361, '2024-10-21 11:25:25', 0, '', 'richiesta_intervento', '1', '2024-10-21 11:25:25', NULL, NULL),
+	(362, '2024-10-21 11:25:32', 0, '', 'richiesta_spola', '1', '2024-10-21 11:25:32', NULL, NULL),
+	(363, '2024-10-21 11:27:45', 0, '', 'cambio_spola', '1', '2024-10-21 11:27:45', NULL, NULL),
+	(364, '2024-10-21 11:50:39', 0, '', 'cambio_spola', '1', '2024-10-21 11:50:39', NULL, NULL),
+	(365, '2024-10-21 11:52:48', 0, '', 'cambio_spola', '676.24', '2024-10-21 11:52:48', NULL, NULL),
+	(366, '2024-10-21 11:53:58', 0, '', 'cambio_spola', '1', '2024-10-21 11:53:58', NULL, NULL),
+	(367, '2024-10-21 11:54:06', 0, '', 'cambio_spola', '1', '2024-10-21 11:54:06', NULL, NULL),
+	(368, '2024-10-21 12:10:16', 0, '', 'cambio_spola', '1', '2024-10-21 12:10:16', NULL, NULL),
+	(369, '2024-10-21 12:41:58', 0, '', 'parametro_spola', '5', '2024-10-21 12:41:58', NULL, NULL),
+	(370, '2024-10-21 12:43:23', 0, '', 'parametro_spola', '676.24', '2024-10-21 12:43:23', NULL, NULL),
+	(371, '2024-10-21 12:45:07', 0, '', 'parametro_spola', '5', '2024-10-21 12:45:07', NULL, NULL),
+	(372, '2024-10-21 12:45:16', 0, '', 'parametro_spola', '676.24', '2024-10-21 12:45:16', NULL, NULL),
+	(373, '2024-10-21 12:46:32', 0, '', 'parametro_spola', '676.24', '2024-10-21 12:46:32', NULL, NULL),
+	(374, '2024-10-21 12:51:05', 0, '', 'parametro_spola', '676.24', '2024-10-21 12:51:05', NULL, NULL),
+	(375, '2024-10-21 12:52:18', 0, '', 'parametro_spola', '676.24', '2024-10-21 12:52:18', NULL, NULL),
+	(376, '2024-10-21 12:55:34', 0, '', 'parametro_spola', '5', '2024-10-21 12:55:34', NULL, NULL),
+	(377, '2024-10-21 12:55:40', 0, '', 'parametro_spola', '676.24', '2024-10-21 12:55:40', NULL, NULL),
+	(378, '2024-10-21 12:55:46', 0, '', 'parametro_spola', '5', '2024-10-21 12:55:46', NULL, NULL),
+	(379, '2024-10-21 12:55:52', 0, '', 'parametro_spola', '676.24', '2024-10-21 12:55:52', NULL, NULL),
+	(380, '2024-10-21 12:59:11', 0, '', 'parametro_spola', '676.24', '2024-10-21 12:59:11', NULL, NULL),
+	(381, '2024-10-21 12:59:53', 0, '', 'parametro_spola', '5', '2024-10-21 12:59:53', NULL, NULL),
+	(382, '2024-10-21 13:00:08', 0, '', 'parametro_spola', '676.24', '2024-10-21 13:00:08', NULL, NULL),
+	(383, '2024-10-21 13:02:41', 0, '', 'parametro_spola', '5', '2024-10-21 13:02:41', NULL, NULL),
+	(384, '2024-10-21 13:03:28', 0, '', 'parametro_spola', '676.24', '2024-10-21 13:03:28', NULL, NULL),
+	(385, '2024-10-21 13:04:56', 0, '', 'parametro_spola', '5', '2024-10-21 13:04:56', NULL, NULL),
+	(386, '2024-10-21 13:05:43', 0, '', 'parametro_spola', '676.24', '2024-10-21 13:05:43', NULL, NULL),
+	(387, '2024-10-21 13:05:55', 0, '', 'parametro_spola', '5', '2024-10-21 13:05:55', NULL, NULL),
+	(388, '2024-10-21 13:11:26', 0, '', 'richiesta_filato', '1', '2024-10-21 13:11:26', NULL, NULL),
+	(389, '2024-10-21 13:11:30', 0, '', 'richiesta_intervento', '1', '2024-10-21 13:11:30', NULL, NULL),
+	(390, '2024-10-21 13:15:22', 0, '', 'richiesta_filato', '1', '2024-10-21 13:15:22', NULL, NULL),
+	(391, '2024-10-21 13:15:26', 0, '', 'richiesta_intervento', '1', '2024-10-21 13:15:26', NULL, NULL),
+	(392, '2024-10-21 14:55:09', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-21 12:55:09', '2024-10-21 12:55:09', NULL),
+	(393, '2024-10-21 14:56:16', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-21 12:56:16', '2024-10-21 12:56:16', NULL),
+	(394, '2024-10-21 15:19:34', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-21 13:19:34', '2024-10-21 13:19:34', NULL);
 
 -- Dump della struttura di tabella raspberryprojects.log_orlatura
 CREATE TABLE IF NOT EXISTS `log_orlatura` (
@@ -382,6 +481,9 @@ CREATE TABLE IF NOT EXISTS `log_orlatura` (
   `id_macchina` int(11) NOT NULL,
   `id_operatore` varchar(50) NOT NULL DEFAULT '',
   `commessa` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -393,15 +495,18 @@ CREATE TABLE IF NOT EXISTS `operatori` (
   `id` varchar(50) NOT NULL DEFAULT '0',
   `nome` varchar(50) DEFAULT NULL,
   `cognome` varchar(50) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- Dump dei dati della tabella raspberryprojects.operatori: ~3 rows (circa)
 DELETE FROM `operatori`;
-INSERT INTO `operatori` (`id`, `nome`, `cognome`) VALUES
-	('0001752390', 'Mario', 'Rossi'),
-	('0001978094', 'Luigi', 'Verdi'),
-	('0010452223', 'Riccardo', 'Panico');
+INSERT INTO `operatori` (`id`, `nome`, `cognome`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	('0001752390', 'Mario', 'Rossi', '2024-10-17 15:25:44', NULL, NULL),
+	('0001978094', 'Luigi', 'Verdi', '2024-10-17 15:25:44', NULL, NULL),
+	('0010452223', 'Riccardo', 'Panico', '2024-10-17 15:25:44', NULL, NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

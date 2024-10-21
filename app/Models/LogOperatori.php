@@ -12,7 +12,6 @@ class LogOperatori extends Model
     protected $table = 'log_operatori';
 
     protected $fillable = [
-        'id',
         'nome',
         'cognome',
         'created_at',

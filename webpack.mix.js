@@ -20,7 +20,7 @@ mix.scripts([
 
     'resources/js/custom.js',
 
-], 'public/build/js/all.js').minify('public/build/js/all.js');
+], 'public/build/js/all.js');
 
 // Unisci i file CSS e minificali
 mix.styles([
@@ -36,4 +36,6 @@ mix.styles([
 
     'resources/css/custom.css',
 
-], 'public/build/css/all.css').minify('public/build/css/all.css');
+], 'public/build/css/all.css');
+
+mix.version();

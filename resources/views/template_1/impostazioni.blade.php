@@ -1,33 +1,39 @@
 @extends('template_1.index')
 @section('main')
     <div class="input-group input-group-lg mb-2 mt-2">
-        <input type="text" class="font-lg form-control" placeholder="Misurazione Filo" disabled>
+        <input type="text" id="misurazione_filo" class="font-lg form-control" placeholder="Misurazione Filo" disabled>
         <div class="input-group-append">
-            <span class="input-group-text" style="color: #6c757d">676.24</span>
+            <span class="input-group-text" style="color: #6c757d">{{ $misurazione_filo }}</span>
         </div>
     </div>
     <div class="input-group input-group-lg mb-2 mt-2">
-        <input type="text" class="font-lg form-control" placeholder="Impulsi" disabled>
+        <input type="text" id="impulsi" class="font-lg form-control" placeholder="Impulsi" disabled>
         <div class="input-group-append">
-            <span class="input-group-text" style="color: #6c757d">0</span>
+            <span class="input-group-text" style="color: #6c757d">{{ $impulsi }}</span>
         </div>
     </div>
     <div class="input-group input-group-lg mb-2 mt-2">
-        <input type="text" class="font-lg form-control" placeholder="Lunghezza totale" disabled>
+        <input type="text" id="lunghezza_totale" class="font-lg form-control" placeholder="Lunghezza totale" disabled>
         <div class="input-group-append">
-            <span class="input-group-text" style="color: #6c757d">0.000000 cm</span>
+            <span class="input-group-text" style="color: #6c757d">{{ $lunghezza_totale }} cm</span>
         </div>
     </div>
     <div class="input-group input-group-lg mb-2 mt-2">
-        <input type="text" class="font-lg form-control" placeholder="Velocità" disabled>
+        <input type="text" id="velocita" class="font-lg form-control" placeholder="Velocità" disabled>
         <div class="input-group-append">
-            <span class="input-group-text" style="color: #6c757d">0.000000 m/s</span>
+            <span class="input-group-text" style="color: #6c757d">{{ $velocita }} m/s</span>
         </div>
     </div>
     <div class="input-group input-group-lg mb-2 mt-2">
-        <input type="text" class="font-lg form-control" placeholder="Operatività" disabled>
+        <input type="text" id="operativita" class="font-lg form-control" placeholder="Operatività" disabled>
         <div class="input-group-append">
-            <span class="input-group-text" style="color: #6c757d">00:00:00</span>
+            <span class="input-group-text" style="color: #6c757d">{{ $operativita }}</span>
+        </div>
+    </div>
+    <div class="input-group input-group-lg mb-2 mt-2">
+        <input type="text" id="parametro_spola" class="font-lg form-control" placeholder="Parametro Spola" disabled>
+        <div class="input-group-append">
+            <span id="parametro_spola_display" class="input-group-text" style="color: #6c757d">{{ $parametro_spola }}</span>
         </div>
     </div>
 
@@ -35,8 +41,7 @@
         <div class="col-sm-4 col-md-2">
             <div class="color-palette-set mt-3 mb-3">
                 <button type="button" class="btn btn-block btn-primary btn-lg custom-button" style="font-weight: bold;"
-                    data-toggle="modal" data-target="#modal-xl" onclick="openModal('parametroSpola')">PARAMETRO SPOLA
-                    INFERIORE</button>
+                    onclick="openAlertSpola()">PARAMETRO SPOLA INFERIORE</button>
             </div>
         </div>
     </div>
@@ -44,24 +49,48 @@
 
 @section('script')
     <script>
-        function openModal(action) {
-            var title = '';
-            var message = '';
-            var footer = '';
-            var footerClass = '';
+        async function openAlertSpola() {
+            const {
+                value: parametro_spola
+            } = await Swal.fire({
+                title: "<strong>Parametro spola inferiore</strong>:",
+                input: "text",
+                inputLabel: "Inserisci il valore del parametro",
+                inputValue: "",
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return "<strong>Errore: inserisci un valore!</strong>";
+                    }
+                }
+            });
 
-            if (action === 'parametroSpola') {
-                title = '<strong>Parametro SPOLA</strong>';
-                message = 'Parametro spola inferiore...';
-                footer = '<button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button><button type="button" class="btn btn-primary">Conferma</button>';
-                footerClass = 'modal-footer justify-content-between';
+            if (parametro_spola) {
+                Swal.fire(`<strong>Parametro spola inferiore</strong>:<br>${parametro_spola}`);
+                settingsSave('parametro_spola', parametro_spola);
             }
+        }
 
-            $('#modal-xl').find('.modal-title').html(title);
-            $('#modal-xl').find('.modal-body').html(message);
-            $('#modal-xl').find('.modal-footer').html(footer).attr('class', footerClass);
-
-            $('#modal-xl').modal('show');
+        function settingsSave(setting, value) {
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: "{{ route('settingsSave') }}",
+                data: {
+                    setting: setting,
+                    value: value,
+                    _token: '{{ csrf_token() }}'
+                }
+            }).done(function(data) {
+                if (data.success) {
+                    console.log("Inserimento effettuato con successo!");
+                    $(`#${setting}_display`).text(value);
+                } else {
+                    console.log("Inserimento non effettuato!");
+                }
+            }).fail(function(jqXHR, textStatus) {
+                console.log("Errore generico!");
+            });
         }
     </script>
 @endsection

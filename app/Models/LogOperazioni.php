@@ -12,7 +12,6 @@ class LogOperazioni extends Model
     protected $table = 'log_operazioni';
 
     protected $fillable = [
-        'id',
         'data',
         'id_macchina',
         'id_operatore',

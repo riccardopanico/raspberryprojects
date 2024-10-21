@@ -6,7 +6,7 @@
         </div>
         <input type="text" class="font-lg form-control" placeholder="ID Macchina" disabled>
         <div class="input-group-append">
-            <span class="input-group-text" style="color: #6c757d">100</span>
+            <span class="input-group-text" style="color: #6c757d">{{ $id_macchina }}</span>
         </div>
     </div>
     <div class="input-group input-group-lg mb-2">
@@ -29,10 +29,11 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-4 col-md-2">
+        <div class="col-sm-4 col-md-2 {{ $richiesta_filato ? 'blink' : '' }}">
             <div class="color-palette-set mt-3">
                 <button type="button" class="btn btn-block btn-primary btn-lg custom-button" style="font-weight: bold;"
-                    id="filato" data-toggle="modal" data-target="#modal-xl" onclick="openModal('filato')">RICHIESTA
+                    id="filato" data-toggle="modal" data-target="#modal-xl" onclick="openModal('filato')"
+                    {{ $richiesta_filato ? 'disabled' : '' }}>RICHIESTA
                     FILATO</button>
             </div>
         </div>
@@ -40,15 +41,17 @@
         <div class="col-sm-4 col-md-2">
             <div class="color-palette-set mt-3">
                 <button type="button" class="btn btn-block btn-warning btn-lg custom-button" style="font-weight: bold;"
-                    id="spola" data-toggle="modal" data-target="#modal-xl" onclick="openModal('spola')">CAMBIO
+                    id="spola" data-toggle="modal" data-target="#modal-xl" onclick="openModal('spola')"
+                    {{ $cambio_spola ? 'disabled' : '' }}>CAMBIO
                     SPOLA</button>
             </div>
         </div>
 
-        <div class="col-sm-4 col-md-2">
+        <div class="col-sm-4 col-md-2 {{ $richiesta_intervento ? 'blink' : '' }}">
             <div class="color-palette-set mt-3">
                 <button type="button" class="btn btn-block btn-danger btn-lg custom-button" style="font-weight: bold;"
-                    id="intervento" data-toggle="modal" data-target="#modal-xl" onclick="openModal('intervento')">RICHIESTA
+                    id="intervento" data-toggle="modal" data-target="#modal-xl" onclick="openModal('intervento')"
+                    {{ $richiesta_intervento ? 'disabled' : '' }}>RICHIESTA
                     INTERVENTO</button>
             </div>
         </div>
@@ -78,54 +81,59 @@
 @section('script')
     <script>
         function openModal(action) {
-            var title = '';
-            var body = '';
-            var footer = '';
-            var footerClass = '';
+            const modalContent = {
+                'filato': {
+                    title: '<strong>Richiesta FILATO</strong>',
+                    body: 'Confermi di voler inoltrare la <br><strong><i>richiesta di FILATO</i></strong>?',
+                    footerClass: 'modal-footer justify-content-between',
+                    action: () => settingsSave('richiesta_filato', 1),
+                },
+                'spola': {
+                    title: '<strong>Cambio SPOLA</strong>',
+                    body: 'Confermi di aver effettuato il<br><strong><i>cambio SPOLA</i></strong>?',
+                    footerClass: 'modal-footer justify-content-between',
+                    action: () => settingsSave('cambio_spola', 1),
+                },
+                'intervento': {
+                    title: '<strong>Richiesta INTERVENTO</strong>',
+                    body: 'Confermi di voler inoltrare la <br><strong><i>richiesta di INTERVENTO</i></strong>?',
+                    footerClass: 'modal-footer justify-content-between',
+                    action: () => settingsSave('richiesta_intervento', 1),
+                },
+                'manuale': {
+                    title: '<strong>MANUALE D\'USO</strong>',
+                    body: `<iframe src="{{ asset('pdf/manuale_uso.pdf') }}" width="100%" height="425px"></iframe>`,
+                    footerClass: 'modal-footer',
+                    action: null,
+                },
+                'scansiona': {
+                    title: '<strong>SCANSIONA</strong>',
+                    body: 'Scansiona...',
+                    footerClass: 'modal-footer',
+                    action: null,
+                },
+            };
 
-            switch (action) {
-                case 'filato':
-                    title = '<strong>Richiesta FILATO</strong>';
-                    body = 'Confermi di voler inoltrare la <br><strong><i>richiesta di FILATO</i></strong>?';
-                    footer =
-                        '<button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button><button type="button" class="btn btn-primary">Conferma</button>';
-                    footerClass = 'modal-footer justify-content-between';
-                    break;
-                case 'spola':
-                    title = '<strong>Cambio SPOLA</strong>';
-                    body = 'Confermi di voler inoltrare la richiesta di <br><strong><i>cambio SPOLA</i></strong>?';
-                    footer =
-                        '<button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button><button type="button" class="btn btn-primary">Conferma</button>';
-                    footerClass = 'modal-footer justify-content-between';
-                    break;
-                case 'intervento':
-                    title = '<strong>Richiesta INTERVENTO</strong>';
-                    body = 'Confermi di voler inoltrare la <br><strong><i>richiesta di INTERVENTO</i></strong>?';
-                    footer =
-                        `<button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button><button type="button" class="btn btn-primary"
-                    onclick="settingsSave('richiesta_intervento', 1)">Conferma</button>`;
-                    footerClass = 'modal-footer justify-content-between';
-                    break;
-                case 'manuale':
-                    title = '<strong>MANUALE D\'USO</strong>';
-                    body =
-                        `<iframe src="{{ asset('pdf/manuale_uso.pdf') }}" width="100%"></iframe>`;
-                    footer = '<button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>';
-                    footerClass = 'modal-footer';
-                    break;
-                case 'scansiona':
-                    title = '<strong>SCANSIONA</strong>';
-                    body = 'Scansiona...';
-                    footer = '<button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>';
-                    footerClass = 'modal-footer';
-                    break;
-            }
+            const content = modalContent[action];
+            const footer = createFooter(content.action);
 
-            $('#modal-xl').find('.modal-title').html(title);
-            $('#modal-xl').find('.modal-body').html(body);
-            $('#modal-xl').find('.modal-footer').html(footer).attr('class', footerClass);
+            $('#modal-xl').find('.modal-title').html(content.title);
+            $('#modal-xl').find('.modal-body').html(content.body);
+            $('#modal-xl').find('.modal-footer').attr('class', content.footerClass).html(footer);
 
             $('#modal-xl').modal('show');
+        }
+
+        function createFooter(action) {
+            const confirmButton = `<button type="button" class="btn btn-primary" onclick="(${action})()">Conferma</button>`
+            const cancelButton = '<button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>';
+            const closeButton = '<button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>';
+
+            if (action !== null) {
+                return cancelButton + confirmButton;
+            } else {
+                return closeButton;
+            }
         }
 
         function settingsSave(setting, value) {
@@ -141,14 +149,26 @@
             }).done(function(data) {
                 if (data.success) {
                     $('#modal-xl').modal('hide');
+
+                    var idButton = setting.split('_')[1];
+
                     Swal.fire({
                         icon: "success",
-                        title: "<strong>Richiesta intervento</strong><br>effettuata<br>con successo!",
+                        title: idButton == 'spola' ?
+                            "<strong>Cambio spola</strong><br>effettuato<br>con successo!" :
+                            "<strong>Richiesta " + idButton + "</strong><br>effettuata<br>con successo!",
+                        text: " ",
                         showConfirmButton: false,
                         timer: 1500
                     });
                 } else {
-                    console.log("Errore invio richiesta: " + data.msg);
+                    Swal.fire({
+                        icon: "error",
+                        title: idButton == 'spola' ?
+                            "<strong>Cambio spola</strong><br>non effettuato!" : "<strong>Richiesta " +
+                            idButton + "</strong><br>non effettuata!",
+                        text: "Errore: " + data.msg
+                    });
                 }
             }).fail(function(jqXHR, textStatus) {
                 console.log("Errore generico!");
