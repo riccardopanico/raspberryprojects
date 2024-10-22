@@ -49,28 +49,32 @@ body {
     padding-right: 16px;
 } */
 
-.blink {
-    animation: blink 3s linear infinite;
-    -webkit-animation-name: blink;
-    animation-name: blink;
+.flashing {
+    animation: flashing 1s steps(2, start) infinite;
+    -webkit-animation-name: flashing;
+    animation-name: flashing;
 }
 
-@-webkit-keyframes blink {
+@-webkit-keyframes flashing {
 
-    0%, 100% {
-        visibility: visible;
+    0%,
+    100% {
+        opacity: 1;
     }
+
     50% {
-        visibility: hidden;
+        opacity: 0;
     }
 }
 
-@keyframes blink {
+@keyframes flashing {
 
-    0%, 100% {
-        visibility: visible;
+    0%,
+    100% {
+        opacity: 1;
     }
+
     50% {
-        visibility: hidden;
+        opacity: 0;
     }
 }

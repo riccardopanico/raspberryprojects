@@ -5,6 +5,7 @@ mix.copyDirectory('vendor/almasaeed2010/adminlte', 'public/build/adminlte');
 
 // Copia le webfont di FontAwesome
 mix.copyDirectory('node_modules/@fortawesome/fontawesome-free/webfonts', 'public/build/webfonts');
+mix.copyDirectory('node_modules/kioskboard/dist', 'public/build/kioskboard/dist');
 
 // Unisci i file JavaScript e minificali
 mix.scripts([
@@ -17,6 +18,7 @@ mix.scripts([
     'node_modules/moment/min/moment.min.js',
     'node_modules/socket.io/client-dist/socket.io.min.js',
     'vendor/almasaeed2010/adminlte/plugins/sweetalert2/sweetalert2.min.js',
+    'node_modules/kioskboard/dist/kioskboard-2.3.0.min.js',
 
     'resources/js/custom.js',
 
@@ -33,6 +35,7 @@ mix.styles([
     'vendor/almasaeed2010/adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css',
     'vendor/almasaeed2010/adminlte/dist/css/adminlte.min.css',
     'vendor/almasaeed2010/adminlte/plugins/sweetalert2/sweetalert2.min.css',
+    'node_modules/kioskboard/dist/kioskboard-2.3.0.min.css',
 
     'resources/css/custom.css',
 

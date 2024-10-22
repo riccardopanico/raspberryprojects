@@ -29,7 +29,7 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-4 col-md-2 {{ $richiesta_filato ? 'blink' : '' }}">
+        <div class="col-sm-4 col-md-2 {{ $richiesta_filato ? 'flashing' : '' }}">
             <div class="color-palette-set mt-3">
                 <button type="button" class="btn btn-block btn-primary btn-lg custom-button" style="font-weight: bold;"
                     id="filato" data-toggle="modal" data-target="#modal-xl" onclick="openModal('filato')"
@@ -47,7 +47,7 @@
             </div>
         </div>
 
-        <div class="col-sm-4 col-md-2 {{ $richiesta_intervento ? 'blink' : '' }}">
+        <div class="col-sm-4 col-md-2 {{ $richiesta_intervento ? 'flashing' : '' }}">
             <div class="color-palette-set mt-3">
                 <button type="button" class="btn btn-block btn-danger btn-lg custom-button" style="font-weight: bold;"
                     id="intervento" data-toggle="modal" data-target="#modal-xl" onclick="openModal('intervento')"

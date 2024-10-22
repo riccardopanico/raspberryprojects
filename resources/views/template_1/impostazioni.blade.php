@@ -41,7 +41,7 @@
         <div class="col-sm-4 col-md-2">
             <div class="color-palette-set mt-3 mb-3">
                 <button type="button" class="btn btn-block btn-primary btn-lg custom-button" style="font-weight: bold;"
-                    onclick="openAlertSpola()">PARAMETRO SPOLA INFERIORE</button>
+                    onclick="openModalSpola()">PARAMETRO SPOLA INFERIORE</button>
             </div>
         </div>
     </div>
@@ -49,44 +49,89 @@
 
 @section('script')
     <script>
-        async function openAlertSpola() {
-            const {
-                value: parametro_spola
-            } = await Swal.fire({
-                title: "<strong>Parametro spola inferiore</strong>:",
-                input: "text",
-                inputLabel: "Inserisci il valore del parametro",
-                inputValue: "",
-                showCancelButton: true,
-                inputValidator: (value) => {
-                    if (!value) {
-                        return "<strong>Errore: inserisci un valore!</strong>";
-                    }
-                }
-            });
+        KioskBoard.init({
+            keysArrayOfObjects: null,
+            keysJsonUrl: "build/kioskboard/dist/kioskboard-keys-english.json",
+            keysSpecialCharsArrayOfStrings: [
+                "#", "€", "%", "+", "-", "*", "@", "!", "$", "&", "(", ")", "=",
+                "?", "<", ">", "^", "~", "{", "}", "[", "]", "|", "\\", ";",
+                ":", "'", "\"", ".", ",", "_", "`", "£", "¢", "•", "™", "©"],
+            keysNumpadArrayOfNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
+            language: 'it',
+            theme: 'light',
+            autoScroll: true,
+            capsLockActive: true,
+            allowRealKeyboard: false,
+            allowMobileKeyboard: false,
+            cssAnimations: true,
+            cssAnimationsDuration: 360,
+            cssAnimationsStyle: 'slide',
+            keysAllowSpacebar: true,
+            keysSpacebarText: 'Space',
+            keysFontFamily: 'sans-serif',
+            keysFontSize: '22px',
+            keysFontWeight: 'normal',
+            keysIconSize: '25px',
+            keysEnterText: 'Invia',
+            keysEnterCanClose: true
+    });
+    KioskBoard.run('input');
 
-            if (parametro_spola) {
-                Swal.fire(`<strong>Parametro spola inferiore</strong>:<br>${parametro_spola}`);
-                settingsSave('parametro_spola', parametro_spola);
+    function openModalSpola() {
+        $('#modal-xl').find('.modal-title').html('<strong>Parametro spola inferiore</strong>');
+        $('#modal-xl').find('.modal-body').html(
+            '<input id="parametro_spola_input" type="text" placeholder="Inserisci un valore..." class="js-kioskboard-input form-control" data-kioskboard-type="all" data-kioskboard-placement="bottom" data-kioskboard-specialcharacters="true">'
+        );
+        $('#modal-xl').find('.modal-footer').html(
+            '<button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>' +
+            '<button id="confirm-parametro-spola" type="button" class="btn btn-primary">Conferma</button>'
+        ).attr('class', 'modal-footer justify-content-between');
+
+        $('#modal-xl').modal('show');
+        KioskBoard.run('input');
+
+        $('#confirm-parametro-spola').on('click', function() {
+            const parametro_spola = $('#parametro_spola_input').val();
+
+            if (!parametro_spola) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Errore!",
+                    text: "Nessun valore inserito!"
+                });
+                return;
             }
-        }
 
-        function settingsSave(setting, value) {
-            $.ajax({
-                type: 'POST',
-                dataType: 'json',
-                url: "{{ route('settingsSave') }}",
-                data: {
-                    setting: setting,
-                    value: value,
-                    _token: '{{ csrf_token() }}'
-                }
-            }).done(function(data) {
-                if (data.success) {
-                    console.log("Inserimento effettuato con successo!");
-                    $(`#${setting}_display`).text(value);
+            settingsSave('parametro_spola', parametro_spola);
+        });
+    }
+
+    function settingsSave(setting, value) {
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: "{{ route('settingsSave') }}",
+            data: {
+                setting: setting,
+                value: value,
+                _token: '{{ csrf_token() }}'
+            }
+        }).done(function(data) {
+            if (data.success) {
+                $('#modal-xl').modal('hide');
+                Swal.fire({
+                    icon: "success",
+                    title: "<strong>Parametro spola inferiore</strong>",
+                    text: `Nuovo valore: ${value}`,
+                        showConfirmButton: true
+                    });
+                    $('#parametro_spola_display').text(value);
                 } else {
-                    console.log("Inserimento non effettuato!");
+                    Swal.fire({
+                        icon: "error",
+                        title: "Inserimento non effettuato!",
+                        text: "Errore: " + data.msg
+                    });
                 }
             }).fail(function(jqXHR, textStatus) {
                 console.log("Errore generico!");
