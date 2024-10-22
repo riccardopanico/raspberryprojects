@@ -50,7 +50,7 @@ body {
 } */
 
 .flashing {
-    animation: flashing 1s steps(2, start) infinite;
+    animation: flashing 1s linear infinite;
     -webkit-animation-name: flashing;
     animation-name: flashing;
 }
