@@ -88,3 +88,16 @@ body {
     zoom: 1.3;
     height: 50%;
 }
+
+#KioskBoard-VirtualKeyboard .kioskboard-row-numpad span[class^=kioskboard-key] {
+    width: calc(33.3333% - 25px);
+}
+
+@media only screen and (max-width:767px) {
+
+    #KioskBoard-VirtualKeyboard .kioskboard-row-numpad span[class^=kioskboard-key] {
+        font-size: 25px !important;
+        width: calc(33.3333% - 25px);
+    }
+
+}
