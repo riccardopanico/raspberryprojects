@@ -13,7 +13,7 @@
         <div class="input-group-prepend">
             <span class="input-group-text fixed-width-home"><i class="fas fa-id-card"></i></span>
         </div>
-        <input type="text" class="font-lg form-control" placeholder="ID Operatore" disabled>
+        <input type="text" class="font-lg form-control" placeholder="Operatore" disabled>
         <div class="input-group-append">
             <span class="input-group-text" style="color: #6c757d">0010452223</span>
         </div>
@@ -102,7 +102,7 @@
                 },
                 'manuale': {
                     title: '<strong>MANUALE D\'USO</strong>',
-                    body: `<iframe src="{{ asset('pdf/manuale_uso.pdf') }}" width="100%" height="425px"></iframe>`,
+                    body: `<iframe src="{{ asset('pdf/manuale_uso.pdf') }}" width="100%" height="325px"></iframe>`,
                     footerClass: 'modal-footer',
                     action: null,
                 },
@@ -155,7 +155,10 @@
                             "<strong>Richiesta " + idButton + "</strong><br>effettuata<br>con successo!",
                         text: " ",
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 1500,
+                        customClass: {
+                            popup: 'zoom-swal-popup'
+                        }
                     });
                 } else {
                     Swal.fire({
@@ -163,7 +166,10 @@
                         title: idButton == 'spola' ?
                             "<strong>Cambio spola</strong><br>non effettuato!" : "<strong>Richiesta " +
                             idButton + "</strong><br>non effettuata!",
-                        text: "Errore: " + data.msg
+                        text: "Errore: " + data.msg,
+                        customClass: {
+                            popup: 'zoom-swal-popup'
+                        }
                     });
                 }
             }).fail(function(jqXHR, textStatus) {

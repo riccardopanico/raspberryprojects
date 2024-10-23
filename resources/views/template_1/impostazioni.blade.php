@@ -40,8 +40,9 @@
     <div class="row">
         <div class="col-sm-4 col-md-2">
             <div class="color-palette-set mt-3 mb-3">
-                <button type="button" class="btn btn-block btn-primary btn-lg custom-button" style="font-weight: bold;"
-                    onclick="openModalSpola()">PARAMETRO SPOLA INFERIORE</button>
+                <button type="button" class="btn btn-block btn-primary btn-lg custom-button"
+                    style="font-weight: bold; padding: 8px 8px;" onclick="openModalSpola()">PARAMETRO SPOLA
+                    INFERIORE</button>
             </div>
         </div>
     </div>
@@ -55,32 +56,34 @@
             keysSpecialCharsArrayOfStrings: [
                 "#", "€", "%", "+", "-", "*", "@", "!", "$", "&", "(", ")", "=",
                 "?", "<", ">", "^", "~", "{", "}", "[", "]", "|", "\\", ";",
-                ":", "'", "\"", ".", ",", "_", "`", "£", "¢", "•", "™", "©"],
-            keysNumpadArrayOfNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
-            language: 'it',
-            theme: 'light',
-            autoScroll: true,
-            capsLockActive: true,
-            allowRealKeyboard: false,
-            allowMobileKeyboard: false,
-            cssAnimations: true,
-            cssAnimationsDuration: 360,
-            cssAnimationsStyle: 'slide',
-            keysAllowSpacebar: true,
-            keysSpacebarText: 'Space',
-            keysFontFamily: 'sans-serif',
-            keysFontSize: '22px',
-            keysFontWeight: 'normal',
-            keysIconSize: '25px',
-            keysEnterText: 'Invia',
-            keysEnterCanClose: true
+                ":", "'", "\"", ".", ",", "_", "`", "£", "¢", "•", "™", "©"
+        ],
+        keysNumpadArrayOfNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
+        language: 'it',
+        theme: 'material',
+        autoScroll: true,
+        capsLockActive: true,
+        allowRealKeyboard: false,
+        allowMobileKeyboard: false,
+        cssAnimations: true,
+        cssAnimationsDuration: 360,
+        cssAnimationsStyle: 'slide',
+        keysAllowSpacebar: true,
+        keysSpacebarText: 'Space',
+        keysFontFamily: 'sans-serif',
+        keysFontSize: '28px',
+        keysFontWeight: 'bold',
+        keysIconSize: '31px',
+        keysEnterText: 'Invia',
+        keysEnterCanClose: true
     });
     KioskBoard.run('input');
 
     function openModalSpola() {
+        $('#modal-position').removeClass('modal-dialog-centered');
         $('#modal-xl').find('.modal-title').html('<strong>Parametro spola inferiore</strong>');
         $('#modal-xl').find('.modal-body').html(
-            '<input id="parametro_spola_input" type="text" placeholder="Inserisci un valore..." class="js-kioskboard-input form-control" data-kioskboard-type="all" data-kioskboard-placement="bottom" data-kioskboard-specialcharacters="true">'
+            '<input id="parametro_spola_input" name="parametro_spola_input" type="text" placeholder="Inserisci un valore..." class="js-kioskboard-input form-control" data-kioskboard-type="numpad" data-kioskboard-placement="bottom" data-kioskboard-specialcharacters="true">'
         );
         $('#modal-xl').find('.modal-footer').html(
             '<button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>' +
@@ -97,7 +100,10 @@
                 Swal.fire({
                     icon: "error",
                     title: "Errore!",
-                    text: "Nessun valore inserito!"
+                    text: "Nessun valore inserito!",
+                    customClass: {
+                        popup: 'zoom-swal-popup'
+                    }
                 });
                 return;
             }
@@ -123,14 +129,20 @@
                     icon: "success",
                     title: "<strong>Parametro spola inferiore</strong>",
                     text: `Nuovo valore: ${value}`,
-                        showConfirmButton: true
+                        showConfirmButton: true,
+                        customClass: {
+                            popup: 'zoom-swal-popup'
+                        }
                     });
                     $('#parametro_spola_display').text(value);
                 } else {
                     Swal.fire({
                         icon: "error",
                         title: "Inserimento non effettuato!",
-                        text: "Errore: " + data.msg
+                        text: "Errore: " + data.msg,
+                        customClass: {
+                            popup: 'zoom-swal-popup'
+                        }
                     });
                 }
             }).fail(function(jqXHR, textStatus) {

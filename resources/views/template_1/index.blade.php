@@ -6,7 +6,7 @@
     <div class="wrapper">
         @include('template_1.commons.navbar')
         @include('template_1.commons.sidebar')
-        <div class="content-wrapper">
+        <div class="content-wrapper" style="zoom: 1.38;">
             {{-- @include('template_1.commons.breadcrumb') --}}
             <section class="content pt-2">
                 <div class="container-fluid">
@@ -14,7 +14,7 @@
                 </div>
             </section>
         </div>
-        @include('template_1.commons.footer')
+        {{-- @include('template_1.commons.footer') --}}
         <aside class="control-sidebar control-sidebar-dark">
         </aside>
     </div>

@@ -78,3 +78,13 @@ body {
         opacity: 0;
     }
 }
+
+.zoom-swal-popup {
+    font-size: 1.3rem;
+    transform: scale(1.0);
+}
+
+#KioskBoard-VirtualKeyboard {
+    zoom: 1.3;
+    height: 50%;
+}
