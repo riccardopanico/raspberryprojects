@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" {{-- style="height: auto;zoom: 1.25;" --}} style="height: 800px; width: 480px;">
+<html lang="en" {{-- style="height: auto;zoom: 1.25;" --}} style="height: 800px; overflow: hidden;">
 @include('template_1.commons.head')
 
 <body class="layout-fixed layout-footer-fixed layout-navbar-fixed sidebar-closed sidebar-collapse">

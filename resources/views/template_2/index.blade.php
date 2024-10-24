@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="height: auto;zoom: 1.25;">
+<html lang="en" style="height: auto;zoom: 1.25; overflow: hidden;">
 @include('template_2.commons.head')
 
 <body class="hold-transition layout-top-nav">

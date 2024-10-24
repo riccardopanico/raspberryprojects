@@ -102,7 +102,7 @@
                 },
                 'manuale': {
                     title: '<strong>MANUALE D\'USO</strong>',
-                    body: `<iframe src="{{ asset('pdf/manuale_uso.pdf') }}" width="100%" height="325px"></iframe>`,
+                    body: `<iframe src="{{ asset('pdf/manuale_uso.pdf') }}#toolbar=0" width="100%" height="100%"></iframe>`,
                     footerClass: 'modal-footer',
                     action: null,
                 },
@@ -117,9 +117,18 @@
             const content = modalContent[action];
             const footer = createFooter(content.action);
 
-            $('#modal-xl').find('.modal-title').html(content.title);
-            $('#modal-xl').find('.modal-body').html(content.body);
-            $('#modal-xl').find('.modal-footer').attr('class', content.footerClass).html(footer);
+            if (action === 'manuale') {
+                $('#modal-xl').find('.modal-header').hide();
+                $('#modal-position').removeClass('modal-xl').addClass('modal-fullscreen');
+                $('#modal-xl').find('.modal-body').addClass('p-0').html(content.body);
+                $('#modal-xl').find('.modal-footer').attr('class', content.footerClass).html(footer);
+            } else {
+                $('#modal-xl').find('.modal-header').show();
+                $('#modal-xl').find('.modal-title').html(content.title);
+                $('#modal-position').removeClass('modal-fullscreen').addClass('modal-dialog-centered');
+                $('#modal-xl').find('.modal-body').removeClass('p-0').html(content.body);
+                $('#modal-xl').find('.modal-footer').attr('class', content.footerClass).html(footer);
+            }
 
             $('#modal-xl').modal('show');
         }

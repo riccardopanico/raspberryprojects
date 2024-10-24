@@ -61,7 +61,7 @@
         keysNumpadArrayOfNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
         language: 'it',
         theme: 'material',
-        autoScroll: true,
+        autoScroll: false,
         capsLockActive: true,
         allowRealKeyboard: false,
         allowMobileKeyboard: false,
