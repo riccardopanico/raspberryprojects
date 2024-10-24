@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Versione server:              10.4.32-MariaDB - mariadb.org binary distribution
 -- S.O. server:                  Win64
--- HeidiSQL Versione:            12.7.0.6850
+-- HeidiSQL Versione:            12.6.0.6765
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -40,7 +40,7 @@ INSERT INTO `impostazioni` (`codice`, `descrizione`, `valore`, `created_at`, `up
 	('dns_nameservers', 'DNS Name Servers', '8.8.8.8', '2023-06-27 14:54:28', '2024-01-15 15:37:36', NULL),
 	('gateway', 'Gateway', '192.168.10.253', '2023-06-20 10:50:37', '2024-01-12 09:56:57', NULL),
 	('id_macchina', 'ID Macchina', '1', '2023-02-27 09:58:22', '2023-11-28 10:12:39', NULL),
-	('id_operatore', 'Badge', '0010452223', '2023-06-28 15:07:22', '2024-10-21 13:19:34', NULL),
+	('id_operatore', 'Badge', '0010452223', '2023-06-28 15:07:22', '2024-10-21 14:37:33', NULL),
 	('impulsi', 'Impulsi', '0', '2024-10-21 11:31:20', '2024-10-21 11:31:21', NULL),
 	('ip_local_server', 'IP Server Locale', '192.168.10.207', '2023-06-22 15:12:48', '2024-01-12 09:57:20', NULL),
 	('ip_macchina', 'IP Macchina', '192.168.10.201', '2023-06-20 08:43:43', '2024-01-12 09:56:43', NULL),
@@ -73,9 +73,9 @@ CREATE TABLE IF NOT EXISTS `log_operazioni` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=395 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=398 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ROW_FORMAT=DYNAMIC;
 
--- Dump dei dati della tabella raspberryprojects.log_operazioni: ~394 rows (circa)
+-- Dump dei dati della tabella raspberryprojects.log_operazioni: ~397 rows (circa)
 DELETE FROM `log_operazioni`;
 INSERT INTO `log_operazioni` (`id`, `data`, `id_macchina`, `id_operatore`, `codice`, `valore`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(1, '2024-01-12 10:56:30', 1, '0025711970', 'network_name', 'Elata1923', '2024-01-12 09:56:30', '2024-01-12 09:56:30', NULL),
@@ -471,7 +471,10 @@ INSERT INTO `log_operazioni` (`id`, `data`, `id_macchina`, `id_operatore`, `codi
 	(391, '2024-10-21 13:15:26', 0, '', 'richiesta_intervento', '1', '2024-10-21 13:15:26', NULL, NULL),
 	(392, '2024-10-21 14:55:09', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-21 12:55:09', '2024-10-21 12:55:09', NULL),
 	(393, '2024-10-21 14:56:16', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-21 12:56:16', '2024-10-21 12:56:16', NULL),
-	(394, '2024-10-21 15:19:34', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-21 13:19:34', '2024-10-21 13:19:34', NULL);
+	(394, '2024-10-21 15:19:34', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-21 13:19:34', '2024-10-21 13:19:34', NULL),
+	(395, '2024-10-21 16:32:42', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-21 14:32:42', '2024-10-21 14:32:42', NULL),
+	(396, '2024-10-21 16:33:45', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-21 14:33:45', '2024-10-21 14:33:45', NULL),
+	(397, '2024-10-21 16:37:33', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-21 14:37:33', '2024-10-21 14:37:33', NULL);
 
 -- Dump della struttura di tabella raspberryprojects.log_orlatura
 CREATE TABLE IF NOT EXISTS `log_orlatura` (

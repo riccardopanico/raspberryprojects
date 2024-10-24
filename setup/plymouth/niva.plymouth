@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Tema Niva
+Description=Tema personalizzato Niva
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/niva
+ScriptFile=/usr/share/plymouth/themes/niva/niva.script
