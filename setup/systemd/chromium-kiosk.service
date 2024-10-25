@@ -1,0 +1,56 @@
+[Unit]
+Description=Chromium Kiosk Service
+After=network.target
+
+[Service]
+User=pi
+Group=pi
+Environment="DISPLAY=:0"
+Environment="XAUTHORITY=/home/pi/.Xauthority"
+ExecStartPre=/usr/bin/xrandr --output HDMI-1 --mode 800x480 --rotate right --rate 66 --brightness 1.0
+ExecStartPre=/usr/bin/xinput set-prop "WaveShare ws170120" "Coordinate Transformation Matrix" 0 1 0 -1 0 1 0 0 1
+ExecStartPre=/usr/bin/xset s off
+ExecStartPre=/usr/bin/xset -dpms
+ExecStartPre=/usr/bin/xset s noblank
+ExecStart=/usr/bin/chromium-browser \
+  --no-sandbox \
+  --noerrdialogs \
+  --incognito \
+  --kiosk \
+  --disable-crashpad \
+  --disable-infobars \
+  --disable-session-crashed-bubble \
+  --disable-restore-session-state \
+  --disable-translate \
+  --disable-pinch \
+  --disable-pull-to-refresh-effect \
+  --disable-features=TranslateUI,PrintPreview,SuggestionsService,Sync \
+  --no-default-browser-check \
+  --disable-background-networking \
+  --disable-client-side-phishing-detection \
+  --disable-default-apps \
+  --disable-extensions \
+  --disable-popup-blocking \
+  --no-first-run \
+  --disable-dev-shm-usage \
+  --autoplay-policy=no-user-gesture-required \
+  --disable-web-security \
+  --disable-print-preview \
+  --disable-suggestions-service \
+  --disable-sync \
+  --disable-gesture-requirement-for-media-playback \
+  --disable-sync-preferences \
+  --disable-sync-app-list \
+  --disable-software-rasterizer \
+  --disable-gpu \
+  --disable-notifications \
+  --allow-running-insecure-content \
+  --start-fullscreen \
+  --start-maximized \
+  --force-device-scale-factor=0.9 \
+  --hide-scrollbars \
+  --user-data-dir=/home/pi/chrome-data "http://raspberryprojects.local"
+Restart=always
+RestartSec=5s
+[Install]
+WantedBy=multi-user.target
