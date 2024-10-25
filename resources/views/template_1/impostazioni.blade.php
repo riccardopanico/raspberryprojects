@@ -1,14 +1,6 @@
 @extends('template_1.index')
 @section('main')
     <div class="input-group input-group-lg mb-2 mt-2">
-        <input id="parametro_spola" name="parametro_spola" type="text" placeholder="Parametro Spola"
-            class="js-kioskboard-input font-lg form-control" data-kioskboard-type="numpad" data-kioskboard-placement="bottom"
-            data-kioskboard-specialcharacters="true">
-        <div class="input-group-append">
-            <span id="parametro_spola_display" class="input-group-text" style="color: #6c757d">{{ $parametro_spola }}</span>
-        </div>
-    </div>
-    <div class="input-group input-group-lg mb-2 mt-2">
         <input type="text" id="misurazione_filo" class="font-lg form-control" placeholder="Misurazione Filo" disabled>
         <div class="input-group-append">
             <span class="input-group-text" style="color: #6c757d">{{ $misurazione_filo }}</span>
@@ -38,6 +30,13 @@
             <span class="input-group-text" style="color: #6c757d">{{ $operativita }}</span>
         </div>
     </div>
+    <div class="input-group input-group-lg mb-2 mt-2">
+        <input id="parametro_spola" name="parametro_spola" type="text" placeholder="Parametro Spola"
+            class="font-lg form-control" data-kioskboard-type="numpad">
+        <div class="input-group-append">
+            <span id="parametro_spola_display" class="input-group-text" style="color: #6c757d">{{ $parametro_spola }}</span>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-sm-4 col-md-2">
@@ -54,31 +53,24 @@
         KioskBoard.init({
             keysArrayOfObjects: null,
             keysJsonUrl: "build/kioskboard/dist/kioskboard-keys-english.json",
-            keysSpecialCharsArrayOfStrings: [
-                "#", "€", "%", "+", "-", "*", "@", "!", "$", "&", "(", ")", "=",
-                "?", "<", ">", "^", "~", "{", "}", "[", "]", "|", "\\", ";",
-                ":", "'", "\"", ".", ",", "_", "`", "£", "¢", "•", "™", "©"
-        ],
-        keysNumpadArrayOfNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
-        language: 'it',
-        theme: 'material',
-        autoScroll: false,
-        capsLockActive: true,
-        allowRealKeyboard: false,
-        allowMobileKeyboard: false,
-        cssAnimations: true,
-        cssAnimationsDuration: 360,
-        cssAnimationsStyle: 'slide',
-        keysAllowSpacebar: true,
-        keysSpacebarText: 'Space',
-        keysFontFamily: 'sans-serif',
-        keysFontSize: '28px',
-        keysFontWeight: 'bold',
-        keysIconSize: '31px',
-        keysEnterText: '<i class="fas fa-check" style="font-weight: bold;"></i>',
-        keysEnterCanClose: true
-    });
-    KioskBoard.run('.js-kioskboard-input');
+            // keysNumpadArrayOfNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
+            language: 'it',
+            theme: 'material',
+            autoScroll: true,
+            capsLockActive: true,
+            cssAnimations: true,
+            cssAnimationsDuration: 360,
+            cssAnimationsStyle: 'slide',
+            keysSpacebarText: 'Space',
+            keysFontFamily: 'sans-serif',
+            keysFontWeight: 'bold',
+            keysEnterText: '<i class="fas fa-check" style="font-weight: bold;"></i>',
+            keysEnterCallback: function(){
+                window.scrollTo(0, 0);
+            },
+            keysEnterCanClose: true
+        });
+        KioskBoard.run('input');
 
     $('#salva_impostazioni').on('click', function() {
         const parametro_spola = $('#parametro_spola').val();

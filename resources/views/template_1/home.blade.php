@@ -2,15 +2,6 @@
 @section('main')
     <div class="input-group input-group-lg mb-2 mt-2">
         <div class="input-group-prepend">
-            <span class="input-group-text fixed-width-home">ID</span>
-        </div>
-        <input type="text" class="font-lg form-control" placeholder="ID Macchina" disabled>
-        <div class="input-group-append">
-            <span class="input-group-text" style="color: #6c757d">{{ $id_macchina }}</span>
-        </div>
-    </div>
-    <div class="input-group input-group-lg mb-2">
-        <div class="input-group-prepend">
             <span class="input-group-text fixed-width-home"><i class="fas fa-id-card"></i></span>
         </div>
         <input type="text" class="font-lg form-control" placeholder="Operatore" disabled>
