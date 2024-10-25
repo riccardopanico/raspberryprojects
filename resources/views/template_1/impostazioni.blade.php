@@ -1,6 +1,14 @@
 @extends('template_1.index')
 @section('main')
     <div class="input-group input-group-lg mb-2 mt-2">
+        <input id="parametro_spola" name="parametro_spola" type="text" placeholder="Parametro Spola"
+            class="js-kioskboard-input font-lg form-control" data-kioskboard-type="numpad" data-kioskboard-placement="bottom"
+            data-kioskboard-specialcharacters="true">
+        <div class="input-group-append">
+            <span id="parametro_spola_display" class="input-group-text" style="color: #6c757d">{{ $parametro_spola }}</span>
+        </div>
+    </div>
+    <div class="input-group input-group-lg mb-2 mt-2">
         <input type="text" id="misurazione_filo" class="font-lg form-control" placeholder="Misurazione Filo" disabled>
         <div class="input-group-append">
             <span class="input-group-text" style="color: #6c757d">{{ $misurazione_filo }}</span>
@@ -30,19 +38,12 @@
             <span class="input-group-text" style="color: #6c757d">{{ $operativita }}</span>
         </div>
     </div>
-    <div class="input-group input-group-lg mb-2 mt-2">
-        <input type="text" id="parametro_spola" class="font-lg form-control" placeholder="Parametro Spola" disabled>
-        <div class="input-group-append">
-            <span id="parametro_spola_display" class="input-group-text" style="color: #6c757d">{{ $parametro_spola }}</span>
-        </div>
-    </div>
 
     <div class="row">
         <div class="col-sm-4 col-md-2">
             <div class="color-palette-set mt-3 mb-3">
-                <button type="button" class="btn btn-block btn-primary btn-lg custom-button"
-                    style="font-weight: bold; padding: 8px 8px;" onclick="openModalSpola()">PARAMETRO SPOLA
-                    INFERIORE</button>
+                <button type="button" class="btn btn-block btn-primary btn-lg custom-button" style="font-weight: bold;"
+                    id="salva_impostazioni">SALVA IMPOSTAZIONI</button>
             </div>
         </div>
     </div>
@@ -74,43 +75,27 @@
         keysFontSize: '28px',
         keysFontWeight: 'bold',
         keysIconSize: '31px',
-        keysEnterText: 'Invia',
+        keysEnterText: '<i class="fas fa-check" style="font-weight: bold;"></i>',
         keysEnterCanClose: true
     });
-    KioskBoard.run('input');
+    KioskBoard.run('.js-kioskboard-input');
 
-    function openModalSpola() {
-        $('#modal-position').removeClass('modal-dialog-centered');
-        $('#modal-xl').find('.modal-title').html('<strong>Parametro spola inferiore</strong>');
-        $('#modal-xl').find('.modal-body').html(
-            '<input id="parametro_spola_input" name="parametro_spola_input" type="text" placeholder="Inserisci un valore..." class="js-kioskboard-input form-control" data-kioskboard-type="numpad" data-kioskboard-placement="bottom" data-kioskboard-specialcharacters="true">'
-        );
-        $('#modal-xl').find('.modal-footer').html(
-            '<button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>' +
-            '<button id="confirm-parametro-spola" type="button" class="btn btn-primary">Conferma</button>'
-        ).attr('class', 'modal-footer justify-content-between');
+    $('#salva_impostazioni').on('click', function() {
+        const parametro_spola = $('#parametro_spola').val();
 
-        $('#modal-xl').modal('show');
-        KioskBoard.run('input');
-
-        $('#confirm-parametro-spola').on('click', function() {
-            const parametro_spola = $('#parametro_spola_input').val();
-
-            if (!parametro_spola) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Errore!",
-                    text: "Nessun valore inserito!",
-                    customClass: {
-                        popup: 'zoom-swal-popup'
-                    }
-                });
-                return;
-            }
-
-            settingsSave('parametro_spola', parametro_spola);
-        });
-    }
+        if (!parametro_spola) {
+            Swal.fire({
+                icon: "error",
+                title: "Errore!",
+                text: "Nessun valore inserito!",
+                customClass: {
+                    popup: 'zoom-swal-popup'
+                }
+            });
+            return;
+        }
+        settingsSave('parametro_spola', parametro_spola);
+    });
 
     function settingsSave(setting, value) {
         $.ajax({
@@ -135,6 +120,7 @@
                         }
                     });
                     $('#parametro_spola_display').text(value);
+                    $('#parametro_spola').val('');
                 } else {
                     Swal.fire({
                         icon: "error",
