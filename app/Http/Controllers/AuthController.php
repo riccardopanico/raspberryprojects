@@ -24,26 +24,16 @@ class AuthController extends Controller
             // DB::enableQueryLog();
             $user = User::find($request->id_operatore);
             Auth::login($user);
-            // dd(DB::getQueryLog(), $request->all());
 
             Impostazioni::where('codice', 'id_operatore')->update(['valore' => $request->id_operatore]);
 
             extract(Impostazioni::all()->pluck('valore', 'codice')->toArray());
             LogOperazioni::create([
-                'matricola'    => $matricola,
                 'id_macchina'  => $id_macchina,
                 'id_operatore' => $id_operatore,
                 'codice'       => 'id_operatore',
                 'valore'       => $id_operatore
             ]);
-
-            $nuova_request = [
-                'matricola'    => $matricola,
-                'id_macchina'  => $id_macchina,
-                'id_operatore' => $id_operatore,
-                'codice'       => $request->setting,
-                'valore'       => $request->value
-            ];
 
             return redirect()->intended('home');
         } catch (\Throwable $th) {
