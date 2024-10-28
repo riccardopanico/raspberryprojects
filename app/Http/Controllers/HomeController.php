@@ -23,6 +23,13 @@ class HomeController extends Controller
         return view('template_1.impostazioni', get_defined_vars());
     }
 
+    public function manuale(Request $request)
+    {
+        extract(Impostazioni::all()->pluck('valore', 'codice')->toArray());
+
+        return view('template_1.manuale', get_defined_vars());
+    }
+
     public function settingsSave(Request $request)
     {
 

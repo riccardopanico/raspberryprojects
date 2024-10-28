@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::any('/', [HomeController::class, 'home']);
     Route::any('home', [HomeController::class, 'home'])->name('home');
     Route::any('impostazioni', [HomeController::class, 'impostazioni'])->name('impostazioni');
+    Route::any('manuale', [HomeController::class, 'manuale'])->name('manuale');
     Route::post('/settingsSave', [HomeController::class, 'settingsSave'])->name('settingsSave');
 });
 
