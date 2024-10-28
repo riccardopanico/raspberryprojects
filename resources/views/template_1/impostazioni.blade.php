@@ -1,43 +1,43 @@
 @extends('template_1.index')
 @section('main')
+    <!-- Input per Lunghezza Consumo Totale -->
     <div class="input-group input-group-lg mb-2 mt-2">
-        <input type="text" id="misurazione_filo" class="font-lg form-control no-border" placeholder="Misurazione Filo"
-            disabled>
+        <input type="text" id="consumo_totale" class="font-lg form-control no-border" placeholder="Consumo Totale" disabled>
         <div class="input-group-append">
-            <span class="input-group-text no-border" style="color: #000;">{{ $misurazione_filo }}</span>
+            <span class="input-group-text no-border" style="color: #000;">{{ $consumo_totale }} m</span>
         </div>
     </div>
+
+    <!-- Input per Tempo Operativo Totale -->
     <div class="input-group input-group-lg mb-2 mt-2">
-        <input type="text" id="impulsi" class="font-lg form-control no-border" placeholder="Impulsi" disabled>
+        <input type="text" id="tempo_totale" class="font-lg form-control no-border" placeholder="Tempo Operativo Totale" disabled>
         <div class="input-group-append">
-            <span class="input-group-text no-border" style="color: #000;">{{ $impulsi }}</span>
+            <span class="input-group-text no-border" style="color: #000;">{{ $tempo_totale }} s</span>
         </div>
     </div>
+
+    <!-- Input per Consumo Attuale della Commessa -->
     <div class="input-group input-group-lg mb-2 mt-2">
-        <input type="text" id="lunghezza_totale" class="font-lg form-control no-border" placeholder="Lunghezza totale"
-            disabled>
+        <input type="text" id="consumo_commessa" class="font-lg form-control no-border" placeholder="Consumo Commessa" disabled>
         <div class="input-group-append">
-            <span class="input-group-text no-border" style="color: #000;">{{ $lunghezza_totale }} cm</span>
+            <span class="input-group-text no-border" style="color: #000;">{{ $consumo_commessa }} m</span>
         </div>
     </div>
+
+    <!-- Input per Tempo Operativo Commessa -->
     <div class="input-group input-group-lg mb-2 mt-2">
-        <input type="text" id="velocita" class="font-lg form-control no-border" placeholder="Velocità" disabled>
+        <input type="text" id="tempo_commessa" class="font-lg form-control no-border" placeholder="Tempo Operativo Commessa" disabled>
         <div class="input-group-append">
-            <span class="input-group-text no-border" style="color: #000;">{{ $velocita }} m/s</span>
+            <span class="input-group-text no-border" style="color: #000;">{{ $tempo_commessa }} s</span>
         </div>
     </div>
-    <div class="input-group input-group-lg mb-2 mt-2">
-        <input type="text" id="operativita" class="font-lg form-control no-border" placeholder="Operatività" disabled>
-        <div class="input-group-append">
-            <span class="input-group-text no-border" style="color: #000;">{{ $operativita }}</span>
-        </div>
-    </div>
+
     <div class="input-group input-group-lg mb-2 mt-2">
         <input id="parametro_spola" name="parametro_spola" type="text" placeholder="Parametro Spola"
             class="font-lg form-control no-border" data-kioskboard-type="numpad">
         <div class="input-group-append">
             <span id="parametro_spola_display" class="input-group-text no-border"
-                style="color: #000;">{{ $parametro_spola }}</span>
+                style="color: #000;">{{ $parametro_spola }} m</span>
         </div>
     </div>
 
