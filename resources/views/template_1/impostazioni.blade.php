@@ -1,40 +1,43 @@
 @extends('template_1.index')
 @section('main')
     <div class="input-group input-group-lg mb-2 mt-2">
-        <input type="text" id="misurazione_filo" class="font-lg form-control" placeholder="Misurazione Filo" disabled>
+        <input type="text" id="misurazione_filo" class="font-lg form-control no-border" placeholder="Misurazione Filo"
+            disabled>
         <div class="input-group-append">
-            <span class="input-group-text" style="color: #6c757d">{{ $misurazione_filo }}</span>
+            <span class="input-group-text no-border" style="color: #000;">{{ $misurazione_filo }}</span>
         </div>
     </div>
     <div class="input-group input-group-lg mb-2 mt-2">
-        <input type="text" id="impulsi" class="font-lg form-control" placeholder="Impulsi" disabled>
+        <input type="text" id="impulsi" class="font-lg form-control no-border" placeholder="Impulsi" disabled>
         <div class="input-group-append">
-            <span class="input-group-text" style="color: #6c757d">{{ $impulsi }}</span>
+            <span class="input-group-text no-border" style="color: #000;">{{ $impulsi }}</span>
         </div>
     </div>
     <div class="input-group input-group-lg mb-2 mt-2">
-        <input type="text" id="lunghezza_totale" class="font-lg form-control" placeholder="Lunghezza totale" disabled>
+        <input type="text" id="lunghezza_totale" class="font-lg form-control no-border" placeholder="Lunghezza totale"
+            disabled>
         <div class="input-group-append">
-            <span class="input-group-text" style="color: #6c757d">{{ $lunghezza_totale }} cm</span>
+            <span class="input-group-text no-border" style="color: #000;">{{ $lunghezza_totale }} cm</span>
         </div>
     </div>
     <div class="input-group input-group-lg mb-2 mt-2">
-        <input type="text" id="velocita" class="font-lg form-control" placeholder="Velocità" disabled>
+        <input type="text" id="velocita" class="font-lg form-control no-border" placeholder="Velocità" disabled>
         <div class="input-group-append">
-            <span class="input-group-text" style="color: #6c757d">{{ $velocita }} m/s</span>
+            <span class="input-group-text no-border" style="color: #000;">{{ $velocita }} m/s</span>
         </div>
     </div>
     <div class="input-group input-group-lg mb-2 mt-2">
-        <input type="text" id="operativita" class="font-lg form-control" placeholder="Operatività" disabled>
+        <input type="text" id="operativita" class="font-lg form-control no-border" placeholder="Operatività" disabled>
         <div class="input-group-append">
-            <span class="input-group-text" style="color: #6c757d">{{ $operativita }}</span>
+            <span class="input-group-text no-border" style="color: #000;">{{ $operativita }}</span>
         </div>
     </div>
     <div class="input-group input-group-lg mb-2 mt-2">
         <input id="parametro_spola" name="parametro_spola" type="text" placeholder="Parametro Spola"
-            class="font-lg form-control" data-kioskboard-type="numpad">
+            class="font-lg form-control no-border" data-kioskboard-type="numpad">
         <div class="input-group-append">
-            <span id="parametro_spola_display" class="input-group-text" style="color: #6c757d">{{ $parametro_spola }}</span>
+            <span id="parametro_spola_display" class="input-group-text no-border"
+                style="color: #000;">{{ $parametro_spola }}</span>
         </div>
     </div>
 
@@ -65,52 +68,54 @@
             keysFontFamily: 'sans-serif',
             keysFontWeight: 'bold',
             keysEnterText: '<i class="fas fa-check" style="font-weight: bold;"></i>',
-            keysEnterCallback: function(){
+            keysEnterCallback: function() {
                 window.scrollTo(0, 0);
             },
             keysEnterCanClose: true
         });
         KioskBoard.run('input');
 
-    $('#salva_impostazioni').on('click', function() {
-        const parametro_spola = $('#parametro_spola').val();
+        $('#salva_impostazioni').on('click', function() {
+            const parametro_spola = $('#parametro_spola').val();
 
-        if (!parametro_spola) {
-            Swal.fire({
-                icon: "error",
-                title: "Errore!",
-                text: "Nessun valore inserito!",
-                customClass: {
-                    popup: 'zoom-swal-popup'
-                }
-            });
-            return;
-        }
-        settingsSave('parametro_spola', parametro_spola);
-    });
-
-    function settingsSave(setting, value) {
-        $.ajax({
-            type: 'POST',
-            dataType: 'json',
-            url: "{{ route('settingsSave') }}",
-            data: {
-                setting: setting,
-                value: value,
-                _token: '{{ csrf_token() }}'
-            }
-        }).done(function(data) {
-            if (data.success) {
-                $('#modal-xl').modal('hide');
+            if (!parametro_spola) {
                 Swal.fire({
-                    icon: "success",
-                    title: "<strong>Parametro spola inferiore</strong>",
-                    text: `Nuovo valore: ${value}`,
+                    icon: "error",
+                    title: "Errore!",
+                    text: "Nessun valore inserito!",
+                    customClass: {
+                        popup: 'zoom-swal-popup'
+                    }
+                });
+                window.scrollTo(0, 0);
+                return;
+            }
+            settingsSave('parametro_spola', parametro_spola);
+        });
+
+        function settingsSave(setting, value) {
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: "{{ route('settingsSave') }}",
+                data: {
+                    setting: setting,
+                    value: value,
+                    _token: '{{ csrf_token() }}'
+                }
+            }).done(function(data) {
+                if (data.success) {
+                    $('#modal-xl').modal('hide');
+                    Swal.fire({
+                        icon: "success",
+                        title: "<strong>Parametro spola inferiore</strong>",
+                        text: `Nuovo valore: ${value}`,
                         showConfirmButton: true,
                         customClass: {
                             popup: 'zoom-swal-popup'
                         }
                     });
+                    window.scrollTo(0, 0);
                     $('#parametro_spola_display').text(value);
                     $('#parametro_spola').val('');
                 } else {
@@ -122,6 +127,7 @@
                             popup: 'zoom-swal-popup'
                         }
                     });
+                    window.scrollTo(0, 0);
                 }
             }).fail(function(jqXHR, textStatus) {
                 console.log("Errore generico!");

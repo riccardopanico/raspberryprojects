@@ -2,20 +2,20 @@
 @section('main')
     <div class="input-group input-group-lg mb-2 mt-2">
         <div class="input-group-prepend">
-            <span class="input-group-text fixed-width-home"><i class="fas fa-id-card"></i></span>
+            <span class="input-group-text no-border fixed-width-home"><i class="fas fa-id-card"></i></span>
         </div>
         <input type="text" class="font-lg form-control" placeholder="Operatore" disabled>
         <div class="input-group-append">
-            <span class="input-group-text" style="color: #6c757d">0010452223</span>
+            <span class="input-group-text no-border" style="background-color: #fff; color: #000">0010452223</span>
         </div>
     </div>
     <div class="input-group input-group-lg mb-1">
         <div class="input-group-prepend">
-            <span class="input-group-text fixed-width-home"><i class="fas fa-barcode"></i></span>
+            <span class="input-group-text no-border fixed-width-home"><i class="fas fa-barcode"></i></span>
         </div>
         <input type="text" class="font-lg form-control" placeholder="Commessa" disabled>
         <div class="input-group-append">
-            <span class="input-group-text" style="color: #6c757d">50</span>
+            <span class="input-group-text no-border" style="background-color: #fff; color: #000">50</span>
         </div>
     </div>
 
@@ -48,14 +48,6 @@
         </div>
 
         <div class="col-sm-4 col-md-2">
-            <div class="color-palette-set mt-3">
-                <button type="button" class="btn btn-block btn-info btn-lg custom-button" style="font-weight: bold;"
-                    id="manuale" data-toggle="modal" data-target="#modal-xl" onclick="openModal('manuale')">MANUALE
-                    D'USO</button>
-            </div>
-        </div>
-
-        <div class="col-sm-4 col-md-2">
             <div class="color-palette-set mt-3 mb-3">
                 <button type="button" class="btn btn-block btn-secondary btn-lg custom-button" style="font-weight: bold;"
                     id="scansiona" data-toggle="modal" data-target="#modal-xl"
@@ -71,68 +63,127 @@
 
 @section('script')
     <script>
+        KioskBoard.init({
+            keysArrayOfObjects: null,
+            keysJsonUrl: "build/kioskboard/dist/kioskboard-keys-english.json",
+            // keysNumpadArrayOfNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
+            language: 'it',
+            theme: 'material',
+            autoScroll: true,
+            capsLockActive: true,
+            cssAnimations: true,
+            cssAnimationsDuration: 360,
+            cssAnimationsStyle: 'slide',
+            keysSpacebarText: 'Space',
+            keysFontFamily: 'sans-serif',
+            keysFontWeight: 'bold',
+            keysEnterText: '<i class="fas fa-check" style="font-weight: bold;"></i>',
+            keysEnterCallback: function() {
+                window.scrollTo(0, 0);
+            },
+            keysEnterCanClose: true
+        });
+        KioskBoard.run('input');
+
         function openModal(action) {
             const modalContent = {
                 'filato': {
-                    title: '<strong>Richiesta FILATO</strong>',
-                    body: 'Confermi di voler inoltrare la <br><strong><i>richiesta di FILATO</i></strong>?',
+                    title: '<strong>Richiesta Filato</strong>',
+                    body: 'Confermi di voler inoltrare la richiesta?',
                     footerClass: 'modal-footer justify-content-between',
                     action: () => settingsSave('richiesta_filato', 1),
                 },
                 'spola': {
-                    title: '<strong>Cambio SPOLA</strong>',
-                    body: 'Confermi di aver effettuato il<br><strong><i>cambio SPOLA</i></strong>?',
+                    title: '<strong>Cambio Spola</strong>',
+                    body: 'Confermi di aver effettuato il cambio?',
                     footerClass: 'modal-footer justify-content-between',
                     action: () => settingsSave('cambio_spola', 1),
                 },
                 'intervento': {
-                    title: '<strong>Richiesta INTERVENTO</strong>',
-                    body: 'Confermi di voler inoltrare la <br><strong><i>richiesta di INTERVENTO</i></strong>?',
+                    title: '<strong>Richiesta Intervento</strong>',
+                    body: 'Confermi di voler inoltrare la richiesta?',
                     footerClass: 'modal-footer justify-content-between',
                     action: () => settingsSave('richiesta_intervento', 1),
                 },
-                'manuale': {
-                    title: '<strong>MANUALE D\'USO</strong>',
-                    body: `<iframe src="{{ asset('pdf/manuale_uso.pdf') }}#toolbar=0" width="100%" height="100%"></iframe>`,
-                    footerClass: 'modal-footer',
-                    action: null,
-                },
                 'scansiona': {
-                    title: '<strong>SCANSIONA</strong>',
-                    body: 'Scansiona...',
-                    footerClass: 'modal-footer',
-                    action: null,
+                    title: '<strong>Scansiona</strong>',
+                    body: '<input id="last_barcode" name="last_barcode" type="text" placeholder="Inserisci un valore..." class="form-control" data-kioskboard-type="numpad">',
+                    footerClass: 'modal-footer justify-content-between',
+                    action: () => settingsSave('last_barcode', $('#last_barcode').val()),
                 },
             };
 
             const content = modalContent[action];
             const footer = createFooter(content.action);
 
-            if (action === 'manuale') {
-                $('#modal-xl').find('.modal-header').hide();
-                $('#modal-position').removeClass('modal-xl').addClass('modal-fullscreen');
-                $('#modal-xl').find('.modal-body').addClass('p-0').html(content.body);
-                $('#modal-xl').find('.modal-footer').attr('class', content.footerClass).html(footer);
-            } else {
-                $('#modal-xl').find('.modal-header').show();
-                $('#modal-xl').find('.modal-title').html(content.title);
-                $('#modal-position').removeClass('modal-fullscreen').addClass('modal-dialog-centered');
-                $('#modal-xl').find('.modal-body').removeClass('p-0').html(content.body);
-                $('#modal-xl').find('.modal-footer').attr('class', content.footerClass).html(footer);
-            }
+            const modalConfig = {
+                'scansiona': {
+                    modalHeaderVisible: true,
+                    modalHeaderClass: '',
+                    modalTitle: content.title,
+                    modalPositionClass: 'modal-xl',
+                    modalBodyClass: '',
+                    footerClass: content.footerClass,
+                },
+                default: {
+                    modalHeaderVisible: true,
+                    modalHeaderClass: '',
+                    modalTitle: content.title,
+                    modalPositionClass: 'modal-xl modal-dialog-centered',
+                    modalBodyClass: '',
+                    footerClass: content.footerClass,
+                }
+            };
+
+            const config = modalConfig[action] || modalConfig.default;
+
+            $('#modal-xl').find('.modal-header').toggle(config.modalHeaderVisible);
+            $('#modal-xl').find('.modal-title').html(config.modalTitle || '');
+            $('#modal-position').attr('class', `modal-dialog ${config.modalPositionClass}`);
+            $('#modal-xl').find('.modal-body').attr('class', `modal-body ${config.modalBodyClass}`).html(content.body);
+            $('#modal-xl').find('.modal-footer').attr('class', config.footerClass).html(footer);
 
             $('#modal-xl').modal('show');
+
+            $('#modal-xl').on('shown.bs.modal', function() {
+                if (action === 'scansiona') {
+                    KioskBoard.run('#last_barcode');
+                    $('#last_barcode').focus();
+                }
+            });
         }
 
         function createFooter(action) {
-            const confirmButton = `<button type="button" class="btn btn-primary" onclick="(${action})()">Conferma</button>`
-            const cancelButton = '<button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>';
-            const closeButton = '<button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>';
+            var confirmButton;
+            if (action === 'scansiona') {
+                confirmButton =
+                    `<button type="button" class="btn btn-primary btn-flat" id="salva_barcode">Conferma</button>`
+            } else {
+                confirmButton =
+                    `<button type="button" class="btn btn-primary btn-flat" onclick="(${action})()">Conferma</button>`
+            }
+            const cancelButton =
+                '<button type="button" class="btn btn-default btn-flat" style="background: red; color: white;" data-dismiss="modal">Annulla</button>';
+            // const closeButton =
+            //     '<button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Chiudi</button>';
 
-            return action ? cancelButton + confirmButton : closeButton;
+            return cancelButton + confirmButton;
         }
 
         function settingsSave(setting, value) {
+            if (!value) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Errore!",
+                    text: "Nessun valore inserito!",
+                    customClass: {
+                        popup: 'zoom-swal-popup'
+                    }
+                });
+                window.scrollTo(0, 0);
+                return;
+            }
+
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
@@ -160,6 +211,7 @@
                             popup: 'zoom-swal-popup'
                         }
                     });
+                    window.scrollTo(0, 0);
                 } else {
                     Swal.fire({
                         icon: "error",
@@ -171,8 +223,10 @@
                             popup: 'zoom-swal-popup'
                         }
                     });
+                    window.scrollTo(0, 0);
                 }
             }).fail(function(jqXHR, textStatus) {
+                window.scrollTo(0, 0);
                 console.log("Errore generico!");
             });
         }
