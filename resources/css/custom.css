@@ -2,16 +2,12 @@
     overflow: hidden;
 }
 
-body {
+/* body {
     -webkit-user-select: none;
-    /* Per Chrome, Safari, e Opera */
     -moz-user-select: none;
-    /* Per Firefox */
     -ms-user-select: none;
-    /* Per Internet Explorer */
     user-select: none;
-    /* Standard */
-}
+} */
 
 .numpad-btn {
     font-size: 30px;

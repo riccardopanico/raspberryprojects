@@ -48,7 +48,7 @@ sudo cp "$SCRIPT_DIR/systemd/getty-override.conf" /etc/systemd/system/getty@tty1
 sudo systemctl daemon-reload >/dev/null 2>&1
 
 echo "Installazione delle dipendenze in corso..."
-sudo apt install -y --no-install-recommends xorg xserver-xorg-input-evdev xinput-calibrator openbox chromium-browser git apache2 mariadb-server npm python3-pip network-manager plymouth plymouth-themes vsftpd xinput
+sudo apt install -y --no-install-recommends xorg xserver-xorg-input-evdev xinput-calibrator openbox chromium-browser git apache2 mariadb-server npm python3-pip python3-dev build-essential network-manager plymouth plymouth-themes vsftpd xinput
 echo "Installazione completata!"
 
 echo "Configurazione dello schermo in corso..."
@@ -158,7 +158,7 @@ echo "Configurazione del virtual environment per il progetto Flask..."
 cd /var/www/html/raspberryprojects/python/flask_project
 python3 -m venv venv
 source venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements.txt >/dev/null 2>&1
 deactivate
 
 echo "
