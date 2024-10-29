@@ -1,0 +1,403 @@
+# aggiorno il sistema
+sudo apt update -y && sudo apt upgrade -y && sudo rpi-update -y
+# abilita l'autologin (System Options -> Auto Login -> Console Autologin)
+sudo raspi-config
+# installazioni necessarie
+sudo apt install -y --no-install-recommends xorg xserver-xorg-input-evdev xinput-calibrator openbox chromium-browser apache2 mariadb-server npm python3-pip network-manager plymouth git
+# xserver-xorg x11-xserver-utils xinit xinput
+
+# configurazione installazione interfaccia grafica
+sudo nano /home/pi/.xinitrc
+exec openbox-session
+
+mkdir -p ~/.config/openbox
+nano ~/.config/openbox/autostart
+
+# Ruota display
+xrandr --output HDMI-1 --rotate inverted
+
+# Disabilita lo screensaver e DPMS
+xset s off
+xset -dpms
+xset s noblank
+
+# Avvia Chromium in modalità kiosk
+chromium-browser \
+--noerrdialogs \
+--incognito \
+--kiosk \
+--disable-infobars \
+--disable-session-crashed-bubble \
+--disable-restore-session-state \
+--disable-translate \
+--disable-pinch \
+--disable-pull-to-refresh-effect \
+--disable-features=TranslateUI,PrintPreview,SuggestionsService,Sync \
+--no-default-browser-check \
+--disable-background-networking \
+--disable-client-side-phishing-detection \
+--disable-default-apps \
+--disable-extensions \
+--disable-popup-blocking \
+--no-first-run \
+--start-fullscreen \
+--disable-dev-shm-usage \
+--autoplay-policy=no-user-gesture-required \
+--disable-web-security \
+--disable-features=TranslateUI \
+--disable-print-preview \
+--disable-suggestions-service \
+--disable-sync \
+--disable-gesture-requirement-for-media-playback \
+--disable-sync-preferences \
+--disable-sync-app-list \
+--start-maximized \
+--disable-software-rasterizer \
+"http://raspberry.local" &
+
+# Ruota il Touch
+sudo nano /usr/share/X11/xorg.conf.d/40-libinput.conf
+Option "TransformationMatrix" "-1 0 1 0 -1 1 0 0 1"
+
+sudo nano /home/pi/.profile
+# inserire
+[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
+# oppure
+[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx -- -nocursor -quiet > /dev/null 2>&1
+# oppure
+[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec sudo startx -- -nocursor -quiet > /dev/null 2>&1
+
+# installazione driver schermo touch
+cd ~
+sudo rm -rf LCD-show
+git clone https://github.com/goodtft/LCD-show.git
+chmod -R 755 LCD-show
+cd LCD-show/
+sudo ./LCD5-show
+
+sudo cp -rf /usr/share/X11/xorg.conf.d/10-evdev.conf /usr/share/X11/xorg.conf.d/45-evdev.conf
+sudo nano /usr/share/X11/xorg.conf.d/99-calibration.conf
+Section "InputClass"
+        Identifier      "calibration"
+        MatchProduct    "ADS7846 Touchscreen"
+        Option  "Calibration"   "208 3905 288 3910"
+        Option  "SwapAxes"      "0"
+        Option "EmulateThirdButton" "1"
+        Option "EmulateThirdButtonTimeout" "1000"
+        Option "EmulateThirdButtonMoveThreshold" "300"
+EndSection
+
+# per pi 5
+sudo nano /etc/X11/xorg.conf.d/99-vc4.conf
+Section "OutputClass"
+    Identifier "vc4"
+    MatchDriver "vc4"
+    Driver "modesetting"
+    Option "PrimaryGPU" "true"
+EndSection
+
+# disabilita visione cmd di avvio
+sudo nano /boot/firmware/cmdline.txt
+# console=serial0,115200 console=tty1 root=PARTUUID=79b8d05d-02 rootfstype=ext4 fsck.repair=yes rootwait cfg80211.ieee80211_regdom=IT
+# Aggiungi alla fine i seguenti parametri separati tra spazio
+fbcon=rotate:2 splash quiet plymouth.ignore-serial-consoles logo.nologo vt.global_cursor_default=0 boot=silent loglevel=0 elevator=deadline dwc_otg.lpm_enable=0
+
+# (verifica prima senza)touch rotate 180 degrees:
+sudo nano /usr/share/X11/xorg.conf.d/99-calibration.conf
+Option "Calibration" "3905 208 3910 288"
+Option "SwapAxes" "0"
+
+# rimozione scritte iniziali allavvio
+sudo nano /etc/systemd/system/getty@tty1.service.d/autologin.conf
+# inserire quanto di seguito
+[Service]
+ExecStart=
+ExecStart=-/sbin/agetty --skip-login --keep-baud --noissue --autologin pi %I $TERM
+
+sudo nano /boot/firmware/config.txt
+# inserisco in fondo
+disable_overscan=1
+camera_auto_detect=0
+[all]
+hdmi_force_hotplug=1
+dtparam=i2c_arm=on
+dtparam=spi=on
+max_usb_current=1
+config_hdmi_boost=7
+hdmi_group=2
+hdmi_mode=1
+hdmi_mode=87
+hdmi_cvt 800 480 60 6 0 0 0
+hdmi_drive=1
+dtoverlay=ads7846,cs=1,penirq=25,penirq_pull=2,speed=50000,keep_vref_on=0,swapxy=0,pmax=255,xohms=150,xmin=0,xmax=800,ymin=0,ymax=480
+start_x=0
+gpu_mem=128
+enable_uart=1
+display_rotate=0
+disable_splash=1
+dtparam=audio=off
+
+# installazione mysql
+sudo mysql_secure_installation
+# per abilitare connessioni da esterno
+sudo nano /etc/mysql/my.cnf
+# aggiungi alla fine
+[mysqld]
+bind-address = 0.0.0.0
+
+sudo systemctl restart mysql
+sudo mysql -u root -praspberry
+
+CREATE USER 'niva'@'%' IDENTIFIED BY '01NiVa18';GRANT ALL PRIVILEGES ON *.* TO 'niva'@'%' WITH GRANT OPTION;FLUSH PRIVILEGES;
+CREATE DATABASE `cronometraggio`;
+USE `cronometraggio`;
+CREATE TABLE `fustelle` (
+	`id` VARCHAR(2) NOT NULL,
+	`stato` VARCHAR(3) NOT NULL DEFAULT 'OFF',
+	`set_point` INT NOT NULL DEFAULT 0,
+	`contatore` INT NOT NULL DEFAULT 0,
+	`abilitata` VARCHAR(3) NOT NULL DEFAULT 'OFF',
+	`installata` VARCHAR(3) NOT NULL DEFAULT 'OFF',
+	PRIMARY KEY (`id`)
+);
+INSERT INTO `fustelle` (`id`) VALUES ('F1'), ('F2'), ('F3'), ('F4'), ('F5'), ('F6'), ('F7'), ('F8');
+CREATE TABLE `impostazioni` (
+  `codice` varchar(50) NOT NULL,
+  `descrizione` varchar(255) DEFAULT NULL,
+  `valore` varchar(4000) DEFAULT NULL,
+  PRIMARY KEY (`codice`)
+);
+INSERT INTO `impostazioni` (`codice`, `descrizione`, `valore`) VALUES ('escludi_cronometraggio', 'Escludi cronometraggio', 'OFF');
+INSERT INTO `impostazioni` (`codice`, `descrizione`, `valore`) VALUES ('token', 'Token', '123');
+
+# installazione PHP 8
+sudo wget -qO /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list
+sudo apt update
+sudo apt install -y php8.1-common php8.1-cli php8.1-curl php8.1-gd php8.1-mbstring php8.1-xml php8.1-zip php8.1-mysql libapache2-mod-php8.1
+sudo service apache2 restart
+
+# installazione composer
+sudo wget -O composer-setup.php https://getcomposer.org/installer
+sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+composer --version
+sudo rm -rf composer-setup.php
+sudo composer self-update
+
+# aggiungo i permessi a utente pi per lavorare con ssh
+sudo usermod -a -G www-data pi && sudo chown -R :www-data /var/www/html && sudo chmod -R g+w /var/www/html
+
+# svuoto i file
+# commento tutte le righe
+sudo sh -c 'echo -n > /etc/motd'
+sudo sh -c 'echo -n > /etc/issue'
+sudo sh -c 'echo -n > /etc/issue.net'
+sudo sed -i 's/^/#/' /etc/pam.d/login
+sudo sed -i 's/^/#/' /etc/profile.d/sshpwd.sh
+
+# Imposto la rete
+sudo nmcli connection delete Niva_Office
+sudo nmcli connection add type wifi ifname wlan0 con-name Niva_Office ssid Niva_Office autoconnect yes
+sudo nmcli connection modify Niva_Office wifi-sec.key-mgmt wpa-psk
+sudo nmcli connection modify Niva_Office wifi-sec.psk "G3nu.1N3"
+sudo nmcli connection modify Niva_Office ipv4.addresses 192.168.0.5/24 ipv4.gateway 192.168.0.253 ipv4.dns 192.168.0.253 ipv4.method manual
+sudo nmcli connection up Niva_Office
+
+# # Soluzione possibile wifi
+# sudo nmcli connection modify Niva_Office 802-11-wireless-security.psk "G3nu.1N3"
+# sudo nmcli connection up Niva_Office
+
+sudo systemctl restart NetworkManager
+
+
+nmcli -t -f UUID,TYPE,NAME connection show
+sudo nmcli connection delete uuid 396cf7e0-0257-4000-ae50-772bc8afcbed
+
+sudo nmcli device wifi rescan && sudo nmcli -t -f SSID device wifi list
+
+
+# pulisci ssh su windows
+ssh-keygen -R raspberry.local
+# passo il file zip col progetto laravel dal pc al raspberry
+scp "C:\xampp\htdocs\contacolpi.zip" pi@raspberry.local:/var/www/html/
+# estrazione zip
+sudo unzip /var/www/html/contacolpi.zip -d /var/www/html/
+# rinomino la cartella estratta
+sudo mv /var/www/html/contacolpi /var/www/html/cronometraggio
+#rimuovo il file zip e html
+sudo rm /var/www/html/contacolpi.zip /var/www/html/index.html
+
+# # installazione laravel 10
+# cd ~
+# composer create-project laravel/laravel cronometraggio
+# sudo mv ~/cronometraggio /var/www/html/
+
+# Permessi Laravel
+sudo chown -R www-data:www-data /var/www/html/cronometraggio
+sudo chmod -R 755 /var/www/html/cronometraggio
+sudo chmod -R 777 /var/www/html/cronometraggio/storage
+sudo chmod -R 777 /var/www/html/cronometraggio/bootstrap/cache
+
+sudo nano /etc/hosts
+# aggiungi in fondo
+127.0.0.1       raspberry.local
+# imposto virtual host
+sudo nano /etc/apache2/sites-available/cronometraggio.conf
+<VirtualHost *:80>
+     DocumentRoot /var/www/html/cronometraggio/public
+     ServerName raspberry.local
+
+     <Directory /var/www/html/cronometraggio>
+         AllowOverride All
+         Require all granted
+     </Directory>
+
+     ErrorLog ${APACHE_LOG_DIR}/error.log
+     CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+sudo a2enmod rewrite
+sudo a2ensite cronometraggio.conf
+sudo systemctl restart apache2
+
+# ambiente virtuale python
+sudo python3 -m venv /var/www/html/cronometraggio/python
+source /var/www/html/cronometraggio/python/bin/activate
+# Cambia la proprietà all'utente pi
+sudo chown -R pi:pi /var/www/html/cronometraggio/python
+# dipendenze python (noon usare "sudo" peche userà utente root )
+pip3 install websockets mysql-connector-python
+# Dopo l'installazione dei pacchetti, se necessario, cambia la proprietà a www-data
+sudo chown -R www-data:www-data /var/www/html/cronometraggio/python
+
+# creo il websockets
+sudo nano /etc/systemd/system/websocket_server.service
+
+# env globale
+[Unit]
+Description=WebSocket Server Service
+After=network.target
+
+[Service]
+User=pi
+WorkingDirectory=/var/www/html/cronometraggio/python
+ExecStart=/usr/bin/python3 /var/www/html/cronometraggio/python/websocket_server.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+# oppure con custom env
+[Unit]
+Description=WebSocket Server Service
+After=network.target
+
+[Service]
+User=pi
+WorkingDirectory=/var/www/html/cronometraggio/python
+Environment="PYTHONPATH=/var/www/html/cronometraggio/python"
+ExecStart=/var/www/html/cronometraggio/python/bin/python /var/www/html/cronometraggio/python/websocket_server.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+# Ricarica il demone systemd per leggere il nuovo file di unità di servizio
+sudo systemctl daemon-reload
+# Abilita il servizio per avviarlo all'avvio del sistema
+sudo systemctl enable websocket_server.service
+# Avvia il servizio
+sudo systemctl start websocket_server.service
+# Per controllare lo stato del tuo servizio, utilizza il comando
+sudo systemctl status websocket_server.service
+# Fermare o Riavviare il Servizio
+sudo systemctl stop websocket_server.service
+sudo systemctl restart websocket_server.service
+# Disabilita il servizio
+sudo systemctl disable websocket_server.service
+
+# # rimozione cursore
+# sudo nano /usr/bin/startx
+# # modificare come di seguito
+# defaultserverargs="-nocursor -quiet"
+
+# logo personalizzato all'avvio
+sudo mkdir /usr/share/plymouth/themes/niva
+sudo cp /var/www/html/cronometraggio/public/img/logoniva.png /usr/share/plymouth/themes/niva/logoniva.png
+sudo nano /usr/share/plymouth/themes/niva/niva.plymouth
+# inserire le seguenti righe
+[Plymouth Theme]
+Name=Tema Niva
+Description=Tema personalizzato Niva
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/niva
+ScriptFile=/usr/share/plymouth/themes/niva/niva.script
+
+sudo nano /usr/share/plymouth/themes/niva/niva.script
+# inserire le seguenti righe
+image = Image("logoniva.png");
+
+pos_x = Window.GetWidth()/2 - image.GetWidth()/2;
+pos_y = Window.GetHeight()/2 - image.GetHeight()/2;
+
+sprite = Sprite(image);
+sprite.SetX(pos_x);
+sprite.SetY(pos_y);
+
+fun refresh_callback () {
+  sprite.SetOpacity(1);
+  sprite.SetZ(15);
+}
+
+Plymouth.SetRefreshFunction (refresh_callback);
+
+sudo plymouth-set-default-theme -R niva --rebuild-initrd
+sudo update-initramfs -u
+
+
+
+# Schermo sempre acceso
+sudo nano /etc/X11/xorg.conf
+
+Section "ServerFlags"
+    Option "BlankTime" "0"
+    Option "StandbyTime" "0"
+    Option "SuspendTime" "0"
+    Option "OffTime" "0"
+EndSection
+
+
+# scp C:\xampp\htdocs\cronometraggio\resources\views\home.blade.php pi@192.168.0.122:/var/www/html/cronometraggio/resources/views/home.blade.php
+# scp C:\xampp\htdocs\cronometraggio\app\Http\Controllers\HomeController.php pi@192.168.0.122:/var/www/html/cronometraggio/app/Http/Controllers/HomeController.php
+# scp C:\xampp\htdocs\cronometraggio\app\Models\Fustelle.php pi@192.168.0.122:/var/www/html/cronometraggio/app/Models/Fustelle.php
+# scp C:\xampp\htdocs\cronometraggio\python\websocket_server.py pi@192.168.0.122:/var/www/html/cronometraggio/python/websocket_server.py
+# scp C:\xampp\htdocs\contacolpi\python\websocket_rilevatore_presenze.py pi@192.168.0.122:/var/www/html/contacolpi/python/websocket_rilevatore_presenze.py
+# scp C:\xampp\htdocs\cronometraggio\routes\web.php pi@192.168.0.122:/var/www/html/cronometraggio/routes/web.php
+
+# G3nu.1N3
+# 01NiVa18-SewingMachine
+# PwD01NiVa18
+
+
+# lsof -i :8765
+# kill -9 PID
+
+
+# ip statico
+sudo nano /etc/NetworkManager/system-connections/NOME_CONNESSIONE_WIFI
+[ipv4]
+method=manual
+address=INDIRIZZO_IP/NETMASK
+gateway=GATEWAY
+dns=DNS_1;DNS_2;
+
+
+# aggiungi l'immagine logo
+sudo cp /var/www/html/cronometraggio/public/img/logoniva.png /boot/logoniva.png
+
+
+# per risolvere externally-managed-environment
+--break-system-packages
+# oppure risolvi perennemente
+sudo rm /usr/lib/python3.11/EXTERNALLY-MANAGED
