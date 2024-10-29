@@ -52,7 +52,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text fixed-width-home"><i class="fas fa-id-card"></i></span>
                 </div>
-                <input type="text" id="id_operatore" name="id_operatore" class="font-lg form-control"
+                <input type="password" id="id_operatore" name="id_operatore" class="font-lg form-control"
                     placeholder="ID Operatore" autofocus>
             </div>
 
