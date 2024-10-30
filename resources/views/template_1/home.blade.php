@@ -167,13 +167,12 @@
                     // text: '',
                 },
                 'arresta': {
-                    title: '<div class="text-center">Spegnimento</div>',
+                    title: '<div class="text-center" style="font-weight: bold;">Spegnimento</div>',
                     body: `<div class="text-center" style="font-size: 1.5rem;">Sicuro di voler arrestare il dispositivo?</div>
                            <div class="d-flex justify-content-center mt-3">
                            <button type="button" class="btn btn-default btn-flat" style="background-color: #e9ecef; color: black;" data-dismiss="modal">Annulla</button>
                            </div>`,
                     footerClass: 'modal-footer justify-content-between',
-                    action: () => $modal.modal('hide'),
                     // alert_title: '',
                     // text: '',
                 }
@@ -238,8 +237,9 @@
             var footerButtons;
 
             if (type === 'arresta') {
-                footerButtons = `<button type="button" class="btn btn-warning btn-flat" style="font-weight: bold;">Riavvia</button>
-                <button type="button" class="btn btn-danger btn-flat" style="font-weight: bold;">Spegni</button>`;
+                footerButtons =
+                    `<button type="button" class="btn btn-warning btn-flat" style="font-weight: bold;" onclick="reboot()">Riavvia</button>
+                <button type="button" class="btn btn-danger btn-flat" style="font-weight: bold;" onclick="shutdown()">Spegni</button>`;
             } else {
                 const confirmButton = type === 'modalSpola' ?
                     `<button type="button" class="btn btn-light btn-flat" data-dismiss="modal">OK</button>` :
@@ -308,6 +308,38 @@
                 }
             }).fail(function(jqXHR, textStatus) {
                 console.log("Errore generico!");
+            });
+        }
+
+        function reboot() {
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('reboot') }}",
+                data: {
+                    _token: '{{ csrf_token() }}'
+                }
+            }).done(function(data) {}).fail(function() {
+                Swal.fire({
+                    icon: "error",
+                    title: "Errore!",
+                    text: "Impossibile riavviare il dispositivo!"
+                });
+            });
+        }
+
+        function shutdown() {
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('shutdown') }}",
+                data: {
+                    _token: '{{ csrf_token() }}'
+                }
+            }).done(function(data) {}).fail(function() {
+                Swal.fire({
+                    icon: "error",
+                    title: "Errore!",
+                    text: "Impossibile spegnere il dispositivo!"
+                });
             });
         }
     </script>
