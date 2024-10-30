@@ -15,8 +15,9 @@
 </div>
 <script>
 
+    var $modal;
     function openModal(action) {
-            var $modal = $('#modal-xl').clone();
+            $modal = $('#modal-xl').clone();
             $modal.removeAttr('id');
 
             const modalSettingsDefault = {
@@ -33,9 +34,8 @@
                 title: '',
                 positionClass: 'modal-xl modal-dialog-centered',
                 forzaFocus: false,
-                action: () => {},
                 onShow: () => {},
-                onClose: () => {},
+                onClose: () => { $modal.remove() },
             };
 
             const modalSettings = {
@@ -44,48 +44,38 @@
                     body: '<div class="text-center">Confermi di voler inoltrare la richiesta?</div>',
                     footerClass: 'modal-footer justify-content-between',
                     footer: `<button type="button" class="btn btn-default btn-flat" style="background: red; color: white;" data-dismiss="modal">Annulla</button>
-                            <button type="button" class="btn btn-primary btn-flat" onclick="(${action})()">Conferma</button>`,
-                    action: () => settingsSave('richiesta_filato', 1),
-                    onClose: () => $modal.remove(),
+                            <button type="button" class="btn btn-primary btn-flat" onclick="settingsSave('richiesta_filato', 1)">Conferma</button>`,
                 },
                 'spola': {
                     title: '<strong>Cambio Spola</strong>',
                     body: '<div class="text-center">Confermi di aver effettuato il cambio?</div>',
                     footerClass: 'modal-footer justify-content-between',
                     footer: `<button type="button" class="btn btn-default btn-flat" style="background: red; color: white;" data-dismiss="modal">Annulla</button>
-                            <button type="button" class="btn btn-primary btn-flat" onclick="(${action})()">Conferma</button>`,
-                    action: () => settingsSave('cambio_spola', 1),
-                    onClose: () => $modal.remove(),
+                            <button type="button" class="btn btn-primary btn-flat" onclick="settingsSave('cambio_spola', 1)">Conferma</button>`,
                 },
                 'intervento': {
                     title: '<strong>Richiesta Intervento</strong>',
                     body: '<div class="text-center">Confermi di voler inoltrare la richiesta?</div>',
                     footerClass: 'modal-footer justify-content-between',
                     footer: `<button type="button" class="btn btn-default btn-flat" style="background: red; color: white;" data-dismiss="modal">Annulla</button>
-                            <button type="button" class="btn btn-primary btn-flat" onclick="(${action})()">Conferma</button>`,
-                    action: () => settingsSave('richiesta_intervento', 1),
-                    onClose: () => $modal.remove(),
+                            <button type="button" class="btn btn-primary btn-flat" onclick="settingsSave('richiesta_intervento', 1)">Conferma</button>`,
                 },
                 'scansiona': {
                     title: '<strong>Scansiona</strong>',
                     body: '<input id="last_barcode" name="last_barcode" type="text" placeholder="Inserisci un valore..." class="form-control" data-kioskboard-type="numpad">',
                     footerClass: 'modal-footer justify-content-between',
                     footer: `<button type="button" class="btn btn-default btn-flat" style="background: red; color: white;" data-dismiss="modal">Annulla</button>
-                            <button type="button" class="btn btn-primary btn-flat" onclick="(${action})()">Conferma</button>`,
-                    action: () => settingsSave('last_barcode', $('#last_barcode').val()),
+                            <button type="button" class="btn btn-primary btn-flat" onclick="settingsSave('last_barcode', $('#last_barcode').val())">Conferma</button>`,
                     onShow: () => {
                         KioskBoard.run('#last_barcode');
                         $('#last_barcode').focus();
                     },
-                    onClose: () => $modal.remove(),
                 },
                 'modalSpola': {
                     title: '<div class="text-center"><i class="fas fa-exclamation-triangle"></i><strong> ATTENZIONE </strong><i class="fas fa-exclamation-triangle"></i></div>',
                     body: '<div class="text-center" style="font-size: 1.8rem;"><strong>Spola in esaurimento</strong></div>',
                     footerClass: 'modal-footer justify-content-center bg-danger',
-                    action: () => $modal.modal('hide'),
                     footer: `<button type="button" class="btn btn-light btn-flat" data-dismiss="modal">OK</button>`,
-                    onClose: () => $modal.remove(),
                 },
                 'arresta': {
                     title: '<div class="text-center" style="font-weight: bold;">Spegnimento</div>',
@@ -100,7 +90,6 @@
                         <button type="button" onclick="queueMessage({ action: 'shutdown' });" class="btn btn-danger btn-flat" style="font-weight: bold;width: 46.5%;">Spegni</button>
                         <button type="button" class="btn btn-default btn-flat" style="background-color: #e9ecef;color: black;width: 100%;" data-dismiss="modal">Annulla</button>
                     </div>`,
-                    onClose: () => $modal.remove(),
                 }
             };
 
