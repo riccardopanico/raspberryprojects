@@ -26,6 +26,8 @@ Route::middleware('auth')->group(function () {
     Route::any('manuale', [HomeController::class, 'manuale'])->name('manuale');
     Route::post('settingsSave', [HomeController::class, 'settingsSave'])->name('settingsSave');
     Route::post('settingsSaveAll', [HomeController::class, 'settingsSaveAll'])->name('settingsSaveAll');
+    Route::any('reboot', [HomeController::class, 'reboot'])->name('reboot');
+    Route::any('shutdown', [HomeController::class, 'shutdown'])->name('shutdown');
 });
 
 Route::any('clear-cache', function () {

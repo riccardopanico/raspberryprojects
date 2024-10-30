@@ -86,10 +86,12 @@
                 'X-CSRF-TOKEN': "{{ csrf_token() }}",
             }
         });
+
         KioskBoard.init({
             keysArrayOfObjects: null,
             keysJsonUrl: "build/kioskboard/dist/kioskboard-keys-english.json",
             // keysNumpadArrayOfNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
+            keysSpecialCharsArrayOfStrings: [','],
             language: 'it',
             theme: 'material',
             autoScroll: true,
@@ -102,7 +104,7 @@
             keysFontWeight: 'bold',
             keysEnterText: '<i class="fas fa-check" style="font-weight: bold;"></i>',
             keysEnterCallback: function() {
-                window.scrollTo(0, 0);
+
             },
             keysEnterCanClose: true
         });
@@ -113,7 +115,7 @@
                 type: 'POST',
                 dataType: 'json',
                 url: "{{ route('settingsSaveAll') }}",
-                data: $("#form_impostazioni input:enabled").serialize()
+                data: $("#form_impostazioni").serialize()
             }).done(function(data) {
                 if (data.success) {
                     $('#modal-xl').modal('hide');
@@ -126,7 +128,6 @@
                             popup: 'zoom-swal-popup'
                         }
                     });
-                    window.scrollTo(0, 0);
                 } else {
                     Swal.fire({
                         icon: "error",
@@ -136,7 +137,6 @@
                             popup: 'zoom-swal-popup'
                         }
                     });
-                    window.scrollTo(0, 0);
                 }
             }).fail(function(jqXHR, textStatus) {
                 console.log("Errore generico!");

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\LogOperazioni;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\Process\Process;
 
 class HomeController extends Controller
 {
@@ -49,6 +50,15 @@ class HomeController extends Controller
         return view('template_1.manuale', get_defined_vars());
     }
 
+    public function reboot()
+    {
+        $command = 'clear && sudo systemctl stop getty@tty1.service && sudo reboot --no-wall';
+        $process = Process::fromShellCommandline($command);
+        $process->run();
+    }
+
+    public function shutdown() {}
+
     public function settingsSave(Request $request)
     {
         $impostazioni = Impostazioni::all()->pluck('valore', 'codice')->toArray();
@@ -88,9 +98,9 @@ class HomeController extends Controller
         try {
             foreach ($request->settings as $key => $value) {
                 Impostazioni::where('codice', $key)
-                ->update([
-                    'valore' => $value
-                ]);
+                    ->update([
+                        'valore' => $value
+                    ]);
                 LogOperazioni::create([
                     'id_macchina'  => $request->id_macchina,
                     'id_operatore' => Auth::id(),

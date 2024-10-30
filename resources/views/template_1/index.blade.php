@@ -20,7 +20,7 @@
     </div>
     @include('template_1.commons.modal')
     @include('template_1.commons.script')
-    @include('template_1.commons.websocket')
+    {{-- @include('template_1.commons.websocket') --}}
     @yield('script')
 </body>
 
