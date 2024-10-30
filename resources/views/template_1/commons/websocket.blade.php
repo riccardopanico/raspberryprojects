@@ -57,14 +57,25 @@
             return;
         }
 
-        // Esempio di gestione di un messaggio generico
-        if (parsedData['status'] && parsedData['status'] === "readyForNext") {
-            isWaitingForServer = false;
-            sendMessage();
+        // Gestisci le diverse azioni
+        if (parsedData['action']) {
+            switch (parsedData['action']) {
+                case "readyForNext":
+                    isWaitingForServer = false;
+                    sendMessage();
+                    break;
+                case "updateUI":
+                    // Esempio di azione che aggiorna l'interfaccia utente
+                    console.log("Aggiornamento UI con dati: ", parsedData['payload']);
+                    break;
+                case "notify":
+                    // Esempio di notifica
+                    alert(parsedData['message']);
+                    break;
+                default:
+                    console.warn("Azione sconosciuta ricevuta dal server: ", parsedData['action']);
+            }
         }
-
-        // Aggiungi qui ulteriori logiche di gestione del messaggio ricevuto
-        console.log('Dati elaborati dal server:', parsedData);
     }
 
     // Funzione per inviare un messaggio alla coda
