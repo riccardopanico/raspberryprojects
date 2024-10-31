@@ -2,11 +2,13 @@
 # abilita VNC e SPI (Interface Options -> Enable VNC and SPI)
 # abilita linguaggio Italiano (Localisation Options)
 sudo raspi-config
-# scp C:\xampp\htdocs\contacolpi\setup.zip pi@raspberryprojects:/home/pi/setup.zip
+
+scp C:\xampp\htdocs\raspberryprojects\setup.zip pi@192.168.0.97:/home/pi/setup.zip
+
 unzip setup.zip && cd setup && chmod +x setup.sh && ./setup.sh 90
 
-# sudo systemctl status flask.service
-# sudo systemctl status chromium-kiosk.service
+sudo systemctl restart flask.service
+sudo systemctl restart chromium-kiosk.service
 
 # per ottenere la lista dei pacchetti installati, si usa il comando
 dpkg --get-selections | grep -v deinstall | awk '{print $1}' > packages-list.txt
