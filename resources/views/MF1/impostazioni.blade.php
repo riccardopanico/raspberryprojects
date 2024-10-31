@@ -34,50 +34,6 @@
             </div>
         </div>
 
-        {{-- <div class="input-group input-group-lg mb-2 mt-2">
-            <div class="input-group-prepend">
-                <span class="input-group-text no-border" style="color: #000;">Tempo Commessa</span>
-            </div>
-            <input type="text" value="{{ $tempo_commessa }}" name="settings[tempo_commessa]" id="tempo_commessa"
-                class="font-lg form-control no-border" disabled data-kioskboard-type="numpad">
-            <div class="input-group-append">
-                <span class="input-group-text no-border" style="color: #000;">s</span>
-            </div>
-        </div>
-
-        <div class="input-group input-group-lg mb-2 mt-2">
-            <div class="input-group-prepend">
-                <span class="input-group-text no-border" style="color: #000;">Consumo Totale</span>
-            </div>
-            <input type="text" value="{{ $consumo_totale }}" name="settings[consumo_totale]" id="consumo_totale"
-                class="font-lg form-control no-border" disabled data-kioskboard-type="numpad">
-            <div class="input-group-append">
-                <span class="input-group-text no-border" style="color: #000;">m</span>
-            </div>
-        </div>
-
-        <div class="input-group input-group-lg mb-2 mt-2">
-            <div class="input-group-prepend">
-                <span class="input-group-text no-border" style="color: #000;">Tempo Totale</span>
-            </div>
-            <input type="text" value="{{ $tempo_totale }}" name="settings[tempo_totale]" id="tempo_totale"
-                class="font-lg form-control no-border" disabled data-kioskboard-type="numpad">
-            <div class="input-group-append">
-                <span class="input-group-text no-border" style="color: #000;">s</span>
-            </div>
-        </div>
-
-        <div class="input-group input-group-lg mb-2 mt-2">
-            <div class="input-group-prepend">
-                <span class="input-group-text no-border" style="color: #000;">Consumo Commessa</span>
-            </div>
-            <input type="text" value="{{ $consumo_commessa }}" name="settings[consumo_commessa]" id="consumo_commessa"
-                class="font-lg form-control no-border" disabled data-kioskboard-type="numpad">
-            <div class="input-group-append">
-                <span class="input-group-text no-border" style="color: #000;">m</span>
-            </div>
-        </div> --}}
-
         <div class="input-group input-group-lg mb-2 mt-2">
             <div class="input-group-prepend">
                 <span class="input-group-text no-border" style="color: #000;">Parametro Spola</span>
@@ -120,13 +76,13 @@
                 type: 'POST',
                 dataType: 'json',
                 url: "{{ route('settingsSaveAll') }}",
-                data: $("#form_impostazioni").serialize()
+                data: $("#form_impostazioni").serialize() + '&_token={{ csrf_token() }}'
             }).done(function(data) {
                 if (data.success) {
                     $('#modal-xl').modal('hide');
                     Swal.fire({
                         icon: "success",
-                        title: "<strong>salvato</strong>",
+                        title: "<strong>Impostazioni salvate</strong>",
                         text: '',
                         showConfirmButton: true,
                         customClass: {
@@ -136,7 +92,7 @@
                 } else {
                     Swal.fire({
                         icon: "error",
-                        title: "Inserimento non effettuato!",
+                        title: "Salvataggio non effettuato!",
                         text: "Errore: " + data.msg,
                         customClass: {
                             popup: 'zoom-swal-popup'

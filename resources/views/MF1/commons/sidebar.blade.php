@@ -33,7 +33,7 @@
                         <p>CAMPIONATURA</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" style="margin-top: 105px;">
                     <div class="col-sm-4 col-md-2">
                         <div class="color-palette-set mt-3">
                             <button type="button" class="btn btn-block btn-danger btn-lg" style="font-weight: bold;"
