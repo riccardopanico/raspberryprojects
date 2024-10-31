@@ -1,7 +1,31 @@
 @extends('template_1.index')
 @section('main')
     <form id="form_impostazioni">
-        <div class="input-group input-group-lg mb-2 mt-2">
+        <div class="card mt-2">
+            <div class="card-body p-0">
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <td style="padding-left: 15px; font-size: 20.8px;">Consumo Commessa</td>
+                            <td style="float: right; padding-right: 15px; font-size: 20.8px; border: 0;">{{ $consumo_commessa }} m</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 15px; font-size: 20.8px;">Tempo Commessa</td>
+                            <td style="float: right; padding-right: 15px; font-size: 20.8px; border: 0;">{{ $tempo_commessa }} s</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 15px; font-size: 20.8px;">Consumo Totale</td>
+                            <td style="float: right; padding-right: 15px; font-size: 20.8px; border: 0;">{{ $consumo_totale }}m</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 15px; font-size: 20.8px;">Tempo Totale</td>
+                            <td style="float: right; padding-right: 15px; font-size: 20.8px; border: 0;">{{ $tempo_totale }} s</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {{-- <div class="input-group input-group-lg mb-2 mt-2">
             <div class="input-group-prepend">
                 <span class="input-group-text no-border" style="color: #000;">Tempo Commessa</span>
             </div>
@@ -43,7 +67,7 @@
             <div class="input-group-append">
                 <span class="input-group-text no-border" style="color: #000;">m</span>
             </div>
-        </div>
+        </div> --}}
 
         <div class="input-group input-group-lg mb-2 mt-2">
             <div class="input-group-prepend">
@@ -56,7 +80,7 @@
             </div>
         </div>
 
-        <div class="input-group input-group-lg mb-2 mt-2">
+        <div class="input-group input-group-lg mt-2">
             <div class="input-group-prepend">
                 <span class="input-group-text no-border" style="color: #000;">Fattore Taratura</span>
             </div>
@@ -72,7 +96,8 @@
             <div class="col-sm-4 col-md-2">
                 <div class="color-palette-set mt-3 mb-3">
                     <button type="button" class="btn btn-block btn-primary btn-lg custom-button" style="font-weight: bold;"
-                        id="salva_impostazioni" onclick="settingsSaveAll()">SALVA IMPOSTAZIONI</button>
+                        id="salva_impostazioni" onclick="settingsSaveAll()">SALVA
+                        IMPOSTAZIONI</button>
                 </div>
             </div>
         </div>

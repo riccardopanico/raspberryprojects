@@ -18,7 +18,7 @@
             <span class="input-group-text no-border" style="color: #000">50</span>
         </div>
     </div>
-    <input type="hidden" id="badge" name="badge">
+    <input type="hidden" id="commessa" name="commessa">
 
     <div class="row">
         <div class="col-sm-4 col-md-2 {{ $richiesta_filato ? 'flashing' : '' }}">
@@ -51,7 +51,7 @@
         <div class="col-sm-4 col-md-2">
             <div class="color-palette-set mt-3 mb-3">
                 <button type="button" class="btn btn-block btn-secondary btn-lg custom-button" style="font-weight: bold;"
-                    id="scansiona" data-toggle="modal" onclick="openModal('scansiona')">SCANSIONE MANUALE</button>
+                    id="barcode" data-toggle="modal" onclick="openModal('barcode')">SCANSIONE MANUALE</button>
             </div>
         </div>
     </div>
@@ -60,11 +60,11 @@
 @section('script')
     <script>
         var forzaFocus = true;
-        var $badge = $("#badge");
+        var $commessa = $("#commessa");
 
         function gestisciFocus() {
             if (forzaFocus) {
-                $badge.focus();
+                $commessa.focus();
             }
         }
 
@@ -76,21 +76,21 @@
             gestisciFocus();
         });
 
-        $badge.on('focusout', function(e) {
-            if (!$badge.is(":focus") && forzaFocus) {
+        $commessa.on('focusout', function(e) {
+            if (!$commessa.is(":focus") && forzaFocus) {
                 gestisciFocus();
             }
         });
 
         $(document).on('keydown', function(e) {
-            if (!$badge.is(":focus") && forzaFocus) {
+            if (!$commessa.is(":focus") && forzaFocus) {
                 gestisciFocus();
             }
         });
 
-        $badge.keypress(function(e) {
+        $commessa.keypress(function(e) {
             if (e.keyCode === 13) {
-                var badge = $(this).val();
+                var commessa = $(this).val();
                 e.preventDefault();
                 gestisciFocus();
                 $(this).val('');
@@ -146,12 +146,19 @@
                     $modal.modal('hide');
 
                     var idButton = setting.split('_')[1];
+                    var title;
+
+                    if (idButton === 'spola') {
+                        title = "<strong>Cambio spola</strong><br>effettuato<br>con successo!";
+                    } else if (idButton === 'barcode') {
+                        title = "<strong>Scansione</strong><br>effettuata<br>con successo!";
+                    } else {
+                        title = "<strong>Richiesta " + idButton + "</strong><br>effettuata<br>con successo!";
+                    }
 
                     Swal.fire({
                         icon: "success",
-                        title: idButton == 'spola' ?
-                            "<strong>Cambio spola</strong><br>effettuato<br>con successo!" :
-                            "<strong>Richiesta " + idButton + "</strong><br>effettuata<br>con successo!",
+                        title: title,
                         text: " ",
                         showConfirmButton: false,
                         timer: 1500,
@@ -160,11 +167,20 @@
                         }
                     });
                 } else {
+                    var idButton = setting.split('_')[1];
+                    var errorTitle;
+
+                    if (idButton === 'spola') {
+                        errorTitle = "<strong>Cambio spola</strong><br>non effettuato!";
+                    } else if (idButton === 'barcode') {
+                        errorTitle = "<strong>Scansione</strong><br>non effettuata!";
+                    } else {
+                        errorTitle = "<strong>Richiesta " + idButton + "</strong><br>non effettuata!";
+                    }
+
                     Swal.fire({
                         icon: "error",
-                        title: idButton == 'spola' ?
-                            "<strong>Cambio spola</strong><br>non effettuato!" : "<strong>Richiesta " +
-                            idButton + "</strong><br>non effettuata!",
+                        title: errorTitle,
                         text: "Errore: " + data.msg,
                         customClass: {
                             popup: 'zoom-swal-popup'
@@ -174,6 +190,7 @@
             }).fail(function(jqXHR, textStatus) {
                 console.log("Errore generico!");
             });
+
         }
     </script>
 @endsection

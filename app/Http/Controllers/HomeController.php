@@ -34,10 +34,10 @@ class HomeController extends Controller
             ->selectRaw('SUM(consumo) as consumo_commessa, SUM(tempo) as tempo_commessa')
             ->first();
 
-        $consumo_totale   = $dati_totali->consumo_totale ?? 0;
-        $tempo_totale     = $dati_totali->tempo_totale ?? 0;
-        $consumo_commessa = $dati_commessa->consumo_commessa ?? 0;
-        $tempo_commessa   = $dati_commessa->tempo_commessa ?? 0;
+        $consumo_totale   = round($dati_totali->consumo_totale ?? 0, 2);
+        $tempo_totale     = round($dati_totali->tempo_totale ?? 0, 2);
+        $consumo_commessa = round($dati_commessa->consumo_commessa ?? 0, 2);
+        $tempo_commessa   = round($dati_commessa->tempo_commessa ?? 0, 2);
 
         return view('template_1.impostazioni', get_defined_vars());
     }
