@@ -142,7 +142,6 @@ if(!empty($request) && $request->has(['action', 'timestamp', 'campione'])){
     } elseif ($request->action === 'STOP') {
         $campionatura->stop = $timestamp;
     }
-    // dump($campionatura);
     $campionatura->save();
 
     return ['success' => true, 'msg' => 'Timestamp received: '. $timestamp . ' action received: '.$request->action];
