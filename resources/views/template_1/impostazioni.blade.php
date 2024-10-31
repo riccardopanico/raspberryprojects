@@ -106,35 +106,6 @@
 
 @section('script')
     <script>
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': "{{ csrf_token() }}",
-            }
-        });
-
-        KioskBoard.init({
-            keysArrayOfObjects: null,
-            keysJsonUrl: "build/kioskboard/dist/kioskboard-keys-english.json",
-            // keysNumpadArrayOfNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
-            keysSpecialCharsArrayOfStrings: [','],
-            language: 'it',
-            theme: 'material',
-            autoScroll: true,
-            capsLockActive: true,
-            cssAnimations: true,
-            cssAnimationsDuration: 360,
-            cssAnimationsStyle: 'slide',
-            keysSpacebarText: 'Space',
-            keysFontFamily: 'sans-serif',
-            keysFontWeight: 'bold',
-            keysEnterText: '<i class="fas fa-check" style="font-weight: bold;"></i>',
-            keysEnterCallback: function() {
-
-            },
-            keysEnterCanClose: true
-        });
-        KioskBoard.run('input');
-
         function settingsSaveAll() {
             $.ajax({
                 type: 'POST',

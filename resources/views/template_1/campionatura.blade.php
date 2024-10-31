@@ -17,11 +17,11 @@
                 <table class="table table-striped">
                     <tbody>
                         <tr>
-                            <td style="padding-left: 15px; font-size: 20.8px;">Consumo Commessa</td>
+                            <td style="padding-left: 15px; font-size: 20.8px;">Consumo</td>
                             <td style="float: right; padding-right: 15px; font-size: 20.8px; border: 0;"><span id="tempo_commessa" >0</span> m</td>
                         </tr>
                         <tr>
-                            <td style="padding-left: 15px; font-size: 20.8px;">Tempo Commessa</td>
+                            <td style="padding-left: 15px; font-size: 20.8px;">Tempo</td>
                             <td style="float: right; padding-right: 15px; font-size: 20.8px; border: 0;"><span id="consumo_totale">0</span> m</td>
                         </tr>
                     </tbody>
@@ -49,39 +49,12 @@
             </div>
         </div>
     </form>
-    
+
 @endsection
 
 @section('script')
     <script>
         $('#stop_campionatura').prop('disabled', true);
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': "{{ csrf_token() }}",
-            }
-        });
-        KioskBoard.init({
-            keysArrayOfObjects: null,
-            keysJsonUrl: "build/kioskboard/dist/kioskboard-keys-english.json",
-            // keysNumpadArrayOfNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
-            language: 'it',
-            theme: 'material',
-            autoScroll: true,
-            capsLockActive: true,
-            cssAnimations: true,
-            cssAnimationsDuration: 360,
-            cssAnimationsStyle: 'slide',
-            keysSpacebarText: 'Space',
-            keysFontFamily: 'sans-serif',
-            keysFontWeight: 'bold',
-            keysEnterText: '<i class="fas fa-check" style="font-weight: bold;"></i>',
-            keysEnterCallback: function() {
-                window.scrollTo(0, 0);
-            },
-            keysEnterCanClose: true
-        });
-        KioskBoard.run('input');
-
         function settingsSaveAll() {
             $.ajax({
                 type: 'POST',
@@ -100,7 +73,6 @@
                             popup: 'zoom-swal-popup'
                         }
                     });
-                    window.scrollTo(0, 0);
                 } else {
                     Swal.fire({
                         icon: "error",
@@ -110,7 +82,6 @@
                             popup: 'zoom-swal-popup'
                         }
                     });
-                    window.scrollTo(0, 0);
                 }
             }).fail(function(jqXHR, textStatus) {
                 Swal.fire({
@@ -131,9 +102,9 @@
                 type: 'POST',
                 dataType: 'json',
                 url: "{{ route('signalCampionatura') }}",
-                data: $("#form_campionatura input:enabled").serialize() 
-                    + "&timestamp=" + new Date().toISOString() 
-                    + "&action=" + action 
+                data: $("#form_campionatura input:enabled").serialize()
+                    + "&timestamp=" + new Date().toISOString()
+                    + "&action=" + action
                     + "&campione=" + "campione_test"
                     + (campionaturaId ? "&id=" + campionaturaId : "")
             }).done(function(data) {

@@ -73,12 +73,12 @@
                         $('#last_barcode').focus();
                     },
                 },
-                'modalSpola': {
+                'alert_spola': {
                     headerClass: 'd-flex align-items-center justify-content-center bg-danger text-white',
                     title: '<div class="text-center"><i class="fas fa-exclamation-triangle"></i><strong> ATTENZIONE </strong><i class="fas fa-exclamation-triangle"></i></div>',
                     dialogClass: 'modal-fullscreen modal-dialog-centered bg-danger',
                     bodyClass: 'd-flex align-items-center justify-content-center bg-danger text-white',
-                    body: '<div class="text-center" style="font-size: 1.8rem;"><strong>Spola in esaurimento</strong></div>',
+                    body: '<div class="text-center" style="font-size: 1.8rem;"><strong>SPOLA IN ESAURIMENTO</strong></div>',
                     footerClass: 'modal-footer justify-content-center bg-danger',
                     footer: `<button type="button" class="btn btn-light btn-flat" data-dismiss="modal">OK</button>`,
                 },

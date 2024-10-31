@@ -22,4 +22,26 @@ $(document).ready(function () {
             window.scrollTo(0, 0);
         }
     }, 1000);
+
+    KioskBoard.init({
+        keysArrayOfObjects: null,
+        keysJsonUrl: "build/kioskboard/dist/kioskboard-keys-english.json",
+        language: 'it',
+        theme: 'material',
+        autoScroll: true,
+        capsLockActive: true,
+        cssAnimations: true,
+        cssAnimationsDuration: 360,
+        cssAnimationsStyle: 'slide',
+        keysSpacebarText: 'Space',
+        keysFontFamily: 'sans-serif',
+        keysFontWeight: 'bold',
+        keysEnterText: '<i class="fas fa-check" style="font-weight: bold;"></i>',
+        keysEnterCallback: function() {
+
+        },
+        keysEnterCanClose: true
+    });
+    KioskBoard.run('input');
+
 });
