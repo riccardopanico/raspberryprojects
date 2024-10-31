@@ -21,13 +21,13 @@ body {
     align-items: center;
 }
 
-.fixed-width {
+/* .fixed-width {
     width: 175px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     padding-right: 16px;
-}
+} */
 
 .custom-button {
     height: 73px;
@@ -120,7 +120,10 @@ body {
 }
 
 .nav-sidebar a.nav-link {
-    padding: 20px 7px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 10px;
+    padding-left: 7px;
 }
 
 .no-border {

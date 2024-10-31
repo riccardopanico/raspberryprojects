@@ -8,7 +8,7 @@
         <div class="input-group-append">
             <span class="input-group-text no-border" style="color: #000">0010452223</span>
         </div>
-    </div> --}}
+    </div>
     <div class="input-group input-group-lg mt-2 mb-1">
         <div class="input-group-prepend">
             <span class="input-group-text no-border fixed-width-home"><i class="fas fa-barcode"></i></span>
@@ -17,7 +17,23 @@
         <div class="input-group-append">
             <span class="input-group-text no-border" style="color: #000">50</span>
         </div>
+    </div> --}}
+
+    <div class="card mt-2 mb-1">
+        <div class="card-body p-0">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td style="padding-left: 15px; font-size: 20.8px;">
+                            <div style="text-align: center; font-weight: bold;">Commessa</div>
+                            <div style="text-align: center;">{{ $commessa }}</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+
     <input type="hidden" id="commessa" name="commessa">
 
     <div class="row">
@@ -125,7 +141,7 @@
             }).done(function(data) {
                 if (data.success) {
                     $modal.modal('hide');
-                    
+
                     if (idButton === 'cambio') {
                         title = "<strong>Cambio spola</strong><br>effettuato<br>con successo!";
                     } else if (idButton === 'barcode') {
