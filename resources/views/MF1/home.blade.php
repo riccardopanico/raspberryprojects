@@ -33,8 +33,7 @@
         <div class="col-sm-4 col-md-2">
             <div class="color-palette-set mt-3">
                 <button type="button" class="btn btn-block btn-warning btn-lg custom-button" style="font-weight: bold;"
-                    id="spola" data-toggle="modal" onclick="openModal('spola')"
-                    {{ $cambio_spola ? 'disabled' : '' }}>CAMBIO
+                    id="spola" data-toggle="modal" onclick="openModal('spola')">CAMBIO
                     SPOLA</button>
             </div>
         </div>
@@ -110,6 +109,10 @@
                 return;
             }
 
+            var title;
+            var idButton = setting.split('_')[1];
+            var errorTitle;
+
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
@@ -122,11 +125,8 @@
             }).done(function(data) {
                 if (data.success) {
                     $modal.modal('hide');
-
-                    var idButton = setting.split('_')[1];
-                    var title;
-
-                    if (idButton === 'spola') {
+                    
+                    if (idButton === 'cambio') {
                         title = "<strong>Cambio spola</strong><br>effettuato<br>con successo!";
                     } else if (idButton === 'barcode') {
                         title = "<strong>Scansione</strong><br>effettuata<br>con successo!";
@@ -145,10 +145,7 @@
                         }
                     });
                 } else {
-                    var idButton = setting.split('_')[1];
-                    var errorTitle;
-
-                    if (idButton === 'spola') {
+                    if (idButton === 'cambio') {
                         errorTitle = "<strong>Cambio spola</strong><br>non effettuato!";
                     } else if (idButton === 'barcode') {
                         errorTitle = "<strong>Scansione</strong><br>non effettuata!";

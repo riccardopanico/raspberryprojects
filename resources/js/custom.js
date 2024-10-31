@@ -42,9 +42,7 @@ $(document).ready(function () {
         },
         keysEnterCanClose: true
     });
-    KioskBoard.run('input');
-
-
+    KioskBoard.run('input:not(#id_operatore)');
 
     // input:focus {
     //     color: #495057 !important;
@@ -53,6 +51,4 @@ $(document).ready(function () {
     //     outline: 0 !important;
     //     box-shadow: inset 0 0 0 transparent !important;
     // }
-
-
 });
