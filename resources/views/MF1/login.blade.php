@@ -40,7 +40,10 @@
         @if ($error)
             <div class="alert alert-danger alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h5 class="m-0"><i class="icon fas fa-ban"></i> Attenzione!<br> <b> {{ $error }} </b></h5>
+                <h5 class="m-0" style="font-size: 23px;">
+                    <i class="icon fas fa-ban"></i>Attenzione!<br>
+                    <b> {{ $error }} </b>
+                </h5>
             </div>
         @endif
 
@@ -67,35 +70,35 @@
                 <div class="col-12 btn-group-vertical" role="group">
                     <div class="btn-group" style="background: #fff">
                         <button type="button" class="font-lg btn btn-outline-secondary py-3"
-                            style="font-size: 23px; font-weight: bold;" onclick="inputNumpad(1)">1</button>
+                            style="font-size: 27px; font-weight: bold;" onclick="inputNumpad(1)">1</button>
                         <button type="button" class="font-lg btn btn-outline-secondary py-3"
-                            style="font-size: 23px; font-weight: bold;" onclick="inputNumpad(2)">2</button>
+                            style="font-size: 27px; font-weight: bold;" onclick="inputNumpad(2)">2</button>
                         <button type="button" class="font-lg btn btn-outline-secondary py-3"
-                            style="font-size: 23px; font-weight: bold;" onclick="inputNumpad(3)">3</button>
+                            style="font-size: 27px; font-weight: bold;" onclick="inputNumpad(3)">3</button>
                     </div>
                     <div class="btn-group" style="background: #fff">
                         <button type="button" class="font-lg btn btn-outline-secondary py-3"
-                            style="font-size: 23px; font-weight: bold;" onclick="inputNumpad(4)">4</button>
+                            style="font-size: 27px; font-weight: bold;" onclick="inputNumpad(4)">4</button>
                         <button type="button" class="font-lg btn btn-outline-secondary py-3"
-                            style="font-size: 23px; font-weight: bold;" onclick="inputNumpad(5)">5</button>
+                            style="font-size: 27px; font-weight: bold;" onclick="inputNumpad(5)">5</button>
                         <button type="button" class="font-lg btn btn-outline-secondary py-3"
-                            style="font-size: 23px; font-weight: bold;" onclick="inputNumpad(6)">6</button>
+                            style="font-size: 27px; font-weight: bold;" onclick="inputNumpad(6)">6</button>
                     </div>
                     <div class="btn-group" style="background: #fff">
                         <button type="button" class="font-lg btn btn-outline-secondary py-3"
-                            style="font-size: 23px; font-weight: bold;" onclick="inputNumpad(7)">7</button>
+                            style="font-size: 27px; font-weight: bold;" onclick="inputNumpad(7)">7</button>
                         <button type="button" class="font-lg btn btn-outline-secondary py-3"
-                            style="font-size: 23px; font-weight: bold;" onclick="inputNumpad(8)">8</button>
+                            style="font-size: 27px; font-weight: bold;" onclick="inputNumpad(8)">8</button>
                         <button type="button" class="font-lg btn btn-outline-secondary py-3"
-                            style="font-size: 23px; font-weight: bold;" onclick="inputNumpad(9)">9</button>
+                            style="font-size: 27px; font-weight: bold;" onclick="inputNumpad(9)">9</button>
                     </div>
                     <div class="btn-group" style="background: #fff">
-                        <button style="width: 33.333%; font-size: 23px; font-weight: bold;" type="button"
+                        <button style="width: 33.333%; font-size: 27px; font-weight: bold;" type="button"
                             class="font-lg btn btn-outline-secondary py-3" onclick="cancelNumpad()"><i
                                 class="fas fa-backspace"></i></button>
-                        <button style="width: 33.333%; font-size: 23px; font-weight: bold;" type="button"
+                        <button style="width: 33.333%; font-size: 27px; font-weight: bold;" type="button"
                             class="font-lg btn btn-outline-secondary py-3" onclick="inputNumpad(0)">0</button>
-                        <button style="width: 33.333%; font-size: 23px; font-weight: bold;" type="submit"
+                        <button style="width: 33.333%; font-size: 27px; font-weight: bold;" type="submit"
                             class="font-lg btn btn-primary py-3"><i class="icon fas fa-check"></i></button>
                     </div>
                 </div>
