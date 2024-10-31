@@ -10,7 +10,7 @@ $.ajaxSetup({
             window.location.href = responseObject.responseJSON.url_redirect;
         },
         419: function (responseObject, textStatus, errorThrown) {
-            // window.location.href = "logout"
+            window.location.href = "logout"
         }
     },
     timeout: 0
