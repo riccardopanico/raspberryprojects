@@ -4,10 +4,16 @@
 
 <body class="layout-fixed layout-footer-fixed layout-navbar-fixed sidebar-closed sidebar-collapse">
     <div class="wrapper">
-        @include('template_1.commons.navbar')
+        @if (Route::currentRouteName() == 'login')
+            @yield('navbar')
+        @else
+            @include('template_1.commons.navbar')
+        @endif
         @include('template_1.commons.sidebar')
         <div class="content-wrapper" style="zoom: 1.38;">
-            {{-- @include('template_1.commons.breadcrumb') --}}
+            @if (View::hasSection('breadcrumb'))
+                @yield('breadcrumb')
+            @endif
             <section class="content pt-2">
                 <div class="container-fluid">
                     @yield('main')
@@ -20,7 +26,7 @@
     </div>
     @include('template_1.commons.modal')
     @include('template_1.commons.script')
-    @include('template_1.commons.websocket')
+    {{-- @include('template_1.commons.websocket') --}}
     @yield('script')
 </body>
 

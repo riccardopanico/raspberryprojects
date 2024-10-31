@@ -12,10 +12,8 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-
         $id_macchina = Impostazioni::where('codice', 'id_macchina')->first()->valore;
-
-        return view('template_2.login', ['id_macchina' => $id_macchina, 'error' => session('error')]);
+        return view('template_1.login', ['id_macchina' => $id_macchina, 'error' => session('error')]);
     }
 
     public function signin(Request $request)

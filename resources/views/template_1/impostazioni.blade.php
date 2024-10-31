@@ -6,25 +6,34 @@
                 <table class="table table-striped">
                     <tbody>
                         <tr>
-                            <td style="padding-left: 15px; font-size: 20.8px;">Consumo Commessa</td>
-                            <td style="float: right; padding-right: 15px; font-size: 20.8px; border: 0;">{{ $consumo_commessa }} m</td>
+                            <td style="padding-left: 15px; font-size: 20.8px;">
+                                <div style="text-align: center; font-weight: bold;">Consumo Commessa</div>
+                                <div style="text-align: center;">{{ $consumo_commessa }} m</div>
+                            </td>
                         </tr>
                         <tr>
-                            <td style="padding-left: 15px; font-size: 20.8px;">Tempo Commessa</td>
-                            <td style="float: right; padding-right: 15px; font-size: 20.8px; border: 0;">{{ $tempo_commessa }} s</td>
+                            <td style="padding-left: 15px; font-size: 20.8px;">
+                                <div style="text-align: center; font-weight: bold;">Tempo Commessa</div>
+                                <div style="text-align: center;">{{ $tempo_commessa }} s</div>
+                            </td>
                         </tr>
                         <tr>
-                            <td style="padding-left: 15px; font-size: 20.8px;">Consumo Totale</td>
-                            <td style="float: right; padding-right: 15px; font-size: 20.8px; border: 0;">{{ $consumo_totale }}m</td>
+                            <td style="padding-left: 15px; font-size: 20.8px;">
+                                <div style="text-align: center; font-weight: bold;">Consumo Totale</div>
+                                <div style="text-align: center;">{{ $consumo_totale }} m</div>
+                            </td>
                         </tr>
                         <tr>
-                            <td style="padding-left: 15px; font-size: 20.8px;">Tempo Totale</td>
-                            <td style="float: right; padding-right: 15px; font-size: 20.8px; border: 0;">{{ $tempo_totale }} s</td>
+                            <td style="padding-left: 15px; font-size: 20.8px;">
+                                <div style="text-align: center; font-weight: bold;">Tempo Totale</div>
+                                <div style="text-align: center;">{{ $tempo_totale }} s</div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+
         {{-- <div class="input-group input-group-lg mb-2 mt-2">
             <div class="input-group-prepend">
                 <span class="input-group-text no-border" style="color: #000;">Tempo Commessa</span>
@@ -74,7 +83,7 @@
                 <span class="input-group-text no-border" style="color: #000;">Parametro Spola</span>
             </div>
             <input type="text" value="{{ $parametro_spola }}" name="settings[parametro_spola]" id="parametro_spola"
-                class="font-lg form-control no-border" data-kioskboard-type="numpad">
+                class="font-lg form-control no-border" style="text-align: right;" data-kioskboard-type="numpad">
             <div class="input-group-append">
                 <span class="input-group-text no-border" style="color: #000;">m</span>
             </div>
@@ -85,7 +94,7 @@
                 <span class="input-group-text no-border" style="color: #000;">Fattore Taratura</span>
             </div>
             <input type="text" value="{{ $fattore_taratura }}" name="settings[fattore_taratura]" id="fattore_taratura"
-                class="font-lg form-control no-border" data-kioskboard-type="numpad">
+                class="font-lg form-control no-border" style="text-align: right;" data-kioskboard-type="numpad">
             <div class="input-group-append">
                 <span class="input-group-text no-border" style="color: #000;">m</span>
             </div>
