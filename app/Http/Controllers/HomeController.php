@@ -20,7 +20,7 @@ class HomeController extends Controller
         $impostazioni = Impostazioni::all()->pluck('valore', 'codice')->toArray();
         extract($impostazioni);
 
-        return view('template_1.home', get_defined_vars());
+        return view('MF1.home', get_defined_vars());
     }
 
     public function impostazioni(Request $request)
@@ -42,7 +42,7 @@ class HomeController extends Controller
         $consumo_commessa = round($dati_commessa->consumo_commessa ?? 0, 2);
         $tempo_commessa   = round($dati_commessa->tempo_commessa ?? 0, 2);
 
-        return view('template_1.impostazioni', get_defined_vars());
+        return view('MF1.impostazioni', get_defined_vars());
     }
 
     public function manuale(Request $request)
@@ -50,7 +50,7 @@ class HomeController extends Controller
         $impostazioni = Impostazioni::all()->pluck('valore', 'codice')->toArray();
         extract($impostazioni);
 
-        return view('template_1.manuale', get_defined_vars());
+        return view('MF1.manuale', get_defined_vars());
     }
 
     public function reboot()
@@ -127,7 +127,7 @@ public function campionatura(Request $request)
     $impostazioni = Impostazioni::all()->pluck('valore', 'codice')->toArray();
     extract($impostazioni);
 
-    return view('template_1.campionatura', get_defined_vars());
+    return view('MF1.campionatura', get_defined_vars());
 }
 public function signalCampionatura_old(Request $request)
 {

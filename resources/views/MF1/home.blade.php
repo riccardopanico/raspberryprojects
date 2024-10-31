@@ -1,4 +1,4 @@
-@extends('template_1.index')
+@extends('MF1.index')
 @section('main')
     {{-- <div class="input-group input-group-lg mb-2 mt-2">
         <div class="input-group-prepend">

@@ -1,4 +1,4 @@
-@extends('template_1.index')
+@extends('MF1.index')
 @section('main')
     <form id="form_impostazioni">
         <div class="card mt-2">

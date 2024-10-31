@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" {{-- style="height: auto;zoom: 1.25;" --}} style="height: 800px; overflow: hidden;">
-@include('template_1.commons.head')
+@include('MF1.commons.head')
 
 <body class="layout-fixed layout-footer-fixed layout-navbar-fixed sidebar-closed sidebar-collapse">
     <div class="wrapper">
-        @include('template_1.commons.navbar')
-        @include('template_1.commons.sidebar')
+        @include('MF1.commons.navbar')
+        @include('MF1.commons.sidebar')
         <div class="content-wrapper p-0" style="zoom: 1.38;">
             <section class="content p-0">
                 <div class="container-fluid p-0">
@@ -16,8 +16,8 @@
         <aside class="control-sidebar control-sidebar-dark">
         </aside>
     </div>
-    @include('template_1.commons.modal')
-    @include('template_1.commons.script')
+    @include('MF1.commons.modal')
+    @include('MF1.commons.script')
     @yield('script')
 </body>
 

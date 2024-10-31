@@ -1,4 +1,4 @@
-@extends('template_1.index')
+@extends('MF1.index')
 @section('breadcrumb')
     <div class="content-header">
         <div class="container">
