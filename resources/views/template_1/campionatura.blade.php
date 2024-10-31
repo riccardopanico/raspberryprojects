@@ -1,14 +1,3 @@
-<style>
-    #form_campionatura .row {
-        margin-left: 0;
-        margin-right: 0;
-    }
-
-    #form_campionatura .col-12 {
-        padding-left: 0;
-        padding-right: 0;
-    }
-</style>
 @extends('template_1.index')
 @section('breadcrumb')
     <div class="content-header">
@@ -23,7 +12,7 @@
 @endsection
 @section('main')
     <form id="form_campionatura">
-        <div class="card mt-2">
+        <div class="card mt-2" style="margin-bottom: 0rem;" >
             <div class="card-body p-0">
                 <table class="table table-striped">
                     <tbody>
@@ -39,22 +28,21 @@
                 </table>
             </div>
         </div>
-    
-        <div class="row w-100">
-            <div class="col-12">
-                <div class="color-palette-set mt-3 mb-3">
+        <div class="row">
+            <div class="col-sm-4 col-md-2">
+                <div class="color-palette-set mt-3">
                     <button type="button" class="btn btn-block btn-success btn-lg custom-button" style="font-weight: bold;"
                             id="start_campionatura" onclick="signalCampionatura('START')">START</button>
                 </div>
             </div>
-            <div class="col-12">
-                <div class="color-palette-set mt-3 mb-3">
+            <div class="col-sm-4 col-md-2">
+                <div class="color-palette-set mt-3">
                     <button type="button" class="btn btn-block btn-danger btn-lg custom-button" style="font-weight: bold;"
                             id="stop_campionatura" onclick="signalCampionatura('STOP')">STOP</button>
                 </div>
             </div>
-            <div class="col-12">
-                <div class="color-palette-set mt-3 mb-3">
+            <div class="col-sm-4 col-md-2">
+                <div class="color-palette-set mt-3">
                     <button type="button" class="btn btn-block btn-primary btn-lg custom-button" style="font-weight: bold;"
                             id="reset_campionatura" onclick="resetPage()">RESET</button>
                 </div>
