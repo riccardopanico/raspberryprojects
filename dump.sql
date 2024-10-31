@@ -2,7 +2,7 @@
 -- Host:                         192.168.0.150
 -- Versione server:              10.11.6-MariaDB-0+deb12u1 - Debian 12
 -- S.O. server:                  debian-linux-gnu
--- HeidiSQL Versione:            12.7.0.6850
+-- HeidiSQL Versione:            12.8.0.6908
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,6 +20,25 @@ DROP DATABASE IF EXISTS `raspberryprojects`;
 CREATE DATABASE IF NOT EXISTS `raspberryprojects` /*!40100 DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci */;
 USE `raspberryprojects`;
 
+-- Dump della struttura di tabella raspberryprojects.campionatura
+DROP TABLE IF EXISTS `campionatura`;
+CREATE TABLE IF NOT EXISTS `campionatura` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `campione` varchar(255) NOT NULL,
+  `start` datetime NOT NULL DEFAULT current_timestamp(),
+  `stop` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- Dump dei dati della tabella raspberryprojects.campionatura: ~3 rows (circa)
+DELETE FROM `campionatura`;
+INSERT INTO `campionatura` (`id`, `campione`, `start`, `stop`) VALUES
+	(34, 'campione_test', '2024-10-30 14:48:15', '2024-10-30 14:48:23'),
+	(35, 'campione_test', '2024-10-30 14:48:32', '2024-10-30 14:48:48'),
+	(36, 'campione_test', '2024-10-30 14:49:02', '2024-10-30 14:49:04'),
+	(37, 'campione_test', '2024-10-30 16:06:13', NULL),
+	(38, 'campione_test', '2024-10-30 16:06:13', '2024-10-30 16:06:18');
+
 -- Dump della struttura di tabella raspberryprojects.impostazioni
 DROP TABLE IF EXISTS `impostazioni`;
 CREATE TABLE IF NOT EXISTS `impostazioni` (
@@ -32,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `impostazioni` (
   PRIMARY KEY (`codice`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
--- Dump dei dati della tabella raspberryprojects.impostazioni: ~28 rows (circa)
+-- Dump dei dati della tabella raspberryprojects.impostazioni: ~29 rows (circa)
 DELETE FROM `impostazioni`;
 INSERT INTO `impostazioni` (`codice`, `descrizione`, `valore`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	('articolo', 'Articolo', 'ZRACHELLE-0', '2024-01-16 10:37:44', '2024-05-13 06:15:51', NULL),
@@ -40,10 +59,10 @@ INSERT INTO `impostazioni` (`codice`, `descrizione`, `valore`, `created_at`, `up
 	('commessa', 'Commessa', 'abc', '2024-10-08 10:43:19', NULL, NULL),
 	('distanza_reset_olio', 'Distanza Reset Olio', '100', '2024-10-08 10:43:39', NULL, NULL),
 	('dns_nameservers', 'DNS Name Servers', '8.8.8.8', '2023-06-27 14:54:28', '2024-01-15 15:37:36', NULL),
-	('fattore_taratura', 'Fattore Taratura', '72', '2024-10-28 11:26:37', NULL, NULL),
+	('fattore_taratura', 'Fattore Taratura', '72', '2024-10-28 11:26:37', '2024-10-29 16:27:28', NULL),
 	('gateway', 'Gateway', '192.168.10.253', '2023-06-20 10:50:37', '2024-01-12 09:56:57', NULL),
 	('id_macchina', 'ID Macchina', '1', '2023-02-27 09:58:22', '2023-11-28 10:12:39', NULL),
-	('id_operatore', 'Badge', '0010452223', '2023-06-28 15:07:22', '2024-10-28 14:05:38', NULL),
+	('id_operatore', 'Badge', '0010452223', '2023-06-28 15:07:22', '2024-10-30 15:04:24', NULL),
 	('impulsi', 'Impulsi', '0', '2024-10-21 11:31:20', '2024-10-21 11:31:21', NULL),
 	('ip_local_server', 'IP Server Locale', '192.168.10.207', '2023-06-22 15:12:48', '2024-01-12 09:57:20', NULL),
 	('ip_macchina', 'IP Macchina', '192.168.10.201', '2023-06-20 08:43:43', '2024-01-12 09:56:43', NULL),
@@ -55,14 +74,16 @@ INSERT INTO `impostazioni` (`codice`, `descrizione`, `valore`, `created_at`, `up
 	('network_name', 'Nome Rete', 'elata', '2023-06-20 10:51:41', '2024-01-29 15:19:36', NULL),
 	('network_password', 'Password Rete', 'Elata1923', '2023-06-20 10:52:12', '2024-01-29 15:19:36', NULL),
 	('operativita', 'Operatività', '00:00:00', '2024-10-21 11:33:30', '2024-10-21 11:33:31', NULL),
-	('parametro_spola', 'Parametro Spola', '5', '2024-10-21 12:14:10', '2024-10-21 11:05:55', NULL),
+	('parametro_spola', 'Parametro Spola', '5', '2024-10-21 12:14:10', '2024-10-29 16:27:28', NULL),
 	('porta_local_server', 'Porta Server Locale', '1404', '2023-06-22 15:13:27', NULL, NULL),
-	('richiesta_filato', 'Richiesta Filato', '0', '2024-10-08 10:45:11', '2024-10-21 11:15:22', NULL),
+	('richiesta_filato', 'Richiesta Filato', '1', '2024-10-08 10:45:11', '2024-10-30 12:13:09', NULL),
 	('richiesta_intervento', 'Richiesta Intervento', '0', '2023-02-27 10:02:31', '2024-10-21 11:15:26', NULL),
 	('subnet', 'Subnet', '255.255.255.0', '2023-06-20 10:49:21', '2024-01-04 16:14:01', NULL),
 	('token', 'Token', '123', '2023-03-02 14:48:23', NULL, NULL),
 	('ultimo_reset_olio', 'Ultimo Reset Olio', '0', '2024-10-08 10:45:58', '2024-10-08 08:46:48', NULL),
-	('velocita', 'Velocità', '0.00', '2024-10-21 11:32:51', '2024-10-21 11:32:52', NULL);
+	('velocita', 'Velocità', '0.00', '2024-10-21 11:32:51', '2024-10-21 11:32:52', NULL),
+	('websocket_host', 'WebSocket Host', '192.168.0.150', '2024-10-29 11:09:30', NULL, NULL),
+	('websocket_port', 'WebSocket Port', '8765', '2024-10-29 11:12:01', NULL, NULL);
 
 -- Dump della struttura di tabella raspberryprojects.log_operazioni
 DROP TABLE IF EXISTS `log_operazioni`;
@@ -77,9 +98,9 @@ CREATE TABLE IF NOT EXISTS `log_operazioni` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=405 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=442 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci ROW_FORMAT=DYNAMIC;
 
--- Dump dei dati della tabella raspberryprojects.log_operazioni: ~20 rows (circa)
+-- Dump dei dati della tabella raspberryprojects.log_operazioni: ~409 rows (circa)
 DELETE FROM `log_operazioni`;
 INSERT INTO `log_operazioni` (`id`, `data`, `id_macchina`, `id_operatore`, `codice`, `valore`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(1, '2024-01-12 10:56:30', 1, '0025711970', 'network_name', 'Elata1923', '2024-01-12 09:56:30', '2024-01-12 09:56:30', NULL),
@@ -485,7 +506,44 @@ INSERT INTO `log_operazioni` (`id`, `data`, `id_macchina`, `id_operatore`, `codi
 	(401, '2024-10-28 10:28:17', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-28 09:28:17', '2024-10-28 09:28:17', NULL),
 	(402, '2024-10-28 10:28:31', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-28 09:28:31', '2024-10-28 09:28:31', NULL),
 	(403, '2024-10-28 10:55:02', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-28 09:55:02', '2024-10-28 09:55:02', NULL),
-	(404, '2024-10-28 15:05:38', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-28 14:05:38', '2024-10-28 14:05:38', NULL);
+	(404, '2024-10-28 15:05:38', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-28 14:05:38', '2024-10-28 14:05:38', NULL),
+	(405, '2024-10-28 17:13:07', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-28 16:13:07', '2024-10-28 16:13:07', NULL),
+	(406, '2024-10-29 09:44:08', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-29 08:44:08', '2024-10-29 08:44:08', NULL),
+	(407, '2024-10-29 09:56:48', 1, '0010452223', 'parametro_spola', '5', '2024-10-29 08:56:48', '2024-10-29 08:56:48', NULL),
+	(408, '2024-10-29 09:56:48', 1, '0010452223', 'fattore_taratura', '72', '2024-10-29 08:56:48', '2024-10-29 08:56:48', NULL),
+	(409, '2024-10-29 09:56:55', 1, '0010452223', 'parametro_spola', '5', '2024-10-29 08:56:55', '2024-10-29 08:56:55', NULL),
+	(410, '2024-10-29 09:56:55', 1, '0010452223', 'fattore_taratura', '72', '2024-10-29 08:56:55', '2024-10-29 08:56:55', NULL),
+	(411, '2024-10-29 09:56:58', 1, '0010452223', 'parametro_spola', '5', '2024-10-29 08:56:58', '2024-10-29 08:56:58', NULL),
+	(412, '2024-10-29 09:56:58', 1, '0010452223', 'fattore_taratura', '72', '2024-10-29 08:56:58', '2024-10-29 08:56:58', NULL),
+	(413, '2024-10-29 09:57:04', 1, '0010452223', 'parametro_spola', '5', '2024-10-29 08:57:04', '2024-10-29 08:57:04', NULL),
+	(414, '2024-10-29 09:57:04', 1, '0010452223', 'fattore_taratura', '72', '2024-10-29 08:57:04', '2024-10-29 08:57:04', NULL),
+	(415, '2024-10-29 09:57:07', 1, '0010452223', 'parametro_spola', '5', '2024-10-29 08:57:07', '2024-10-29 08:57:07', NULL),
+	(416, '2024-10-29 09:57:07', 1, '0010452223', 'fattore_taratura', '72', '2024-10-29 08:57:07', '2024-10-29 08:57:07', NULL),
+	(417, '2024-10-29 09:57:08', 1, '0010452223', 'parametro_spola', '5', '2024-10-29 08:57:08', '2024-10-29 08:57:08', NULL),
+	(418, '2024-10-29 09:57:08', 1, '0010452223', 'fattore_taratura', '72', '2024-10-29 08:57:08', '2024-10-29 08:57:08', NULL),
+	(419, '2024-10-29 14:56:07', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-29 13:56:07', '2024-10-29 13:56:07', NULL),
+	(420, '2024-10-29 15:43:29', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-29 14:43:29', '2024-10-29 14:43:29', NULL),
+	(421, '2024-10-29 16:21:33', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-29 15:21:33', '2024-10-29 15:21:33', NULL),
+	(422, '2024-10-29 17:27:28', 1, '0010452223', 'parametro_spola', '5', '2024-10-29 16:27:28', '2024-10-29 16:27:28', NULL),
+	(423, '2024-10-29 17:27:28', 1, '0010452223', 'fattore_taratura', '72', '2024-10-29 16:27:28', '2024-10-29 16:27:28', NULL),
+	(424, '2024-10-30 08:46:22', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-30 07:46:22', '2024-10-30 07:46:22', NULL),
+	(425, '2024-10-30 09:07:12', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-30 08:07:12', '2024-10-30 08:07:12', NULL),
+	(426, '2024-10-30 09:09:43', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-30 08:09:44', '2024-10-30 08:09:44', NULL),
+	(427, '2024-10-30 09:12:35', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-30 08:12:35', '2024-10-30 08:12:35', NULL),
+	(428, '2024-10-30 09:43:18', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-30 08:43:18', '2024-10-30 08:43:18', NULL),
+	(429, '2024-10-30 10:11:27', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-30 09:11:27', '2024-10-30 09:11:27', NULL),
+	(430, '2024-10-30 10:13:07', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-30 09:13:07', '2024-10-30 09:13:07', NULL),
+	(431, '2024-10-30 13:01:10', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-30 12:01:10', '2024-10-30 12:01:10', NULL),
+	(432, '2024-10-30 13:04:36', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-30 12:04:36', '2024-10-30 12:04:36', NULL),
+	(433, '2024-10-30 13:11:57', 1, '0010452223', 'richiesta_filato', '1', '2024-10-30 12:11:57', '2024-10-30 12:11:57', NULL),
+	(434, '2024-10-30 13:13:09', 1, '0010452223', 'richiesta_filato', '1', '2024-10-30 12:13:09', '2024-10-30 12:13:09', NULL),
+	(435, '2024-10-30 13:22:10', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-30 12:22:10', '2024-10-30 12:22:10', NULL),
+	(436, '2024-10-30 14:16:30', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-30 13:16:30', '2024-10-30 13:16:30', NULL),
+	(437, '2024-10-30 14:23:40', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-30 13:23:40', '2024-10-30 13:23:40', NULL),
+	(438, '2024-10-30 14:28:08', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-30 13:28:08', '2024-10-30 13:28:08', NULL),
+	(439, '2024-10-30 14:43:26', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-30 13:43:26', '2024-10-30 13:43:26', NULL),
+	(440, '2024-10-30 14:47:14', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-30 13:47:15', '2024-10-30 13:47:15', NULL),
+	(441, '2024-10-30 16:04:24', 1, '0010452223', 'id_operatore', '0010452223', '2024-10-30 15:04:24', '2024-10-30 15:04:24', NULL);
 
 -- Dump della struttura di tabella raspberryprojects.log_orlatura
 DROP TABLE IF EXISTS `log_orlatura`;
@@ -498,19 +556,38 @@ CREATE TABLE IF NOT EXISTS `log_orlatura` (
   `commessa` varchar(255) NOT NULL,
   `data` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
--- Dump dei dati della tabella raspberryprojects.log_orlatura: ~8 rows (circa)
+-- Dump dei dati della tabella raspberryprojects.log_orlatura: ~21 rows (circa)
 DELETE FROM `log_orlatura`;
 INSERT INTO `log_orlatura` (`id`, `id_macchina`, `id_operatore`, `consumo`, `tempo`, `commessa`, `data`) VALUES
-	(1, 1, '0010452223', -2622.50, 0, 'Commessa1', '2024-10-28 12:07:01'),
-	(2, 1, '0010452223', -2622.50, 10, 'Commessa1', '2024-10-28 12:07:11'),
-	(3, 1, '0010452223', -2478.19, 0, 'Commessa1', '2024-10-28 12:07:21'),
-	(4, 1, '0010452223', 4933.98, 10, 'Commessa1', '2024-10-28 12:07:31'),
-	(5, 1, '0010452223', 11943.07, 20, 'Commessa1', '2024-10-28 12:07:41'),
-	(6, 1, '0010452223', 18713.30, 30, 'Commessa1', '2024-10-28 12:07:51'),
-	(7, 1, '0010452223', 21599.54, 40, 'Commessa1', '2024-10-28 12:08:01'),
-	(8, 1, '0010452223', 21599.54, 50, 'Commessa1', '2024-10-28 12:08:11');
+	(92, 1, '0010452223', 268.72, 1, 'abc', '2024-10-30 13:55:07'),
+	(93, 1, '0010452223', 418.01, 2, 'abc', '2024-10-30 13:56:15'),
+	(94, 1, '0010452223', 2316.46, 2, 'abc', '2024-10-30 13:56:18'),
+	(95, 1, '0010452223', 3055.44, 1, 'abc', '2024-10-30 13:56:21'),
+	(96, 1, '0010452223', 3525.69, 4, 'abc', '2024-10-30 14:01:15'),
+	(97, 1, '0010452223', 3928.77, 1, 'abc', '2024-10-30 14:01:17'),
+	(98, 1, '0010452223', 5115.61, 2, 'abc', '2024-10-30 14:01:20'),
+	(99, 1, '0010452223', 631.99, 5, 'abc', '2024-10-30 14:05:02'),
+	(100, 1, '0010452223', 631.99, 2, 'abc', '2024-10-30 14:05:06'),
+	(101, 1, '0010452223', -763.86, 4, 'abc', '2024-10-30 14:05:40'),
+	(102, 1, '0010452223', 27.37, 1, 'abc', '2024-10-30 14:06:50'),
+	(103, 1, '0010452223', 1940.75, 4, 'abc', '2024-10-30 14:06:56'),
+	(104, 1, '0010452223', 4471.19, 4, 'abc', '2024-10-30 14:07:01'),
+	(105, 1, '0010452223', 4662.77, 1, 'abc', '2024-10-30 14:12:06'),
+	(106, 1, '0010452223', 1920.84, 4, 'abc', '2024-10-30 14:36:57'),
+	(107, 1, '0010452223', 3020.60, 2, 'abc', '2024-10-30 14:37:03'),
+	(108, 1, '0010452223', 4580.66, 2, 'abc', '2024-10-30 14:37:06'),
+	(109, 1, '0010452223', 7459.44, 4, 'abc', '2024-10-30 14:37:11'),
+	(110, 1, '0010452223', 9036.92, 2, 'abc', '2024-10-30 14:37:14'),
+	(111, 1, '0010452223', -2.49, 1, 'abc', '2024-10-30 14:47:27'),
+	(112, 1, '0010452223', -2.49, 2, 'abc', '2024-10-30 14:47:53'),
+	(113, 1, '0010452223', 6563.71, 3, 'abc', '2024-10-30 14:48:13'),
+	(114, 1, '0010452223', 10455.16, 2, 'abc', '2024-10-30 14:48:20'),
+	(115, 1, '0010452223', 12465.58, 2, 'abc', '2024-10-30 14:48:31'),
+	(116, 1, '0010452223', 27334.70, 7, 'abc', '2024-10-30 14:48:46'),
+	(117, 1, '0010452223', 31191.31, 3, 'abc', '2024-10-30 14:49:05'),
+	(118, 1, '0010452223', 31820.81, 3, 'abc', '2024-10-30 14:49:54');
 
 -- Dump della struttura di tabella raspberryprojects.operatori
 DROP TABLE IF EXISTS `operatori`;

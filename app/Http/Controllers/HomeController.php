@@ -9,6 +9,9 @@ use App\Models\LogOperazioni;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\Process\Process;
+use App\Models\Campionatura;
+use Carbon\Carbon;
+
 
 class HomeController extends Controller
 {
@@ -117,4 +120,82 @@ class HomeController extends Controller
             return ['success' => false, 'msg' => $th->getMessage()];
         }
     }
+
+    
+public function campionatura(Request $request)
+{
+    $impostazioni = Impostazioni::all()->pluck('valore', 'codice')->toArray();
+    extract($impostazioni);
+
+    return view('template_1.campionatura', get_defined_vars());
+}
+public function signalCampionatura_old(Request $request)
+{
+if(!empty($request) && $request->has(['action', 'timestamp', 'campione'])){
+
+    $timestamp = date('Y-m-d H:i:s', strtotime($request->timestamp));
+
+    $campionatura = new Campionatura();
+    $campionatura->campione = $request->campione;
+    if ($request->action === 'START') {
+        $campionatura->start = $timestamp;
+    } elseif ($request->action === 'STOP') {
+        $campionatura->stop = $timestamp;
+    }
+    $campionatura->save();
+
+    return ['success' => true, 'msg' => 'Timestamp received: '. $timestamp . ' action received: '.$request->action];
+
+}else{
+    return ['success' => false, 'msg' => 'Campi mancanti'];
+}
+}
+public function signalCampionatura(Request $request)
+{
+$action = $request->input('action');
+$timestamp = $request->input('timestamp');
+$campione = $request->input('campione');
+$response = ['success' => false];
+if ($action === 'START') {
+    // Creazione di un nuovo record
+    $campionatura = Campionatura::create([
+        'campione' => $campione,
+        'start' => Carbon::parse($timestamp),
+    ]);
+    $response = [
+        'success' => true,
+        'id' => $campionatura->id,
+        'start' => $campionatura->start->format('H:i:s')
+    ];
+} elseif ($action === 'STOP') {
+    // Aggiornamento del record esistente
+    $id = $request->input('id');
+    $campionatura = Campionatura::find($id);
+
+    if ($campionatura) {
+        $campionatura->stop = Carbon::parse($timestamp);
+        $campionatura->save();
+
+
+        $start = Carbon::parse($campionatura->start);
+        $stop = Carbon::parse($campionatura->stop);
+        $log_orlatura = LogOrlatura::whereBetween('data', [$start, $stop])->get();
+        $consumo = round($log_orlatura->sum('consumo'), 2);
+        $tempo = round($log_orlatura->sum('tempo'));
+        
+        
+        $response = [
+            'success' => true,
+            'id' => $campionatura->id,
+            'consumo' => $consumo,
+            'tempo' => $tempo,
+            'stop' => $campionatura->stop->format('H:i:s')
+        ];
+    }
+}
+
+return response()->json($response);
+}
+
+
 }

@@ -28,6 +28,8 @@ Route::middleware('auth')->group(function () {
     Route::post('settingsSaveAll', [HomeController::class, 'settingsSaveAll'])->name('settingsSaveAll');
     Route::any('reboot', [HomeController::class, 'reboot'])->name('reboot');
     Route::any('shutdown', [HomeController::class, 'shutdown'])->name('shutdown');
+    Route::any('campionatura', [HomeController::class, 'campionatura'])->name('campionatura');
+    Route::any('signalCampionatura', [HomeController::class, 'signalCampionatura'])->name('signalCampionatura');
 });
 
 Route::any('clear-cache', function () {

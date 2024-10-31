@@ -11,9 +11,8 @@
         @endif
         @include('template_1.commons.sidebar')
         <div class="content-wrapper" style="zoom: 1.38;">
-            @if (View::hasSection('breadcrumb'))
-                @yield('breadcrumb')
-            @endif
+            {{-- @include('template_1.commons.breadcrumb') --}}
+            @yield('breadcrumb')
             <section class="content pt-2">
                 <div class="container-fluid">
                     @yield('main')
