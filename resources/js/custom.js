@@ -44,4 +44,15 @@ $(document).ready(function () {
     });
     KioskBoard.run('input');
 
+
+
+    // input:focus {
+    //     color: #495057 !important;
+    //     background-color: #fff !important;
+    //     border-color: #80bdff !important;
+    //     outline: 0 !important;
+    //     box-shadow: inset 0 0 0 transparent !important;
+    // }
+
+
 });
