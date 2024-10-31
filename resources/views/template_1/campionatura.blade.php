@@ -143,6 +143,8 @@
                         campionaturaId = data.id;
                         $('#start_campionatura').prop('disabled', true);
                         $('#stop_campionatura').prop('disabled', false);
+                        $('#tempo_commessa').text('0');
+                        $('#consumo_totale').text('0');
                         isStarted = true;
                     } else if (action === 'STOP') {
                         // Ricalcola il tempo totale e riabilita il bottone
