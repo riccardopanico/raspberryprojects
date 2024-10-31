@@ -28,6 +28,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('campionatura') }}" class="nav-link no-border {{ request()->routeIs('campionatura') ? 'active' : '' }}">
+                        <i class="fas fa-flask pl-2 pr-1"></i>
+                        <p>CAMPIONATURA</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <div class="col-sm-4 col-md-2">
                         <div class="color-palette-set mt-3">
                             <button type="button" class="btn btn-block btn-danger btn-lg" style="font-weight: bold;"
