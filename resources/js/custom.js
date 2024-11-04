@@ -23,6 +23,8 @@ $(document).ready(function () {
         }
     }, 1000);
 
+    var KioskBoardSelector = 'input:not(#id_operatore)';
+
     KioskBoard.init({
         keysArrayOfObjects: null,
         keysJsonUrl: "build/kioskboard/dist/kioskboard-keys-english.json",
@@ -42,7 +44,10 @@ $(document).ready(function () {
         },
         keysEnterCanClose: true
     });
-    KioskBoard.run('input:not(#id_operatore)');
+
+    if($(KioskBoardSelector).length) {
+        KioskBoard.run(KioskBoardSelector);
+    }
 
     // input:focus {
     //     color: #495057 !important;
