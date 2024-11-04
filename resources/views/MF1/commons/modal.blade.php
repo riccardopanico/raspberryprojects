@@ -1,4 +1,4 @@
-<div class="modal fade" id="modal-xl" data-backdrop="static" data-keyboard="false" style="zoom: 1.5;">
+<div class="modal{{--  fade --}}" id="modal-xl" data-backdrop="static" data-keyboard="false" style="zoom: 1.5;">
     <div class="modal-dialog modal-xl">
         <div class="modal-content" style="zoom: 1.3;">
             <div class="modal-header">
@@ -21,6 +21,9 @@
     var $modal;
 
     function openModal(action) {
+        if ($modal) {
+            $modal.remove();
+        }
         $modal = $('#modal-xl').clone();
         $modal.removeAttr('id');
 
