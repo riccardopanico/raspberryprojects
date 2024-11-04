@@ -26,7 +26,7 @@
                     <tr>
                         <td class="custom-cell">
                             <div class="header-section">Commessa</div>
-                            <div class="value-section">{{ $commessa }} m</div>
+                            <div class="value-section">{{ $commessa }}</div>
                         </td>
                     </tr>
                 </tbody>
