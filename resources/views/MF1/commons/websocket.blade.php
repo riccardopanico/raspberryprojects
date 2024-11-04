@@ -72,6 +72,10 @@
                     // Esempio di notifica
                     alert(parsedData['message']);
                     break;
+                case "alert_spola":
+                    // Esempio di notifica
+                    openModal('alert_spola');
+                    break;
                 default:
                     console.warn("Azione sconosciuta ricevuta dal server: ", parsedData['action']);
             }

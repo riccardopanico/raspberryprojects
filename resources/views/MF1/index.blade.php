@@ -25,7 +25,7 @@
     </div>
     @include('MF1.commons.modal')
     @include('MF1.commons.script')
-    {{-- @include('MF1.commons.websocket') --}}
+    @include('MF1.commons.websocket')
     @yield('script')
 </body>
 

@@ -22,3 +22,5 @@ clear && sudo systemctl stop getty@tty1.service && sudo reboot --no-wall
 clear && sudo systemctl stop getty@tty1.service && sudo poweroff --no-wall
 # rimuovi chiave
 ssh-keygen -R 192.168.0.150
+
+pip freeze > requirements.txt
