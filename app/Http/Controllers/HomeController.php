@@ -128,26 +128,6 @@ class HomeController extends Controller
         return view('MF1.campionatura', get_defined_vars());
     }
 
-    public function signalCampionatura_old(Request $request)
-    {
-        if ( !  empty($request) && $request->has(['action', 'timestamp', 'campione'])) {
-            $timestamp = date('Y-m-d H:i:s', strtotime($request->timestamp));
-
-            $campionatura           = new Campionatura();
-            $campionatura->campione = $request->campione;
-            if ($request->action === 'START') {
-                $campionatura->start = $timestamp;
-            } elseif ($request->action === 'STOP') {
-                $campionatura->stop = $timestamp;
-            }
-            $campionatura->save();
-
-            return ['success' => true, 'msg' => 'Timestamp received: ' . $timestamp . ' action received: ' . $request->action];
-        } else {
-            return ['success' => false, 'msg' => 'Campi mancanti'];
-        }
-    }
-
     public function signalCampionatura(Request $request)
     {
         $action    = $request->input('action');

@@ -135,8 +135,8 @@
                 url: "{{ route('settingsSave') }}",
                 data: {
                     setting: setting,
-                    value: value,
-                    _token: '{{ csrf_token() }}'
+                    value: value/* ,
+                    _token: '{{ csrf_token() }}' */
                 }
             }).done(function(data) {
                 if (data.success) {

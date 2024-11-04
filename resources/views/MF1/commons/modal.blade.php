@@ -22,6 +22,7 @@
 
     function openModal(action) {
         if ($modal) {
+            $modal.modal('hide');
             $modal.remove();
         }
         $modal = $('#modal-xl').clone();
