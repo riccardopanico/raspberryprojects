@@ -24,9 +24,9 @@
             <table class="table table-striped">
                 <tbody>
                     <tr>
-                        <td style="padding-left: 15px; font-size: 20.8px;">
-                            <div style="text-align: center; font-weight: bold;">Commessa</div>
-                            <div style="text-align: center;">{{ $commessa }}</div>
+                        <td class="custom-cell">
+                            <div class="header-section">Commessa</div>
+                            <div class="value-section">{{ $commessa }} m</div>
                         </td>
                     </tr>
                 </tbody>

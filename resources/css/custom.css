@@ -148,3 +148,24 @@ input::placeholder {
     width: 100%;
     border: none;
 }
+
+.custom-cell {
+    font-size: 20.8px;
+    padding: 0 !important;
+}
+
+.header-section {
+    text-align: center;
+    font-weight: bold;
+    background-color: #f2f2f2;
+    padding: 5px;
+}
+
+.value-section {
+    text-align: center;
+    background-color: #fff;
+    padding-top: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 8px;
+}

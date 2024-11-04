@@ -6,27 +6,27 @@
                 <table class="table table-striped">
                     <tbody>
                         <tr>
-                            <td style="padding-left: 15px; font-size: 20.8px;">
-                                <div style="text-align: center; font-weight: bold;">Consumo Commessa</div>
-                                <div style="text-align: center;">{{ $consumo_commessa }} m</div>
+                            <td class="custom-cell">
+                                <div class="header-section">Consumo Commessa</div>
+                                <div class="value-section">{{ $consumo_commessa }} m</div>
                             </td>
                         </tr>
                         <tr>
-                            <td style="padding-left: 15px; font-size: 20.8px;">
-                                <div style="text-align: center; font-weight: bold;">Tempo Commessa</div>
-                                <div style="text-align: center;">{{ $tempo_commessa }} s</div>
+                            <td class="custom-cell">
+                                <div class="header-section">Tempo Commessa</div>
+                                <div class="value-section">{{ $tempo_commessa }} s</div>
                             </td>
                         </tr>
                         <tr>
-                            <td style="padding-left: 15px; font-size: 20.8px;">
-                                <div style="text-align: center; font-weight: bold;">Consumo Totale</div>
-                                <div style="text-align: center;">{{ $consumo_totale }} m</div>
+                            <td class="custom-cell">
+                                <div class="header-section">Consumo Totale</div>
+                                <div class="value-section">{{ $consumo_totale }} m</div>
                             </td>
                         </tr>
                         <tr>
-                            <td style="padding-left: 15px; font-size: 20.8px;">
-                                <div style="text-align: center; font-weight: bold;">Tempo Totale</div>
-                                <div style="text-align: center;">{{ $tempo_totale }} s</div>
+                            <td class="custom-cell">
+                                <div class="header-section">Tempo Totale</div>
+                                <div class="value-section">{{ $tempo_totale }} s</div>
                             </td>
                         </tr>
                     </tbody>
