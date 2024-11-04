@@ -79,8 +79,10 @@
                 footer: `<button type="button" class="btn btn-default btn-flat" style="background: red; color: white;" data-dismiss="modal">Annulla</button>
                             <button type="button" class="btn btn-primary btn-flat" onclick="settingsSave('last_barcode', $('#last_barcode').val())">Conferma</button>`,
                 onShow: () => {
-                    KioskBoard.run('#last_barcode');
-                    $('#last_barcode').focus();
+                    setTimeout(() => {
+                        KioskBoard.run('#last_barcode');
+                        $('#last_barcode').focus();
+                    }, 0);
                 },
             },
             'alert_spola': {
@@ -116,9 +118,7 @@
         $modal.find('.modal-title').html(finalModalSettings.title);
         $modal.find('.modal-dialog').addClass(finalModalSettings.dialogClass);
         $modal.find('.modal-body').addClass(finalModalSettings.bodyClass).html(finalModalSettings.body);
-        $modal.find('.modal-footer').addClass(finalModalSettings.footerClass).html(finalModalSettings.footer);
-
-        $modal.modal('show');
+        $modal.find('.modal-footer').addClass(finalModalSettings.footerClass).html(finalModalSettings.footer)
 
         $modal.on('shown.bs.modal', function() {
             if (typeof finalModalSettings.onShow === 'function') {
@@ -133,5 +133,6 @@
         });
 
         forzaFocus = finalModalSettings.forzaFocus;
+        $modal.modal('show');
     }
 </script>
