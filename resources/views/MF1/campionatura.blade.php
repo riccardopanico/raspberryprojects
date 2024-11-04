@@ -19,19 +19,15 @@
                 <table class="table table-striped">
                     <tbody>
                         <tr>
-                            <td style="padding-left: 15px; font-size: 20.8px;">
-                                <div style="text-align: center; font-weight: bold;">Consumo</div>
-                                <div style="text-align: center;">
-                                    <span id="tempo_commessa">0</span> m
-                                </div>
+                            <td class="custom-cell">
+                                <div class="header-section">Consumo</div>
+                                <div class="value-section"><span id="tempo_commessa">0</span> m</div>
                             </td>
                         </tr>
                         <tr>
-                            <td style="padding-left: 15px; font-size: 20.8px;">
-                                <div style="text-align: center; font-weight: bold;">Tempo</div>
-                                <div style="text-align: center;">
-                                    <span id="consumo_totale">0</span> m
-                                </div>
+                            <td class="custom-cell">
+                                <div class="header-section">Tempo</div>
+                                <div class="value-section"><span id="consumo_totale">0</span> m</div>
                             </td>
                         </tr>
                     </tbody>
