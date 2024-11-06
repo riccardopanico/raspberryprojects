@@ -1,24 +1,5 @@
 @extends('MF1.index')
 @section('main')
-    {{-- <div class="input-group input-group-lg mb-2 mt-2">
-        <div class="input-group-prepend">
-            <span class="input-group-text no-border fixed-width-home"><i class="fas fa-id-card"></i></span>
-        </div>
-        <input type="text" class="font-lg form-control" placeholder="Operatore" disabled>
-        <div class="input-group-append">
-            <span class="input-group-text no-border" style="color: #000">0010452223</span>
-        </div>
-    </div>
-    <div class="input-group input-group-lg mt-2 mb-1">
-        <div class="input-group-prepend">
-            <span class="input-group-text no-border fixed-width-home"><i class="fas fa-barcode"></i></span>
-        </div>
-        <input type="text" class="font-lg form-control" placeholder="Commessa" disabled>
-        <div class="input-group-append">
-            <span class="input-group-text no-border" style="color: #000">50</span>
-        </div>
-    </div> --}}
-
     <div class="card mt-2 mb-1">
         <div class="card-body p-0">
             <table class="table table-striped">
@@ -37,37 +18,29 @@
     <input type="hidden" id="commessa" name="commessa">
 
     <div class="row">
-        <div class="col-sm-4 col-md-2 {{ $richiesta_filato ? 'flashing' : '' }}">
-            <div class="color-palette-set mt-3">
-                <button type="button" class="btn btn-block btn-primary btn-lg custom-button" style="font-weight: bold;"
-                    id="filato" data-toggle="modal" onclick="openModal('filato')"
-                    {{ $richiesta_filato ? 'disabled' : '' }}>RICHIESTA
-                    FILATO</button>
-            </div>
+        <div class="col-sm-4 col-md-2 color-palette-set mt-3">
+            <button type="button" data-state="{{ $richiesta_filato ? '1' : '0' }}"
+                class="btn btn-block btn-primary btn-lg custom-button" style="font-weight: bold;" id="filato"
+                data-toggle="modal" onclick="openModal('filato')">RICHIESTA
+                FILATO</button>
         </div>
 
-        <div class="col-sm-4 col-md-2">
-            <div class="color-palette-set mt-3">
-                <button type="button" class="btn btn-block btn-warning btn-lg custom-button" style="font-weight: bold;"
-                    id="spola" data-toggle="modal" onclick="openModal('spola')">CAMBIO
-                    SPOLA</button>
-            </div>
+        <div class="col-sm-4 col-md-2 color-palette-set mt-3">
+            <button type="button" class="btn btn-block btn-warning btn-lg custom-button" style="font-weight: bold;"
+                id="spola" data-toggle="modal" onclick="openModal('spola')">CAMBIO
+                SPOLA</button>
         </div>
 
-        <div class="col-sm-4 col-md-2 {{ $richiesta_intervento ? 'flashing' : '' }}">
-            <div class="color-palette-set mt-3">
-                <button type="button" class="btn btn-block btn-danger btn-lg custom-button" style="font-weight: bold;"
-                    id="intervento" data-toggle="modal" onclick="openModal('intervento')"
-                    {{ $richiesta_intervento ? 'disabled' : '' }}>RICHIESTA
-                    INTERVENTO</button>
-            </div>
+        <div class="col-sm-4 col-md-2 color-palette-set mt-3">
+            <button type="button" data-state="{{ $richiesta_intervento ? '1' : '0' }}"
+                class="btn btn-block btn-lg custom-button" style="font-weight: bold; background-color: #aa404b; color: #fff"
+                id="intervento" data-toggle="modal" onclick="openModal('intervento')">RICHIESTA
+                INTERVENTO</button>
         </div>
 
-        <div class="col-sm-4 col-md-2">
-            <div class="color-palette-set mt-3 mb-3">
-                <button type="button" class="btn btn-block btn-secondary btn-lg custom-button" style="font-weight: bold;"
-                    id="barcode" data-toggle="modal" onclick="openModal('barcode')">SCANSIONE MANUALE</button>
-            </div>
+        <div class="col-sm-4 col-md-2 color-palette-set mt-3 mb-3">
+            <button type="button" class="btn btn-block btn-secondary btn-lg custom-button" style="font-weight: bold;"
+                id="barcode" data-toggle="modal" onclick="openModal('barcode')">SCANSIONE MANUALE</button>
         </div>
     </div>
 @endsection
@@ -85,6 +58,7 @@
 
         $(document).ready(function() {
             gestisciFocus();
+            stateButton();
         });
 
         $(document).on('click touchend', function(e) {
@@ -112,6 +86,21 @@
             }
         });
 
+        function stateButton() {
+            $("button[data-state]").each(function() {
+                var state = $(this).data("state");
+                $(this).closest('div').removeClass('flashing');
+                $(this).prop('disabled', false);
+
+                if (state === 1) {
+                    setTimeout(() => {
+                        $(this).closest('div').addClass('flashing');
+                        $(this).prop('disabled', true);
+                    }, 50);
+                }
+            });
+        }
+
         function settingsSave(setting, value) {
             if (!value) {
                 Swal.fire({
@@ -127,6 +116,7 @@
 
             var title;
             var idButton = setting.split('_')[1];
+            var $button = $("#" + idButton);
             var errorTitle;
 
             $.ajax({
@@ -135,8 +125,9 @@
                 url: "{{ route('settingsSave') }}",
                 data: {
                     setting: setting,
-                    value: value/* ,
-                    _token: '{{ csrf_token() }}' */
+                    value: value
+                    /* ,
+                     _token: '{{ csrf_token() }}' */
                 }
             }).done(function(data) {
                 if (data.success) {
@@ -160,6 +151,9 @@
                             popup: 'zoom-swal-popup'
                         }
                     });
+
+                    $button.data('state', 1);
+                    stateButton();
                 } else {
                     if (idButton === 'cambio') {
                         errorTitle = "<strong>Cambio spola</strong><br>non effettuato!";
@@ -180,8 +174,9 @@
                 }
             }).fail(function(jqXHR, textStatus) {
                 console.log("Errore generico!");
+                $button.data('state', 0);
+                stateButton();
             });
-
         }
     </script>
 @endsection

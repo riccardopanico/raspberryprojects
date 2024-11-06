@@ -21,37 +21,19 @@
                         <tr>
                             <td class="custom-cell">
                                 <div class="header-section">Consumo</div>
-                                <div class="value-section"><span id="tempo_commessa">0</span> m</div>
+                                <div class="value-section"><span id="tempo_commessa">0</span> cm</div>
                             </td>
                         </tr>
                         <tr>
                             <td class="custom-cell">
                                 <div class="header-section">Tempo</div>
-                                <div class="value-section"><span id="consumo_totale">0</span> m</div>
+                                <div class="value-section"><span id="consumo_totale">0</span> s</div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-        {{-- <div class="card mt-2" style="margin-bottom: 0rem;">
-            <div class="card-body p-0">
-                <table class="table table-striped">
-                    <tbody>
-                        <tr>
-                            <td style="padding-left: 15px; font-size: 20.8px;">Consumo</td>
-                            <td style="float: right; padding-right: 15px; font-size: 20.8px; border: 0;"><span
-                                    id="tempo_commessa">0</span> m</td>
-                        </tr>
-                        <tr>
-                            <td style="padding-left: 15px; font-size: 20.8px;">Tempo</td>
-                            <td style="float: right; padding-right: 15px; font-size: 20.8px; border: 0;"><span
-                                    id="consumo_totale">0</span> m</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div> --}}
         <div class="row">
             <div class="col-sm-4 col-md-2">
                 <div class="color-palette-set mt-3">
@@ -127,12 +109,14 @@
                 dataType: 'json',
                 url: "{{ route('signalCampionatura') }}",
                 data: $("#form_campionatura input:enabled").serialize() +
-                    "&timestamp=" + new Date().toISOString() +
+                    "&timestamp=" + moment().valueOf() +
                     "&action=" + action +
                     "&campione=" + "campione_test" +
                     (campionaturaId ? "&id=" + campionaturaId : "")
             }).done(function(data) {
                 if (data.success) {
+                    console.log('data.tempo : '+data.tempo);
+                    console.log('data.consumo : '+data.consumo);
                     if (action === 'START') {
                         // Salva l'ID della nuova campionatura e disabilita il bottone
                         campionaturaId = data.id;

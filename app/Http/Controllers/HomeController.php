@@ -138,7 +138,7 @@ class HomeController extends Controller
             // Creazione di un nuovo record
             $campionatura = Campionatura::create([
                 'campione' => $campione,
-                'start'    => Carbon::parse($timestamp)
+                'start'    => Carbon::createFromTimestampMs($timestamp, 'Europe/Rome')
             ]);
             $response = [
                 'success' => true,
@@ -151,7 +151,7 @@ class HomeController extends Controller
             $campionatura = Campionatura::find($id);
 
             if ($campionatura) {
-                $campionatura->stop = Carbon::parse($timestamp);
+                $campionatura->stop = Carbon::createFromTimestampMs($timestamp, 'Europe/Rome');
                 $campionatura->save();
 
                 $start        = Carbon::parse($campionatura->start);
