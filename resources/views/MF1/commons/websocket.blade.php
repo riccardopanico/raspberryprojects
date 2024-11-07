@@ -64,20 +64,13 @@
                     isWaitingForServer = false;
                     sendMessage();
                     break;
-                case "updateUI":
-                    // Esempio di azione che aggiorna l'interfaccia utente
-                    console.log("Aggiornamento UI con dati: ", parsedData['payload']);
-                    break;
-                case "notify":
-                    // Esempio di notifica
-                    alert(parsedData['message']);
+                case "dati_orlatura":
+                    console.log(parsedData);
                     break;
                 case "alert_spola":
-                    // Esempio di notifica
                     openModal('alert_spola');
                     break;
                 case "alert_olio":
-                    // Esempio di notifica
                     openModal('alert_olio');
                     break;
                 default:
@@ -111,14 +104,6 @@
             console.log('Nessun messaggio da inviare.');
             isWaitingForServer = false;
         }
-    }
-
-    // Esempio di funzione per inviare un messaggio generico
-    function sendGenericMessage() {
-        queueMessage({
-            action: "ping",
-            payload: "Hello, server!"
-        });
     }
 
     // Avvia la connessione WebSocket
