@@ -9,6 +9,7 @@ unzip setup.zip && cd setup && chmod +x setup.sh && ./setup.sh 90
 
 sudo systemctl restart flask.service
 sudo systemctl restart chromium-kiosk.service
+/var/www/html/raspberryprojects/python/flask_project/venv/bin/gunicorn --workers 1 --threads 8 --timeout 60 --bind 0.0.0.0:5000 manage:app
 
 # per ottenere la lista dei pacchetti installati, si usa il comando
 dpkg --get-selections | grep -v deinstall | awk '{print $1}' > packages-list.txt
