@@ -71,12 +71,12 @@ class HomeController extends Controller
                 case '______':
                     Impostazioni::where('codice', '______')->update(['valore' => 1]);
                     break;
-                case 'alert_spola':
-                    Impostazioni::where('codice', 'alert_spola')->update(['valore' => $request->value]);
-                    break;
-                case 'alert_olio':
-                    Impostazioni::where('codice', 'alert_olio')->update(['valore' => $request->value]);
-                    break;
+                // case 'alert_spola':
+                //     Impostazioni::where('codice', 'alert_spola')->update(['valore' => $request->value]);
+                //     break;
+                // case 'alert_olio':
+                //     Impostazioni::where('codice', 'alert_olio')->update(['valore' => $request->value]);
+                //     break;
                 default:
                     Impostazioni::where('codice', $request->setting)->update(['valore' => $request->value]);
                     break;
