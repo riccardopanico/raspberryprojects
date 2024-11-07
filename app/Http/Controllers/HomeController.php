@@ -65,12 +65,17 @@ class HomeController extends Controller
     {
         $impostazioni = Impostazioni::all()->pluck('valore', 'codice')->toArray();
         extract($impostazioni);
-
         DB::beginTransaction();
         try {
             switch ($request->setting) {
                 case '______':
                     Impostazioni::where('codice', '______')->update(['valore' => 1]);
+                    break;
+                case 'alert_spola':
+                    Impostazioni::where('codice', 'alert_spola')->update(['valore' => $request->value]);
+                    break;
+                case 'alert_olio':
+                    Impostazioni::where('codice', 'alert_olio')->update(['valore' => $request->value]);
                     break;
                 default:
                     Impostazioni::where('codice', $request->setting)->update(['valore' => $request->value]);
@@ -134,42 +139,53 @@ class HomeController extends Controller
         $timestamp = $request->input('timestamp');
         $campione  = $request->input('campione');
         $response  = ['success' => false];
-        if ($action === 'START') {
-            // Creazione di un nuovo record
-            $campionatura = Campionatura::create([
-                'campione' => $campione,
-                'start'    => Carbon::createFromTimestampMs($timestamp, 'Europe/Rome')
-            ]);
-            $response = [
-                'success' => true,
-                'id'      => $campionatura->id,
-                'start'   => $campionatura->start->format('H:i:s')
-            ];
-        } elseif ($action === 'STOP') {
-            // Aggiornamento del record esistente
-            $id           = $request->input('id');
-            $campionatura = Campionatura::find($id);
 
-            if ($campionatura) {
-                $campionatura->stop = Carbon::createFromTimestampMs($timestamp, 'Europe/Rome');
-                $campionatura->save();
-
-                $start        = Carbon::parse($campionatura->start);
-                $stop         = Carbon::parse($campionatura->stop);
-                $log_orlatura = LogOrlatura::whereBetween('data', [$start, $stop])->get();
-                $consumo      = round($log_orlatura->sum('consumo'), 2);
-                $tempo        = round($log_orlatura->sum('tempo'));
-
+        DB::beginTransaction();
+        try {
+            if ($action === 'START') {
+                // Creazione di un nuovo record
+                $campionatura = Campionatura::create([
+                    'campione' => $campione,
+                    'start'    => Carbon::createFromTimestampMs($timestamp, 'Europe/Rome')
+                ]);
                 $response = [
                     'success' => true,
                     'id'      => $campionatura->id,
-                    'consumo' => $consumo,
-                    'tempo'   => $tempo,
-                    'stop'    => $campionatura->stop->format('H:i:s')
+                    'start'   => $campionatura->start->format('H:i:s')
                 ];
+            } elseif ($action === 'STOP') {
+                // Aggiornamento del record esistente
+                $id           = $request->input('id');
+                $campionatura = Campionatura::find($id);
+
+                if ($campionatura) {
+                    $campionatura->stop = Carbon::createFromTimestampMs($timestamp, 'Europe/Rome');
+                    $campionatura->save();
+
+                    $start        = Carbon::parse($campionatura->start);
+                    $stop         = Carbon::parse($campionatura->stop);
+                    $log_orlatura = LogOrlatura::whereBetween('data', [$start, $stop])->get();
+                    $consumo      = round($log_orlatura->sum('consumo'), 2);
+                    $tempo        = round($log_orlatura->sum('tempo'));
+
+                    $response = [
+                        'success' => true,
+                        'id'      => $campionatura->id,
+                        'consumo' => $consumo,
+                        'tempo'   => $tempo,
+                        'stop'    => $campionatura->stop->format('H:i:s')
+                    ];
+                }
             }
+
+            DB::commit();
+        } catch (\Exception $th) {
+            DB::rollback();
+
+            $response = ['success' => false, 'msg' => $th->getMessage()];
         }
 
         return response()->json($response);
     }
+
 }
