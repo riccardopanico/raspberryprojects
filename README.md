@@ -1,66 +1,145 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Raspberry Pi Project
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Questo è un progetto Laravel che fornisce un'applicazione web per la gestione e configurazione di un dispositivo Raspberry Pi, con funzionalità di autenticazione, salvataggio delle impostazioni, e operazioni di sistema come il riavvio e lo spegnimento. Il progetto utilizza tecnologie come Laravel per il backend e un set di script di configurazione per preparare l'ambiente su Raspberry Pi.
 
-## About Laravel
+## Struttura del Progetto
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+La struttura del progetto è la seguente:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# Laravel Raspberry Pi Project
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Questo è un progetto Laravel che fornisce un'applicazione web per la gestione e configurazione di un dispositivo Raspberry Pi, con funzionalità di autenticazione, salvataggio delle impostazioni, e operazioni di sistema come il riavvio e lo spegnimento. Il progetto utilizza tecnologie come Laravel per il backend e un set di script di configurazione per preparare l'ambiente su Raspberry Pi.
 
-## Learning Laravel
+## Struttura del Progetto
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+La struttura del progetto è la seguente:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- `app/`: Contiene i controller e i modelli principali del progetto.
+  - `Http/Controllers/`: Contiene i controller per la gestione dell'autenticazione e delle operazioni principali.
+  - `Http/Middleware/`: Contiene i middleware per la gestione dell'autenticazione tramite token.
+  - `Models/`: Eventuali modelli aggiuntivi per la gestione dei dati.
+- `routes/`: Contiene i file di routing per le rotte web e API.
+  - `web.php`: Gestisce le rotte web e le operazioni protette da autenticazione.
+  - `api.php`: Gestisce le API per la configurazione e gestione del dispositivo.
+- `resources/views/`: Contiene le viste HTML per il frontend.
+- `.env`: File di configurazione per le variabili di ambiente (come database e credenziali).
+- `artisan`: Strumento CLI per la gestione del progetto Laravel.
+- `composer.json`: File di configurazione per le dipendenze PHP.
+- `requirements.txt`: File per le dipendenze Python necessarie su Raspberry Pi.
 
-## Laravel Sponsors
+## Prerequisiti
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- Raspberry Pi con Raspbian OS
+- PHP 7.x o superiore
+- Composer
+- MySQL o altro DB
+- VNC e SPI abilitati su Raspberry Pi
 
-### Premium Partners
+## Installazione
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Configurazione iniziale di Raspberry Pi
 
-## Contributing
+   Esegui il seguente comando per abilitare l'autologin, VNC, SPI e il linguaggio italiano:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+   ```bash
+   sudo raspi-config
+```
+### Carica i file di configurazione sul Raspberry Pi
 
-## Code of Conduct
+   Esegui il seguente comando per abilitare l'autologin, VNC, SPI e il linguaggio italiano:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+   ```bash
+   scp C:\xampp\htdocs\raspberryprojects\setup.zip pi@192.168.0.97:/home/pi/setup.zip
+   unzip setup.zip && cd setup && chmod +x setup.sh && ./setup.sh 90
+   ```
+### Riavvia Raspberry Pi
 
-## Security Vulnerabilities
+   Esegui il seguente comando per riavviare il sistema:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+   ```bash
+   sudo systemctl restart flask.service
+   sudo systemctl restart chromium-kiosk.service
+   ```
 
-## License
+### Installa i pacchetti richiesti: 
+    ```bash
+    dpkg --get-selections | grep -v deinstall | awk '{print $1}' > packages-list.txt
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Configura MySQL
+    ```bash
+    sudo mysql_secure_installation
+    ```
+
+### Riavvia Apache
+    ```bash
+    sudo systemctl restart apache2
+    ```
+
+### Installa le dipendenze Python
+    ```bash
+    pip freeze > requirements.txt
+    ```
+
+## Configurazione del progetto Laravel
+
+    - Crea un file .env nella directory principale e aggiungi le variabili di configurazione necessarie (come DB_CONNECTION, DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, 
+    DB_PASSWORD).
+    - Esegui il comando di Laravel per generare la chiave dell'applicazione:
+        ```bash
+        php artisan key:generate
+        ```
+## Esecuzione del Server
+
+    ```bash
+    php artisan serve --host=0.0.0.0 --port=8000
+    ```
+    - L'applicazione sarà disponibile all'indirizzo http://<raspberry_pi_ip>:8000.
+
+## Configura il database
+
+    - Se stai utilizzando MySQL, assicurati che il database sia configurato correttamente nel file .env.
+
+### Funzionalità Principali
+
+    - Autenticazione: Implementa il login e logout tramite un controller di autenticazione.
+    - Gestione delle impostazioni: Permette di visualizzare, modificare e salvare le impostazioni del dispositivo.
+    - Operazioni di sistema: Fornisce funzionalità come riavvio, spegnimento e campionatura.
+    - API: Espone un set di API protette da token per la configurazione e gestione delle impostazioni del dispositivo.
+
+## Esempi di API
+    
+- **Ottenere una impostazione**
+    Endpoint: `/api/getSetting/{setting}`
+    Metodo: `GET`
+    - Risposta:
+    ```json
+    { "setting_name": "setting_value" }
+    ```
+- **Impostare una configurazione**        
+    Endpoint: `/api/setSetting/{setting}`
+    Metodo: POST
+    Dati richiesti:
+    ```json
+    {
+    "value": "new_value"
+    }
+    ```
+    - Risposta
+    ```json
+    { "msg": "Setting updated successfully" }
+    ```
+
+### Gestione delle Rotte
+    - Rotte Web: Gestiscono le operazioni di visualizzazione e modifica delle impostazioni tramite interfaccia utente.
+    - Rotte API: Esponiamo un'API per la configurazione del dispositivo, accessibile tramite token di autenticazione.
+## Web Routes
+    - login : Gestisce la pagina di login per gli utenti.
+    - home : La pagina principale dopo l'autenticazione.
+    - impostazioni : Pannello per configurare le impostazioni del dispositivo.
+    - reboot : Riavvia il dispositivo.
+    - shutdown : Spegne il dispositivo.
+## API Routes
+    - getSettings : Ottiene tutte le impostazioni del dispositivo.
+    - setSetting : Imposta una configurazione specifica del dispositivo.
