@@ -65,7 +65,11 @@
                     sendMessage();
                     break;
                 case "dati_orlatura":
-                    console.log(parsedData);
+                    let data = parsedData['data'];
+                    $('[data-key="consumo_commessa"]').text(`${data.consumo_commessa} m`);
+                    $('[data-key="tempo_commessa"]').text(formatTimeInHoursMinutesSeconds(data.tempo_commessa));
+                    $('[data-key="consumo_totale"]').text(`${data.consumo_totale} m`);
+                    $('[data-key="tempo_totale"]').text(formatTimeInHoursMinutesSeconds(data.tempo_totale));
                     break;
                 case "alert_spola":
                     openModal('alert_spola');

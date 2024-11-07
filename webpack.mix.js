@@ -12,6 +12,7 @@ mix.scripts([
     'vendor/almasaeed2010/adminlte/plugins/jquery/jquery.min.js',
     'vendor/almasaeed2010/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js',
     'vendor/almasaeed2010/adminlte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js',
+    'vendor/almasaeed2010/adminlte/plugins/bootstrap-switch/js/bootstrap-switch.min.js',
     'vendor/almasaeed2010/adminlte/dist/js/adminlte.min.js',
     'node_modules/jquery-ui-dist/jquery-ui.min.js',
     'node_modules/virtual-keyboard/dist/js/jquery.keyboard.min.js',

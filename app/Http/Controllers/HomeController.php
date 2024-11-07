@@ -74,9 +74,14 @@ class HomeController extends Controller
                 // case 'alert_spola':
                 //     Impostazioni::where('codice', 'alert_spola')->update(['valore' => $request->value]);
                 //     break;
-                // case 'alert_olio':
-                //     Impostazioni::where('codice', 'alert_olio')->update(['valore' => $request->value]);
-                //     break;
+                case 'data_cambio_olio':
+                    Impostazioni::where('codice', $request->setting)->update(['valore' => $request->value]);
+                    Impostazioni::where('alert_olio', $request->setting)->update(['valore' => 0]);
+                    break;
+                case 'data_cambio_spola':
+                    Impostazioni::where('codice', $request->setting)->update(['valore' => $request->value]);
+                    Impostazioni::where('alert_spola', $request->setting)->update(['valore' => 0]);
+                    break;
                 default:
                     Impostazioni::where('codice', $request->setting)->update(['valore' => $request->value]);
                     break;
@@ -101,6 +106,8 @@ class HomeController extends Controller
 
     public function settingsSaveAll(Request $request)
     {
+        $impostazioni = Impostazioni::all()->pluck('valore', 'codice')->toArray();
+        extract($impostazioni);
         DB::beginTransaction();
         try {
             foreach ($request->settings as $key => $value) {
@@ -109,7 +116,7 @@ class HomeController extends Controller
                         'valore' => $value
                     ]);
                 LogOperazioni::create([
-                    'id_macchina'  => $request->id_macchina,
+                    'id_macchina'  => $id_macchina,
                     'id_operatore' => Auth::id(),
                     'codice'       => $key,
                     'valore'       => $value

@@ -22,9 +22,11 @@
         <aside class="control-sidebar control-sidebar-dark">
         </aside>
     </div>
-    @include('MF1.commons.modal')
     @include('MF1.commons.script')
-    @include('MF1.commons.websocket')
+    @if(Route::currentRouteName() != 'login')
+        @include('MF1.commons.websocket')
+        @include('MF1.commons.modal')
+    @endif
     @yield('script')
 </body>
 

@@ -57,3 +57,18 @@ $(document).ready(function () {
     //     box-shadow: inset 0 0 0 transparent !important;
     // }
 });
+
+function formatTimeInHoursMinutesSeconds(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const sec = Math.floor(seconds % 60);
+    return `${hours}h ${minutes}m ${sec}s`;
+}
+
+function formatTimeWithMilliseconds(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const sec = Math.floor(seconds % 60);
+    const milliseconds = Math.floor((seconds % 1) * 1000);
+    return `${hours}:${minutes}:${sec}.${milliseconds}`;
+}

@@ -89,7 +89,7 @@
                 bodyClass: 'd-flex align-items-center justify-content-center bg-danger text-white',
                 body: '<div class="text-center" style="font-size: 1.8rem;"><strong>SPOLA IN ESAURIMENTO</strong></div>',
                 footerClass: 'modal-footer justify-content-center bg-danger',
-                footer: `<button type="button" class="btn btn-light btn-flat" onclick="settingsSave('alert_spola', '0')" data-dismiss="modal" style="font-weight: bold;">OK</button>`,
+                footer: `<button type="button" class="btn btn-light btn-flat" data-dismiss="modal" style="font-weight: bold;">OK</button>`,
             },
             'alert_olio': {
                 headerClass: 'd-flex align-items-center justify-content-center bg-danger text-white',
@@ -98,7 +98,7 @@
                 bodyClass: 'd-flex align-items-center justify-content-center bg-danger text-white',
                 body: '<div class="text-center" style="font-size: 1.8rem;"><strong>OLIO IN ESAURIMENTO</strong></div>',
                 footerClass: 'modal-footer justify-content-center bg-danger',
-                footer: `<button type="button" class="btn btn-light btn-flat" onclick="settingsSave('alert_olio', '0')" data-dismiss="modal" style="font-weight: bold;">OK</button>`,
+                footer: `<button type="button" class="btn btn-light btn-flat" onclick="settingsSave('data_cambio_olio', getFormattedDate())" data-dismiss="modal" style="font-weight: bold;">OK</button>`,
             },
             'arresta': {
                 title: '<div class="text-center" style="font-weight: bold;">Spegnimento</div>',

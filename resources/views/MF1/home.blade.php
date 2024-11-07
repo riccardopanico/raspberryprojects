@@ -123,12 +123,7 @@
                 type: 'POST',
                 dataType: 'json',
                 url: "{{ route('settingsSave') }}",
-                data: {
-                    setting: setting,
-                    value: value
-                    /* ,
-                     _token: '{{ csrf_token() }}' */
-                }
+                data: { setting: setting, value: value }
             }).done(function(data) {
                 if (data.success) {
                     $modal.modal('hide');

@@ -1,36 +1,15 @@
 @extends('MF1.index')
 @section('main')
     <form id="form_impostazioni">
-        <div class="card mt-2">
-            <div class="card-body p-0">
-                <table class="table table-striped">
-                    <tbody>
-                        <tr>
-                            <td class="custom-cell">
-                                <div class="header-section">Consumo Commessa</div>
-                                <div class="value-section">{{ $consumo_commessa }} m</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="custom-cell">
-                                <div class="header-section">Tempo Commessa</div>
-                                <div class="value-section">{{ $tempo_commessa }} s</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="custom-cell">
-                                <div class="header-section">Consumo Totale</div>
-                                <div class="value-section">{{ $consumo_totale }} m</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="custom-cell">
-                                <div class="header-section">Tempo Totale</div>
-                                <div class="value-section">{{ $tempo_totale }} s</div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="input-group input-group-lg mb-2 mt-2">
+            <input type="checkbox" name="my-checkbox" checked data-bootstrap-switch>
+            <div class="input-group-prepend">
+                <span class="input-group-text no-border" style="color: #000;">Parametro Olio</span>
+            </div>
+            <input type="text" value="{{ $parametro_olio }}" name="settings[parametro_olio]" id="parametro_olio"
+                class="font-lg form-control no-border" style="text-align: right;" data-kioskboard-type="numpad">
+            <div class="input-group-append">
+                <span class="input-group-text no-border" style="color: #000;">m</span>
             </div>
         </div>
 
@@ -55,14 +34,11 @@
                 <span class="input-group-text no-border" style="color: #000;">m</span>
             </div>
         </div>
-        <input type="hidden" name="id_macchina" value="{{ $id_macchina }}">
-
         <div class="row">
             <div class="col-sm-4 col-md-2">
                 <div class="color-palette-set mt-3 mb-3">
                     <button type="button" class="btn btn-block btn-primary btn-lg custom-button" style="font-weight: bold;"
-                        id="salva_impostazioni" onclick="settingsSaveAll()">SALVA
-                        IMPOSTAZIONI</button>
+                        id="salva_impostazioni" onclick="settingsSaveAll()">SALVA IMPOSTAZIONI</button>
                 </div>
             </div>
         </div>
@@ -76,7 +52,7 @@
                 type: 'POST',
                 dataType: 'json',
                 url: "{{ route('settingsSaveAll') }}",
-                data: $("#form_impostazioni").serialize() + '&_token={{ csrf_token() }}'
+                data: $("#form_impostazioni").serialize()
             }).done(function(data) {
                 if (data.success) {
                     $('#modal-xl').modal('hide');
