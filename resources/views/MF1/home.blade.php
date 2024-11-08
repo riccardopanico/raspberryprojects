@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    <input type="hidden" id="commessa" name="commessa">
+    <input id="commessa" name="commessa">
 
     <div class="row">
         <div class="col-sm-4 col-md-2 color-palette-set mt-3">

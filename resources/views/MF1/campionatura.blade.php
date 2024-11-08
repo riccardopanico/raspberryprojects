@@ -18,7 +18,7 @@
                     </tr>
                     <tr>
                         <td class="custom-cell">
-                            <div class="header-section">Tempo Toale Campionatura</div>
+                            <div class="header-section">Tempo Totale Campionatura</div>
                             <div class="value-section"><span id="tempo_totale_campionatura">0 s</span></div>
                         </td>
                     </tr>
@@ -53,6 +53,8 @@
         $('#stop_campionatura').prop('disabled', true);
 
         var campionaturaId = null;
+        var startTime = null;
+        var timerInterval = null;
 
         function signalCampionatura(action) {
             $.ajax({
@@ -70,17 +72,16 @@
                     if (action === 'START') {
                         // Salva l'ID della nuova campionatura e disabilita il bottone
                         campionaturaId = data.id;
+                        startTime = moment();
                         $('#start_campionatura').prop('disabled', true);
                         $('#stop_campionatura').prop('disabled', false);
-                        // $('#consumo_campionatura').text('0');
-                        // $('#tempo_campionatura').text('0');
+                        startTimer();
                     } else if (action === 'STOP') {
                         // Ricalcola il tempo totale e riabilita il bottone
                         campionaturaId = null; // Reset ID per una nuova campionatura
                         $('#start_campionatura').prop('disabled', false);
                         $('#stop_campionatura').prop('disabled', true);
-                        // $('#consumo_campionatura').text(data.tempo);
-                        // $('#tempo_campionatura').text(data.consumo);
+                        stopTimer();
                     }
                 } else {
                     Swal.fire({
@@ -102,6 +103,18 @@
             });
         }
 
+        function startTimer() {
+            timerInterval = setInterval(function() {
+                var now = moment();
+                var elapsedSeconds = now.diff(startTime, 'seconds');
+                var formattedTime = formatTimeInHoursMinutesSeconds(elapsedSeconds);
+                $('#tempo_totale_campionatura').text(formattedTime);
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
 
         function resetPage() {
             window.location.reload();

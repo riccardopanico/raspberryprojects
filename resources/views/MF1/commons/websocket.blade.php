@@ -73,7 +73,6 @@
                     if(campionaturaId){
                         $('#consumo_campionatura').text(`${(data.consumo_campionatura/100).toFixed(2)} m`);
                         $('#tempo_campionatura').text(formatTimeInHoursMinutesSeconds(data.tempo_campionatura));
-                        $('#tempo_totale_campionatura').text(formatTimeInHoursMinutesSeconds(data.tempo_totale_campionatura));
                     }
                     break;
                 case "alert_spola":
