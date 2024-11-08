@@ -56,13 +56,26 @@ $(document).ready(function () {
     //     outline: 0 !important;
     //     box-shadow: inset 0 0 0 transparent !important;
     // }
+
+    $("input[data-bootstrap-switch]").each(function(){
+        $(this).bootstrapSwitch({
+            state: $(this).prop('checked'),
+            size: 'large'
+        });
+    })
 });
 
 function formatTimeInHoursMinutesSeconds(seconds) {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const sec = Math.floor(seconds % 60);
-    return `${hours}h ${minutes}m ${sec}s`;
+
+    let result = '';
+    if (hours > 0) result += `${hours}h `;
+    if (minutes > 0) result += `${minutes}m `;
+    result += `${sec}s`;
+
+    return result;
 }
 
 function formatTimeWithMilliseconds(seconds) {

@@ -66,9 +66,9 @@
                     break;
                 case "dati_orlatura":
                     let data = parsedData['data'];
-                    $('[data-key="consumo_commessa"]').text(`${data.consumo_commessa} m`);
+                    $('[data-key="consumo_commessa"]').text(`${(data.consumo_commessa/100).toFixed(2)} m`);
                     $('[data-key="tempo_commessa"]').text(formatTimeInHoursMinutesSeconds(data.tempo_commessa));
-                    $('[data-key="consumo_totale"]').text(`${data.consumo_totale} m`);
+                    $('[data-key="consumo_totale"]').text(`${(data.consumo_totale/100).toFixed(2)} m`);
                     $('[data-key="tempo_totale"]').text(formatTimeInHoursMinutesSeconds(data.tempo_totale));
                     break;
                 case "alert_spola":

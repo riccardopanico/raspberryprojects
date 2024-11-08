@@ -1,34 +1,35 @@
 @extends('MF1.index')
 @section('main')
     <form id="form_impostazioni">
-        <div class="input-group input-group-lg mb-2 mt-2">
-            <input type="checkbox" name="my-checkbox" checked data-bootstrap-switch>
+        <label for="parametro_olio" class="font-lg" style="color: #000;">Parametro Olio</label>
+        <div class="input-group input-group-lg mb-2">
             <div class="input-group-prepend">
-                <span class="input-group-text no-border" style="color: #000;">Parametro Olio</span>
+                <span class="input-group-text no-border p-0" style="color: #000;">
+                    <input type="checkbox" id="parametro_olio_attivo" name="settings[parametro_olio_attivo]" {{ $parametro_olio_attivo ? 'checked' : '' }} data-bootstrap-switch>
+                </span>
             </div>
-            <input type="text" value="{{ $parametro_olio }}" name="settings[parametro_olio]" id="parametro_olio"
+            <input type="text" value="{{ $parametro_olio }}" id="parametro_olio" name="settings[parametro_olio]" id="parametro_olio"
+                class="font-lg form-control no-border" style="text-align: right;" data-kioskboard-type="numpad">
+            <div class="input-group-append">
+                <span class="input-group-text no-border" style="color: #000;">t</span>
+            </div>
+        </div>
+        <label for="parametro_spola" class="font-lg" style="color: #000;">Parametro Spola</label>
+        <div class="input-group input-group-lg mb-2">
+            <div class="input-group-prepend">
+                <span class="input-group-text no-border p-0" style="color: #000;">
+                    <input type="checkbox" id="parametro_spola_attivo" name="settings[parametro_spola_attivo]" {{ $parametro_spola_attivo ? 'checked' : '' }} data-bootstrap-switch>
+                </span>
+            </div>
+            <input type="text" value="{{ $parametro_spola }}" id="parametro_spola" name="settings[parametro_spola]" id="parametro_spola"
                 class="font-lg form-control no-border" style="text-align: right;" data-kioskboard-type="numpad">
             <div class="input-group-append">
                 <span class="input-group-text no-border" style="color: #000;">m</span>
             </div>
         </div>
-
-        <div class="input-group input-group-lg mb-2 mt-2">
-            <div class="input-group-prepend">
-                <span class="input-group-text no-border" style="color: #000;">Parametro Spola</span>
-            </div>
-            <input type="text" value="{{ $parametro_spola }}" name="settings[parametro_spola]" id="parametro_spola"
-                class="font-lg form-control no-border" style="text-align: right;" data-kioskboard-type="numpad">
-            <div class="input-group-append">
-                <span class="input-group-text no-border" style="color: #000;">m</span>
-            </div>
-        </div>
-
-        <div class="input-group input-group-lg mt-2">
-            <div class="input-group-prepend">
-                <span class="input-group-text no-border" style="color: #000;">Fattore Taratura</span>
-            </div>
-            <input type="text" value="{{ $fattore_taratura }}" name="settings[fattore_taratura]" id="fattore_taratura"
+        <label for="parametro_olio" class="font-lg" style="color: #000;">Fattore Taratura</label>
+        <div class="input-group input-group-lg mb-2">
+            <input type="text" value="{{ $fattore_taratura }}" id="fattore_taratura" name="settings[fattore_taratura]" id="fattore_taratura"
                 class="font-lg form-control no-border" style="text-align: right;" data-kioskboard-type="numpad">
             <div class="input-group-append">
                 <span class="input-group-text no-border" style="color: #000;">m</span>
@@ -43,6 +44,20 @@
             </div>
         </div>
     </form>
+    <style>
+        .bootstrap-switch .bootstrap-switch-handle-on,
+        .bootstrap-switch .bootstrap-switch-handle-off,
+        .bootstrap-switch .bootstrap-switch-label {
+            height: 46px;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        .bootstrap-switch {
+            border: none !important;
+            box-shadow: none !important;
+        }
+    </style>
 @endsection
 
 @section('script')
@@ -52,7 +67,16 @@
                 type: 'POST',
                 dataType: 'json',
                 url: "{{ route('settingsSaveAll') }}",
-                data: $("#form_impostazioni").serialize()
+                data: {
+                    settings: {
+                        "parametro_olio_attivo": $("#parametro_olio_attivo").bootstrapSwitch('state') ? 1 : 0,
+                        "parametro_olio": $("#parametro_olio").val(),
+                        "parametro_spola_attivo": $("#parametro_spola_attivo").bootstrapSwitch('state') ? 1 : 0,
+                        "parametro_spola": $("#parametro_spola").val(),
+                        "fattore_taratura": $("#fattore_taratura").val()
+                    }
+                }
+                // data: $("#form_impostazioni").serialize()
             }).done(function(data) {
                 if (data.success) {
                     $('#modal-xl').modal('hide');

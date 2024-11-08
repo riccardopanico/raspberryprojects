@@ -7,7 +7,7 @@
                         <tr>
                             <td class="custom-cell">
                                 <div class="header-section">Consumo Commessa</div>
-                                <div class="value-section" data-key="consumo_commessa">{{ number_format($consumo_commessa, 2) }} m</div>
+                                <div class="value-section" data-key="consumo_commessa">{{ number_format($consumo_commessa/100, 2) }} m</div>
                             </td>
                         </tr>
                         <tr>
@@ -19,7 +19,7 @@
                         <tr>
                             <td class="custom-cell">
                                 <div class="header-section">Consumo Totale</div>
-                                <div class="value-section" data-key="consumo_totale">{{ number_format($consumo_totale, 2) }} m</div>
+                                <div class="value-section" data-key="consumo_totale">{{ number_format($consumo_totale/100, 2) }} m</div>
                             </td>
                         </tr>
                         <tr>

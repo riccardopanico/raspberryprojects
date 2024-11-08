@@ -27,6 +27,14 @@ class HomeController extends Controller
         $impostazioni = Impostazioni::all()->pluck('valore', 'codice')->toArray();
         extract($impostazioni);
 
+        return view('MF1.impostazioni', get_defined_vars());
+    }
+
+    public function reports(Request $request)
+    {
+        $impostazioni = Impostazioni::all()->pluck('valore', 'codice')->toArray();
+        extract($impostazioni);
+
         $dati_totali = LogOrlatura::where('id_macchina', $id_macchina)
             ->selectRaw('SUM(consumo) as consumo_totale, SUM(tempo) as tempo_totale')
             ->first();
@@ -41,7 +49,7 @@ class HomeController extends Controller
         $consumo_commessa = round($dati_commessa->consumo_commessa ?? 0, 2);
         $tempo_commessa   = round($dati_commessa->tempo_commessa ?? 0, 2);
 
-        return view('MF1.impostazioni', get_defined_vars());
+        return view('MF1.reports', get_defined_vars());
     }
 
     public function manuale(Request $request)
@@ -76,11 +84,11 @@ class HomeController extends Controller
                 //     break;
                 case 'data_cambio_olio':
                     Impostazioni::where('codice', $request->setting)->update(['valore' => $request->value]);
-                    Impostazioni::where('alert_olio', $request->setting)->update(['valore' => 0]);
+                    Impostazioni::where('codice', 'alert_olio')->update(['valore' => 0]);
                     break;
                 case 'data_cambio_spola':
                     Impostazioni::where('codice', $request->setting)->update(['valore' => $request->value]);
-                    Impostazioni::where('alert_spola', $request->setting)->update(['valore' => 0]);
+                    Impostazioni::where('codice', 'alert_spola')->update(['valore' => 0]);
                     break;
                 default:
                     Impostazioni::where('codice', $request->setting)->update(['valore' => $request->value]);
@@ -111,6 +119,9 @@ class HomeController extends Controller
         DB::beginTransaction();
         try {
             foreach ($request->settings as $key => $value) {
+                if ($key == 'parametro_olio_attivo' || $key == 'parametro_spola_attivo') {
+                    $value = $value ? 1 : 0;
+                };
                 Impostazioni::where('codice', $key)
                     ->update([
                         'valore' => $value
