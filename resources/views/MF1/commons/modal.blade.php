@@ -17,7 +17,7 @@
 
     var $modal;
 
-    function openModal(action) {
+    function openModal(setting) {
         if ($modal) {
             $modal.modal('hide');
             $modal.remove();
@@ -39,46 +39,44 @@
             title: '',
             forzaFocus: false,
             onShow: () => {},
-            onClose: () => {
-                $modal.remove()
-            },
+            onClose: () => {},
         };
 
         const modalSettings = {
-            'filato': {
+            'richiesta_filato': {
                 title: '<strong>Richiesta Filato</strong>',
                 dialogClass: 'modal-dialog modal-xl modal-dialog-centered',
                 body: '<div class="text-center">Confermi di voler inoltrare la richiesta?</div>',
                 footerClass: 'modal-footer justify-content-between',
                 footer: `<button type="button" class="btn btn-default btn-flat" style="background: red; color: white;" data-dismiss="modal">Annulla</button>
-                            <button type="button" class="btn btn-primary btn-flat" onclick="settingsSave('richiesta_filato', 1)">Conferma</button>`,
+                            <button type="button" class="btn btn-primary btn-flat" onclick="settingsSave('richiesta_filato', 1)" data-dismiss="modal">Conferma</button>`,
             },
-            'spola': {
+            'data_cambio_spola': {
                 title: '<strong>Cambio Spola</strong>',
                 dialogClass: 'modal-dialog modal-xl modal-dialog-centered',
                 body: '<div class="text-center">Confermi di aver effettuato il cambio?</div>',
                 footerClass: 'modal-footer justify-content-between',
                 footer: `<button type="button" class="btn btn-default btn-flat" style="background: red; color: white;" data-dismiss="modal">Annulla</button>
-                            <button type="button" class="btn btn-primary btn-flat" onclick="settingsSave('data_cambio_spola', getFormattedDate())">Conferma</button>`,
+                            <button type="button" class="btn btn-primary btn-flat" onclick="settingsSave('data_cambio_spola', getFormattedDate())" data-dismiss="modal">Conferma</button>`,
             },
-            'intervento': {
+            'richiesta_intervento': {
                 title: '<strong>Richiesta Intervento</strong>',
                 dialogClass: 'modal-dialog modal-xl modal-dialog-centered',
                 body: '<div class="text-center">Confermi di voler inoltrare la richiesta?</div>',
                 footerClass: 'modal-footer justify-content-between',
                 footer: `<button type="button" class="btn btn-default btn-flat" style="background: red; color: white;" data-dismiss="modal">Annulla</button>
-                            <button type="button" class="btn btn-primary btn-flat" onclick="settingsSave('richiesta_intervento', 1)">Conferma</button>`,
+                            <button type="button" class="btn btn-primary btn-flat" onclick="settingsSave('richiesta_intervento', 1)" data-dismiss="modal">Conferma</button>`,
             },
-            'barcode': {
+            'commessa': {
                 title: '<strong>Scansiona</strong>',
-                body: '<input id="last_barcode" name="last_barcode" type="text" placeholder="Inserisci un valore..." class="form-control" data-kioskboard-type="numpad">',
+                body: '<input id="commessa_manuale" name="commessa_manuale" type="text" placeholder="Inserisci un valore..." class="form-control" data-kioskboard-type="numpad">',
                 footerClass: 'modal-footer justify-content-between',
                 footer: `<button type="button" class="btn btn-default btn-flat" style="background: red; color: white;" data-dismiss="modal">Annulla</button>
-                            <button type="button" class="btn btn-primary btn-flat" onclick="settingsSave('last_barcode', $('#last_barcode').val())">Conferma</button>`,
+                            <button type="button" class="btn btn-primary btn-flat" onclick="settingsSave('commessa', $('#commessa_manuale').val())" data-dismiss="modal">Conferma</button>`,
                 onShow: () => {
                     setTimeout(() => {
-                        KioskBoard.run('#last_barcode');
-                        $('#last_barcode').focus();
+                        KioskBoard.run('#commessa_manuale');
+                        $('#commessa_manuale').focus();
                     }, 50);
                 },
             },
@@ -117,7 +115,7 @@
         // Merge default settings with specific modal settings
         const finalModalSettings = {
             ...modalSettingsDefault,
-            ...modalSettings[action]
+            ...modalSettings[setting]
         };
 
         $modal.find('.modal-header').toggle(finalModalSettings.headerVisible).addClass(finalModalSettings.headerClass);
@@ -130,6 +128,8 @@
             if (typeof finalModalSettings.onShow === 'function') {
                 finalModalSettings.onShow();
             }
+            forzaFocus = finalModalSettings.forzaFocus ? finalModalSettings.forzaFocus : false;
+            gestisciFocus()
         });
 
         $modal.on('hidden.bs.modal', function() {
@@ -137,9 +137,10 @@
                 finalModalSettings.onClose();
             }
             forzaFocus = true;
+            gestisciFocus()
+            $modal.remove()
         });
 
-        forzaFocus = finalModalSettings.forzaFocus;
         $modal.modal('show');
     }
 </script>

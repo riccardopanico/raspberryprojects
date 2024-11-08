@@ -20,24 +20,24 @@
     <div class="row">
         <div class="col-sm-4 col-md-2 color-palette-set mt-3">
             <button type="button" data-state="{{ $richiesta_filato ? '1' : '0' }}"
-                class="btn btn-block btn-primary btn-lg custom-button" style="font-weight: bold;" id="filato"
-                data-toggle="modal" onclick="openModal('filato')">RICHIESTA FILATO</button>
+                class="btn btn-block btn-primary btn-lg custom-button" style="font-weight: bold;" id="btn_richiesta_filato"
+                onclick="openModal('richiesta_filato')">RICHIESTA FILATO</button>
         </div>
 
         <div class="col-sm-4 col-md-2 color-palette-set mt-3">
             <button type="button" class="btn btn-block btn-warning btn-lg custom-button" style="font-weight: bold;"
-                id="spola" data-toggle="modal" onclick="openModal('spola')">CAMBIO SPOLA</button>
+                id="btn_data_cambio_spola" onclick="openModal('data_cambio_spola')">CAMBIO SPOLA</button>
         </div>
 
         <div class="col-sm-4 col-md-2 color-palette-set mt-3">
             <button type="button" data-state="{{ $richiesta_intervento ? '1' : '0' }}"
                 class="btn btn-block btn-lg custom-button" style="font-weight: bold; background-color: #aa404b; color: #fff"
-                id="intervento" data-toggle="modal" onclick="openModal('intervento')">RICHIESTA INTERVENTO</button>
+                id="btn_richiesta_intervento" onclick="openModal('richiesta_intervento')">RICHIESTA INTERVENTO</button>
         </div>
 
         <div class="col-sm-4 col-md-2 color-palette-set mt-3 mb-3">
             <button type="button" class="btn btn-block btn-secondary btn-lg custom-button" style="font-weight: bold;"
-                id="barcode" data-toggle="modal" onclick="openModal('barcode')">SCANSIONE MANUALE</button>
+            id="btn_commessa" onclick="openModal('commessa')">SCANSIONE MANUALE</button>
         </div>
     </div>
 @endsection
@@ -113,10 +113,31 @@
                 return;
             }
 
-            var title;
-            var idButton = setting.split('_')[1];
-            var $button = $("#" + idButton);
-            var errorTitle;
+            const settingsInfo = {
+                'data_cambio_spola': {
+                    successTitle: '<strong>Cambio spola</strong><br>effettuato<br>con successo!',
+                    errorTitle: '<strong>Cambio spola</strong><br>non effettuato!'
+                },
+                'last_barcode': {
+                    successTitle: '<strong>Scansione</strong><br>effettuata<br>con successo!',
+                    errorTitle: '<strong>Scansione</strong><br>non effettuata!'
+                },
+                'richiesta_filato': {
+                    successTitle: '<strong>Richiesta filato</strong><br>effettuata<br>con successo!',
+                    errorTitle: '<strong>Richiesta filato</strong><br>non effettuata!'
+                },
+                'richiesta_intervento': {
+                    successTitle: '<strong>Richiesta intervento</strong><br>effettuata<br>con successo!',
+                    errorTitle: '<strong>Richiesta intervento</strong><br>non effettuata!'
+                },
+                'commessa': {
+                    successTitle: '<strong>Commessa</strong><br>salvata<br>con successo!',
+                    errorTitle: '<strong>Commessa</strong><br>non salvata!'
+                }
+            };
+
+            const info = settingsInfo[setting];
+            const $button = $("[data-state]#btn_" + setting);
 
             $.ajax({
                 type: 'POST',
@@ -125,19 +146,9 @@
                 data: { setting: setting, value: value }
             }).done(function(data) {
                 if (data.success) {
-                    $modal.modal('hide');
-
-                    if (idButton === 'cambio') {
-                        title = "<strong>Cambio spola</strong><br>effettuato<br>con successo!";
-                    } else if (idButton === 'barcode') {
-                        title = "<strong>Scansione</strong><br>effettuata<br>con successo!";
-                    } else {
-                        title = "<strong>Richiesta " + idButton + "</strong><br>effettuata<br>con successo!";
-                    }
-
                     Swal.fire({
                         icon: "success",
-                        title: title,
+                        title: info.successTitle,
                         text: " ",
                         showConfirmButton: false,
                         timer: 1500,
@@ -145,21 +156,12 @@
                             popup: 'zoom-swal-popup'
                         }
                     });
-
                     $button.data('state', 1);
                     stateButton();
                 } else {
-                    if (idButton === 'cambio') {
-                        errorTitle = "<strong>Cambio spola</strong><br>non effettuato!";
-                    } else if (idButton === 'barcode') {
-                        errorTitle = "<strong>Scansione</strong><br>non effettuata!";
-                    } else {
-                        errorTitle = "<strong>Richiesta " + idButton + "</strong><br>non effettuata!";
-                    }
-
                     Swal.fire({
                         icon: "error",
-                        title: errorTitle,
+                        title: info.errorTitle,
                         text: "Errore: " + data.msg,
                         customClass: {
                             popup: 'zoom-swal-popup'
