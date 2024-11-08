@@ -136,6 +136,7 @@
             if (typeof finalModalSettings.onClose === 'function') {
                 finalModalSettings.onClose();
             }
+            forzaFocus = true;
         });
 
         forzaFocus = finalModalSettings.forzaFocus;

@@ -78,6 +78,8 @@
             if (e.keyCode === 13) {
                 var commessa = $(this).val();
                 e.preventDefault();
+                console.log(commessa);
+                settingsSave('commessa', commessa);
                 gestisciFocus();
                 $(this).val('');
             }
