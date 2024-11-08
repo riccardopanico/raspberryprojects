@@ -69,7 +69,13 @@ function formatTimeInHoursMinutesSeconds(seconds) {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const sec = Math.floor(seconds % 60);
-    return `${hours}h ${minutes}m ${sec}s`;
+
+    let result = '';
+    if (hours > 0) result += `${hours}h `;
+    if (minutes > 0) result += `${minutes}m `;
+    result += `${sec}s`;
+
+    return result;
 }
 
 function formatTimeWithMilliseconds(seconds) {

@@ -11,7 +11,7 @@
             <input type="text" value="{{ $parametro_olio }}" id="parametro_olio" name="settings[parametro_olio]" id="parametro_olio"
                 class="font-lg form-control no-border" style="text-align: right;" data-kioskboard-type="numpad">
             <div class="input-group-append">
-                <span class="input-group-text no-border" style="color: #000;">m</span>
+                <span class="input-group-text no-border" style="color: #000;">t</span>
             </div>
         </div>
         <label for="parametro_spola" class="font-lg" style="color: #000;">Parametro Spola</label>

@@ -21,21 +21,18 @@
         <div class="col-sm-4 col-md-2 color-palette-set mt-3">
             <button type="button" data-state="{{ $richiesta_filato ? '1' : '0' }}"
                 class="btn btn-block btn-primary btn-lg custom-button" style="font-weight: bold;" id="filato"
-                data-toggle="modal" onclick="openModal('filato')">RICHIESTA
-                FILATO</button>
+                data-toggle="modal" onclick="openModal('filato')">RICHIESTA FILATO</button>
         </div>
 
         <div class="col-sm-4 col-md-2 color-palette-set mt-3">
             <button type="button" class="btn btn-block btn-warning btn-lg custom-button" style="font-weight: bold;"
-                id="spola" data-toggle="modal" onclick="openModal('spola')">CAMBIO
-                SPOLA</button>
+                id="spola" data-toggle="modal" onclick="openModal('spola')">CAMBIO SPOLA</button>
         </div>
 
         <div class="col-sm-4 col-md-2 color-palette-set mt-3">
             <button type="button" data-state="{{ $richiesta_intervento ? '1' : '0' }}"
                 class="btn btn-block btn-lg custom-button" style="font-weight: bold; background-color: #aa404b; color: #fff"
-                id="intervento" data-toggle="modal" onclick="openModal('intervento')">RICHIESTA
-                INTERVENTO</button>
+                id="intervento" data-toggle="modal" onclick="openModal('intervento')">RICHIESTA INTERVENTO</button>
         </div>
 
         <div class="col-sm-4 col-md-2 color-palette-set mt-3 mb-3">
