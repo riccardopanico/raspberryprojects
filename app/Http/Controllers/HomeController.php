@@ -111,6 +111,9 @@ class HomeController extends Controller
         DB::beginTransaction();
         try {
             foreach ($request->settings as $key => $value) {
+                if ($key == 'parametro_olio_attivo' || $key == 'parametro_spola_attivo') {
+                    $value = $value ? 1 : 0;
+                };
                 Impostazioni::where('codice', $key)
                     ->update([
                         'valore' => $value

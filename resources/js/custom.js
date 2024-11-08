@@ -56,6 +56,13 @@ $(document).ready(function () {
     //     outline: 0 !important;
     //     box-shadow: inset 0 0 0 transparent !important;
     // }
+
+    $("input[data-bootstrap-switch]").each(function(){
+        $(this).bootstrapSwitch({
+            state: $(this).prop('checked'),
+            size: 'large'
+        });
+    })
 });
 
 function formatTimeInHoursMinutesSeconds(seconds) {
