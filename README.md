@@ -63,21 +63,25 @@ La struttura del progetto è la seguente:
    ```
 
 ### Installa i pacchetti richiesti: 
+
     ```bash
     dpkg --get-selections | grep -v deinstall | awk '{print $1}' > packages-list.txt
     ```
 
 ### Configura MySQL
+
     ```bash
     sudo mysql_secure_installation
     ```
 
 ### Riavvia Apache
+
     ```bash
     sudo systemctl restart apache2
     ```
 
 ### Installa le dipendenze Python
+
     ```bash
     pip freeze > requirements.txt
     ```
@@ -87,6 +91,7 @@ La struttura del progetto è la seguente:
     - Crea un file .env nella directory principale e aggiungi le variabili di configurazione necessarie (come DB_CONNECTION, DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, 
     DB_PASSWORD).
     - Esegui il comando di Laravel per generare la chiave dell'applicazione:
+
         ```bash
         php artisan key:generate
         ```
@@ -95,6 +100,7 @@ La struttura del progetto è la seguente:
     ```bash
     php artisan serve --host=0.0.0.0 --port=8000
     ```
+    
     - L'applicazione sarà disponibile all'indirizzo http://<raspberry_pi_ip>:8000.
 
 ## Configura il database
@@ -132,14 +138,14 @@ La struttura del progetto è la seguente:
     ```
 
 ### Gestione delle Rotte
-    - Rotte Web: Gestiscono le operazioni di visualizzazione e modifica delle impostazioni tramite interfaccia utente.
-    - Rotte API: Esponiamo un'API per la configurazione del dispositivo, accessibile tramite token di autenticazione.
+- Rotte Web: Gestiscono le operazioni di visualizzazione e modifica delle impostazioni tramite interfaccia utente.
+- Rotte API: Esponiamo un'API per la configurazione del dispositivo, accessibile tramite token di autenticazione.
 ## Web Routes
-    - login : Gestisce la pagina di login per gli utenti.
-    - home : La pagina principale dopo l'autenticazione.
-    - impostazioni : Pannello per configurare le impostazioni del dispositivo.
-    - reboot : Riavvia il dispositivo.
-    - shutdown : Spegne il dispositivo.
+- login : Gestisce la pagina di login per gli utenti.
+- home : La pagina principale dopo l'autenticazione.
+- impostazioni : Pannello per configurare le impostazioni del dispositivo.
+- reboot : Riavvia il dispositivo.
+- shutdown : Spegne il dispositivo.
 ## API Routes
-    - getSettings : Ottiene tutte le impostazioni del dispositivo.
-    - setSetting : Imposta una configurazione specifica del dispositivo.
+- getSettings : Ottiene tutte le impostazioni del dispositivo.
+- setSetting : Imposta una configurazione specifica del dispositivo.
