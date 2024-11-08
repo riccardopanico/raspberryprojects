@@ -1,17 +1,4 @@
 @extends('MF1.index')
-@section('breadcrumb')
-    <div class="content-header">
-        <div class="container">
-            <div class="row" style="margin-top: 10px;">
-                <div class="col-sm-12">
-                    <h1 class="mt-0" style="font-weight: bold; text-align: center;">
-                        CAMPIONATURA</h1>
-                </div>
-            </div>
-        </div>
-    </div>
-@endsection
-
 @section('main')
     <div class="card mt-2">
         <div class="card-body p-0">
@@ -19,14 +6,20 @@
                 <tbody>
                     <tr>
                         <td class="custom-cell">
-                            <div class="header-section">Consumo</div>
-                            <div class="value-section"><span id="tempo_commessa">0</span> cm</div>
+                            <div class="header-section">Consumo Filato</div>
+                            <div class="value-section"><span id="consumo_campionatura">0 m</span></div>
                         </td>
                     </tr>
                     <tr>
                         <td class="custom-cell">
-                            <div class="header-section">Tempo</div>
-                            <div class="value-section"><span id="consumo_totale">0</span> s</div>
+                            <div class="header-section">Tempo Operatività Macchina</div>
+                            <div class="value-section"><span id="tempo_campionatura">0 s</span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="custom-cell">
+                            <div class="header-section">Tempo Toale Campionatura</div>
+                            <div class="value-section"><span id="tempo_totale_campionatura">0 s</span></div>
                         </td>
                     </tr>
                 </tbody>
@@ -59,19 +52,13 @@
     <script>
         $('#stop_campionatura').prop('disabled', true);
 
-        let campionaturaId = null;
-        let isStarted = false;
+        var campionaturaId = null;
 
         function signalCampionatura(action) {
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
                 url: "{{ route('signalCampionatura') }}",
-                // data: $("#form_campionatura input:enabled").serialize() +
-                //     "&timestamp=" + moment().valueOf() +
-                //     "&action=" + action +
-                //     "&campione=" + "campione_test" +
-                //     (campionaturaId ? "&id=" + campionaturaId : "")
                 data: {
                     action: action,
                     timestamp: moment().valueOf(),
@@ -85,17 +72,15 @@
                         campionaturaId = data.id;
                         $('#start_campionatura').prop('disabled', true);
                         $('#stop_campionatura').prop('disabled', false);
-                        $('#tempo_commessa').text('0');
-                        $('#consumo_totale').text('0');
-                        isStarted = true;
+                        // $('#consumo_campionatura').text('0');
+                        // $('#tempo_campionatura').text('0');
                     } else if (action === 'STOP') {
                         // Ricalcola il tempo totale e riabilita il bottone
-                        $('#tempo_commessa').text(data.tempo);
-                        $('#consumo_totale').text(data.consumo);
+                        campionaturaId = null; // Reset ID per una nuova campionatura
                         $('#start_campionatura').prop('disabled', false);
                         $('#stop_campionatura').prop('disabled', true);
-                        campionaturaId = null; // Reset ID per una nuova campionatura
-                        isStarted = false;
+                        // $('#consumo_campionatura').text(data.tempo);
+                        // $('#tempo_campionatura').text(data.consumo);
                     }
                 } else {
                     Swal.fire({
