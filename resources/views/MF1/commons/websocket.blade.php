@@ -70,9 +70,13 @@
                     $('[data-key="tempo_commessa"]').text(formatTimeInHoursMinutesSeconds(data.tempo_commessa));
                     $('[data-key="consumo_totale"]').text(`${(data.consumo_totale/100).toFixed(2)} m`);
                     $('[data-key="tempo_totale"]').text(formatTimeInHoursMinutesSeconds(data.tempo_totale));
-                    if(campionaturaId){
-                        $('#consumo_campionatura').text(`${(data.consumo_campionatura/100).toFixed(2)} m`);
-                        $('#tempo_campionatura').text(formatTimeInHoursMinutesSeconds(data.tempo_campionatura));
+                    try {
+                        if(campionaturaId){
+                            $('#consumo_campionatura').text(`${(data.consumo_campionatura/100).toFixed(2)} m`);
+                            $('#tempo_campionatura').text(formatTimeInHoursMinutesSeconds(data.tempo_campionatura));
+                        }
+                    } catch (error) {
+                        // console.log(error);
                     }
                     break;
                 case "alert_spola":

@@ -7,7 +7,7 @@
                     <tr>
                         <td class="custom-cell">
                             <div class="header-section">Commessa</div>
-                            <div class="value-section">{{ $commessa }}</div>
+                            <div class="value-section" id="commessa_view">{{ $commessa }}</div>
                         </td>
                     </tr>
                 </tbody>
@@ -132,7 +132,10 @@
                 },
                 'commessa': {
                     successTitle: '<strong>Commessa</strong><br>salvata<br>con successo!',
-                    errorTitle: '<strong>Commessa</strong><br>non salvata!'
+                    errorTitle: '<strong>Commessa</strong><br>non salvata!',
+                    onSuccess: () => {
+                        $('#commessa_view').text(value);
+                    }
                 }
             };
 
@@ -158,6 +161,10 @@
                     });
                     $button.data('state', 1);
                     stateButton();
+
+                    if (typeof info.onSuccess === 'function') {
+                        info.onSuccess();
+                    }
                 } else {
                     Swal.fire({
                         icon: "error",

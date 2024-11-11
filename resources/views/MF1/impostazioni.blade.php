@@ -31,9 +31,6 @@
         <div class="input-group input-group-lg mb-2">
             <input type="text" value="{{ $fattore_taratura }}" id="fattore_taratura" name="settings[fattore_taratura]" id="fattore_taratura"
                 class="font-lg form-control no-border" style="text-align: right;" data-kioskboard-type="numpad">
-            <div class="input-group-append">
-                <span class="input-group-text no-border" style="color: #000;">m</span>
-            </div>
         </div>
         <div class="row">
             <div class="col-sm-4 col-md-2">

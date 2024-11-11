@@ -21,7 +21,7 @@ $(document).ready(function () {
         if (!$('#KioskBoard-VirtualKeyboard').length) {
             window.scrollTo(0, 0);
         }
-    }, 1000);
+    }, 500);
 
     var KioskBoardSelector = 'input:not(#id_operatore,#commessa)';
 

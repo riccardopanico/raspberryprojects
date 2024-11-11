@@ -37,7 +37,6 @@
             footerVisible: true,
             footerClass: '',
             title: '',
-            forzaFocus: false,
             onShow: () => {},
             onClose: () => {},
         };
@@ -74,10 +73,10 @@
                 footer: `<button type="button" class="btn btn-default btn-flat" style="background: red; color: white;" data-dismiss="modal">Annulla</button>
                             <button type="button" class="btn btn-primary btn-flat" onclick="settingsSave('commessa', $('#commessa_manuale').val())" data-dismiss="modal">Conferma</button>`,
                 onShow: () => {
+                    KioskBoard.run('#commessa_manuale');
                     setTimeout(() => {
-                        KioskBoard.run('#commessa_manuale');
                         $('#commessa_manuale').focus();
-                    }, 50);
+                    }, 500);
                 },
             },
             'alert_spola': {
@@ -106,7 +105,7 @@
                 footer: `
                     <div class="modal-footer justify-content-between" style="margin: 0; padding: 0;">
                         <button type="button" onclick="queueMessage({ action: 'reboot' });" class="btn btn-warning btn-flat" style="font-weight: bold; width: 43.3%;">Riavvia</button>
-                        <button type="button" onclick="queueMessage({ action: 'shutdown' });" class="btn btn-danger btn-flat" style="font-weight: bold; width: 43.3%;">Spegni</button>
+                        <button type="button" onclick="queueMessage({ action: 'poweroff' });" class="btn btn-danger btn-flat" style="font-weight: bold; width: 43.3%;">Spegni</button>
                         <button type="button" class="btn btn-default btn-flat" style="background-color: #e9ecef; color: black; width: 100%;" data-dismiss="modal">Annulla</button>
                     </div>`,
             }
@@ -125,22 +124,19 @@
         $modal.find('.modal-footer').addClass(finalModalSettings.footerClass).html(finalModalSettings.footer)
 
         $modal.on('shown.bs.modal', function() {
+            forzaFocus = false;
             if (typeof finalModalSettings.onShow === 'function') {
                 finalModalSettings.onShow();
             }
-            forzaFocus = finalModalSettings.forzaFocus ? finalModalSettings.forzaFocus : false;
-            gestisciFocus()
         });
 
         $modal.on('hidden.bs.modal', function() {
+            forzaFocus = true;
             if (typeof finalModalSettings.onClose === 'function') {
                 finalModalSettings.onClose();
             }
-            forzaFocus = true;
-            gestisciFocus()
             $modal.remove()
         });
-
         $modal.modal('show');
     }
 </script>
