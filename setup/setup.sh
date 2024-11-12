@@ -89,10 +89,6 @@ sudo cp "$SCRIPT_DIR/plymouth/niva.script" /usr/share/plymouth/themes/niva/niva.
 sudo plymouth-set-default-theme -R niva --rebuild-initrd
 sudo update-initramfs -u
 
-echo "Abilito connessioni da esterno (optional)"
-sudo bash -c 'echo "[mysqld]" >> /etc/mysql/my.cnf'
-sudo bash -c 'echo "bind-address = 0.0.0.0" >> /etc/mysql/my.cnf'
-
 sudo systemctl restart mysql
 sudo mysql -u root -praspberry -e "
 CREATE USER 'niva'@'%' IDENTIFIED BY '01NiVa18';
@@ -100,6 +96,10 @@ GRANT ALL PRIVILEGES ON *.* TO 'niva'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 "
 sudo mysql -u root -praspberry < "$SCRIPT_DIR/dump.sql"
+
+echo "Abilito connessioni da esterno (optional)"
+sudo bash -c 'echo "[mysqld]" >> /etc/mysql/my.cnf'
+sudo bash -c 'echo "bind-address = 0.0.0.0" >> /etc/mysql/my.cnf'
 
 echo "Installazione PHP 8..."
 sudo wget -qO /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg >/dev/null 2>&1

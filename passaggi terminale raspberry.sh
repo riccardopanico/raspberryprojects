@@ -6,6 +6,7 @@ sudo raspi-config
 scp C:\xampp\htdocs\raspberryprojects\setup.zip pi@192.168.0.97:/home/pi/setup.zip
 
 unzip setup.zip && cd setup && chmod +x setup.sh && ./setup.sh 90
+unzip setup.zip && cd setup && chmod +x setup_server.sh && ./setup_server.sh
 
 sudo systemctl restart flask.service
 sudo systemctl restart chromium-kiosk.service
