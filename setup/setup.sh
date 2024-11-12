@@ -36,16 +36,21 @@ echo "Aggiornamento dei pacchetti in corso..." && sudo apt upgrade -y >/dev/null
 echo "Aggiornamento del firmware Raspberry Pi in corso..." && sudo rpi-update -y >/dev/null 2>&1
 
 echo "Copia dei file di configurazione in corso..."
-sudo cp /boot/cmdline.txt /boot/cmdline.txt.bak
-sudo cp /boot/config.txt /boot/config.txt.bak
-sudo cp /boot/firmware/cmdline.txt /boot/firmware/cmdline.txt.bak
-sudo cp /boot/firmware/config.txt /boot/firmware/config.txt.bak
+if [ -f /boot/cmdline.txt ]; then
+    sudo cp /boot/cmdline.txt /boot/cmdline.txt.bak
+fi
 
-echo "Creazione dei servizi in corso..."
-sudo cp "$SCRIPT_DIR/systemd/chromium-kiosk.service" /etc/systemd/system/chromium-kiosk.service
-sudo cp "$SCRIPT_DIR/systemd/flask.service" /etc/systemd/system/flask.service
-sudo cp "$SCRIPT_DIR/systemd/getty-override.conf" /etc/systemd/system/getty@tty1.service.d/getty-override.conf
-sudo systemctl daemon-reload >/dev/null 2>&1
+if [ -f /boot/config.txt ]; then
+    sudo cp /boot/config.txt /boot/config.txt.bak
+fi
+
+if [ -f /boot/firmware/cmdline.txt ]; then
+    sudo cp /boot/firmware/cmdline.txt /boot/firmware/cmdline.txt.bak
+fi
+
+if [ -f /boot/firmware/config.txt ]; then
+    sudo cp /boot/firmware/config.txt /boot/firmware/config.txt.bak
+fi
 
 echo "Installazione delle dipendenze in corso..."
 sudo apt install -y --no-install-recommends xorg xserver-xorg-input-evdev xinput-calibrator openbox chromium-browser git apache2 mariadb-server npm python3-pip python3-dev build-essential network-manager plymouth plymouth-themes vsftpd xinput
@@ -91,6 +96,7 @@ sudo update-initramfs -u
 
 sudo systemctl restart mysql
 sudo mysql -u root -praspberry -e "
+DROP USER IF EXISTS 'niva'@'%';
 CREATE USER 'niva'@'%' IDENTIFIED BY '01NiVa18';
 GRANT ALL PRIVILEGES ON *.* TO 'niva'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
@@ -160,6 +166,12 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt >/dev/null 2>&1
 deactivate
+
+echo "Creazione dei servizi in corso..."
+sudo cp "$SCRIPT_DIR/systemd/chromium-kiosk.service" /etc/systemd/system/chromium-kiosk.service
+sudo cp "$SCRIPT_DIR/systemd/flask.service" /etc/systemd/system/flask.service
+sudo cp "$SCRIPT_DIR/systemd/getty-override.conf" /etc/systemd/system/getty@tty1.service.d/getty-override.conf
+sudo systemctl daemon-reload >/dev/null 2>&1
 
 echo "
 #######  ###  #     #  #######
