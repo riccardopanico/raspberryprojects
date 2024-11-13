@@ -1,0 +1,135 @@
+{
+    "info": {
+      "_postman_id": "123e4567-e89b-12d3-a456-426614174000",
+      "name": "Flask API Collection",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "User Registration",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "url": {
+            "raw": "{{base_url}}:{{port}}/api/auth/register",
+            "host": ["{{base_url}}"],
+            "port": "{{port}}",
+            "path": ["api", "auth", "register"]
+          },
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"username\": \"{{username}}\",\n  \"password\": \"{{password}}\",\n  \"user_type\": \"{{user_type}}\",\n  \"ip_address\": \"{{ip_address}}\"\n}"
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "User Login",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "url": {
+            "raw": "{{base_url}}:{{port}}/api/auth/login",
+            "host": ["{{base_url}}"],
+            "port": "{{port}}",
+            "path": ["api", "auth", "login"]
+          },
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"username\": \"{{username}}\",\n  \"password\": \"{{password}}\"\n}"
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Refresh Token",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer {{refresh_token}}"
+            }
+          ],
+          "url": {
+            "raw": "{{base_url}}:{{port}}/api/auth/token/refresh",
+            "host": ["{{base_url}}"],
+            "port": "{{port}}",
+            "path": ["api", "auth", "token", "refresh"]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Get Device Profile",
+        "request": {
+          "method": "GET",
+          "header": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{access_token}}"
+            }
+          ],
+          "url": {
+            "raw": "{{base_url}}:{{port}}/api/device/profile",
+            "host": ["{{base_url}}"],
+            "port": "{{port}}",
+            "path": ["api", "device", "profile"]
+          }
+        },
+        "response": []
+      }
+    ],
+    "variables": [
+      {
+        "key": "base_url",
+        "value": "http://localhost"
+      },
+      {
+        "key": "port",
+        "value": "5000"
+      },
+      {
+        "key": "username",
+        "value": "PiDevice1"
+      },
+      {
+        "key": "password",
+        "value": "password123"
+      },
+      {
+        "key": "user_type",
+        "value": "device"
+      },
+      {
+        "key": "ip_address",
+        "value": "192.168.1.150"
+      },
+      {
+        "key": "access_token",
+        "value": ""
+      },
+      {
+        "key": "refresh_token",
+        "value": ""
+      }
+    ],
+    "name": "Flask API Environment",
+    "_postman_variable_scope": "environment",
+    "_postman_exported_at": "2024-11-13T12:00:00.000Z",
+    "_postman_exported_using": "Postman/10.0.0"
+  }
