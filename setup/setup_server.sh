@@ -25,7 +25,7 @@ if [ -f /boot/firmware/config.txt ]; then
 fi
 
 echo "Installazione delle dipendenze in corso..."
-sudo apt install -y --no-install-recommends mariadb-server python3-pip python3-dev build-essential
+sudo apt install -y --no-install-recommends mariadb-server python3-pip python3-dev build-essential libmariadb-dev >/dev/null 2>&1
 echo "Installazione completata!"
 
 echo "Configurazione di MariaDB..."
@@ -33,10 +33,11 @@ sudo systemctl restart mysql
 sudo mysql -u root -praspberry -e "
 DROP USER IF EXISTS 'niva'@'%';
 CREATE USER 'niva'@'%' IDENTIFIED BY '01NiVa18';
+DROP DATABASE IF EXISTS datacenter;
+CREATE DATABASE IF NOT EXISTS datacenter;
 GRANT ALL PRIVILEGES ON *.* TO 'niva'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 "
-sudo mysql -u root -praspberry < "$SCRIPT_DIR/dump.sql"
 
 echo "Abilito connessioni da esterno (optional)"
 sudo bash -c 'echo "[mysqld]" >> /etc/mysql/my.cnf'
@@ -58,6 +59,10 @@ python3 -m venv "$FLASK_DIR/venv"
 if [ -d "$FLASK_DIR/venv" ]; then
     source "$FLASK_DIR/venv/bin/activate"
     pip install -r "$FLASK_DIR/requirements.txt" >/dev/null 2>&1
+    echo "Esecuzione delle migrazioni del database Flask..."
+    flask db init >/dev/null 2>&1
+    flask db migrate -m "Inizializzazione del database" >/dev/null 2>&1
+    flask db upgrade >/dev/null 2>&1
     deactivate
 else
     echo "Errore: il virtual environment non è stato creato correttamente."
