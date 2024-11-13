@@ -47,7 +47,7 @@ if [ -d "$FLASK_DIR" ]; then
     sudo rm -rf "$FLASK_DIR"
 fi
 sudo git clone https://github.com/riccardopanico/flask_project.git "$FLASK_DIR" >/dev/null 2>&1
-sudo cp "$SCRIPT_DIR/.env_flask" "$FLASK_DIR/.env"
+sudo cp "$SCRIPT_DIR/.env_flask_server" "$FLASK_DIR/.env"
 sudo chown -R pi:www-data "$FLASK_DIR"
 sudo chmod -R 775 "$FLASK_DIR"
 
@@ -65,7 +65,7 @@ else
 fi
 
 echo "Creazione dei servizi in corso..."
-sudo cp "$SCRIPT_DIR/systemd/flask.service" /etc/systemd/system/flask.service
+sudo cp "$SCRIPT_DIR/systemd/flask_server.service" /etc/systemd/system/flask.service
 sudo systemctl daemon-reload >/dev/null 2>&1
 sudo systemctl enable flask.service
 
