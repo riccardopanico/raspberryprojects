@@ -201,10 +201,8 @@ class HomeController extends Controller
         try {
             // Se non c'è un access token, prova a recuperarlo con il login
             if (!Session::has('access_token')) {
-                dump('Access token non presente, tentativo di login...');
                 $loginResponse = $this->performLogin();
                 if (!$loginResponse['success']) {
-                    dump('Login fallito:', $loginResponse);
                     return [
                         'success' => false,
                         'status' => 401,
@@ -221,17 +219,23 @@ class HomeController extends Controller
             $request = Http::withHeaders($headers);
 
             // Aggiungi i parametri in base al metodo
-            dump('Eseguo richiesta API:');
             switch ($method) {
-                case 'POST': $response = $request->post($url, $params); break;
-                case 'PUT': $response = $request->put($url, $params); break;
-                case 'DELETE': $response = $request->delete($url, $params); break;
+                case 'POST':
+                    $response = $request->post($url, $params);
+                    break;
+                case 'PUT':
+                    $response = $request->put($url, $params);
+                    break;
+                case 'DELETE':
+                    $response = $request->delete($url, $params);
+                    break;
                 case 'GET':
-                default: $response = $request->get($url, $params); break;
+                default:
+                    $response = $request->get($url, $params);
+                    break;
             }
 
             // Controlla se la risposta è riuscita
-            dump('Risposta API ricevuta:', $response->json());
             if ($response->successful()) {
                 return [
                     'success' => true,
@@ -239,22 +243,38 @@ class HomeController extends Controller
                 ];
             } elseif ($response->status() === 401) {
                 // Token scaduto, prova ad aggiornare il token
-                dump('Token scaduto, tentativo di refresh...');
                 $refreshResponse = $this->performRefreshToken();
                 if ($refreshResponse['success']) {
                     // Aggiorna l'header con il nuovo token
                     $headers['Authorization'] = 'Bearer ' . $refreshResponse['data']['access_token'];
                     return $this->callExternalApi($url, $params, $method, $headers);
                 } else {
-                    dump('Refresh token fallito:', $refreshResponse);
+                    $loginResponse = $this->performLogin();
+                    if ($loginResponse['success']) {
+                        $headers['Authorization'] = 'Bearer ' . $loginResponse['data']['access_token'];
+                        return $this->callExternalApi($url, $params, $method, $headers);
+                    } else {
+                        return [
+                            'success' => false,
+                            'status' => 401,
+                            'error' => 'Unable to refresh or login: ' . $loginResponse['error'],
+                        ];
+                    }
+                }
+            } elseif ($response->status() === 422 && strpos($response->body(), 'Signature verification failed') !== false) {
+                // Se la verifica della firma fallisce, significa che la chiave JWT potrebbe essere cambiata, quindi tenta il login
+                $loginResponse = $this->performLogin();
+                if ($loginResponse['success']) {
+                    $headers['Authorization'] = 'Bearer ' . $loginResponse['data']['access_token'];
+                    return $this->callExternalApi($url, $params, $method, $headers);
+                } else {
                     return [
                         'success' => false,
                         'status' => 401,
-                        'error' => 'Unable to refresh token: ' . $refreshResponse['error'],
+                        'error' => 'Unable to login after JWT key change: ' . $loginResponse['error'],
                     ];
                 }
             } else {
-                dump('Errore durante la richiesta API:', $response->status(), $response->body());
                 return [
                     'success' => false,
                     'status' => $response->status(),
@@ -262,7 +282,6 @@ class HomeController extends Controller
                 ];
             }
         } catch (\Exception $e) {
-            dump('Eccezione durante la richiesta API:', $e->getMessage());
             return [
                 'success' => false,
                 'status' => 500,
@@ -276,7 +295,6 @@ class HomeController extends Controller
         $url = 'http://192.168.0.114:5000/api/auth/token/refresh';
         $refreshToken = Session::get('refresh_token');
         if (!$refreshToken) {
-            dump('Refresh token non disponibile');
             return [
                 'success' => false,
                 'status' => 401,
@@ -289,7 +307,6 @@ class HomeController extends Controller
             'Authorization' => 'Bearer ' . $refreshToken,
         ];
 
-        dump('Tentativo di refresh del token...');
         $response = Http::withHeaders($headers)->post($url);
         if ($response->successful()) {
             $responseData = $response->json();
@@ -299,7 +316,6 @@ class HomeController extends Controller
                 'data' => $responseData,
             ];
         } else {
-            dump('Refresh del token fallito:', $response->body());
             return [
                 'success' => false,
                 'status' => $response->status(),
@@ -316,7 +332,6 @@ class HomeController extends Controller
             'password' => 'password123',
         ];
 
-        dump('Tentativo di login...');
         $response = Http::post($url, $credentials);
         if ($response->successful()) {
             $responseData = $response->json();
@@ -327,7 +342,6 @@ class HomeController extends Controller
                 'data' => $responseData,
             ];
         } else {
-            dump('Login fallito:', $response->body());
             return [
                 'success' => false,
                 'status' => $response->status(),
@@ -340,13 +354,11 @@ class HomeController extends Controller
     {
         $url = 'http://192.168.0.114:5000/api/device/profile';
 
-        dump('Tentativo di recupero del profilo del dispositivo...');
         $response = $this->callExternalApi($url, [], 'GET');
 
         if ($response['success']) {
             return response()->json(['message' => 'Device profile retrieved successfully', 'data' => $response['data']], 200);
         } else {
-            dump('Errore nel recupero del profilo del dispositivo:', $response);
             return response()->json(['message' => 'Failed to retrieve device profile', 'error' => $response['error']], $response['status']);
         }
     }
