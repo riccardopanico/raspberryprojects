@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 use App\Models\LogOperazioni;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -60,15 +62,6 @@ class HomeController extends Controller
         return view('MF1.manuale', get_defined_vars());
     }
 
-    public function reboot()
-    {
-        $command = 'clear && sudo systemctl stop getty@tty1.service && sudo reboot --no-wall';
-        $process = Process::fromShellCommandline($command);
-        $process->run();
-    }
-
-    public function shutdown() {}
-
     public function settingsSave(Request $request)
     {
         $impostazioni = Impostazioni::all()->pluck('valore', 'codice')->toArray();
@@ -79,9 +72,6 @@ class HomeController extends Controller
                 case '______':
                     Impostazioni::where('codice', '______')->update(['valore' => 1]);
                     break;
-                // case 'alert_spola':
-                //     Impostazioni::where('codice', 'alert_spola')->update(['valore' => $request->value]);
-                //     break;
                 case 'data_cambio_olio':
                     Impostazioni::where('codice', $request->setting)->update(['valore' => $request->value]);
                     Impostazioni::where('codice', 'alert_olio')->update(['valore' => 0]);
@@ -206,4 +196,158 @@ class HomeController extends Controller
         return response()->json($response);
     }
 
+    public function callExternalApi(string $url, array $params = [], string $method = 'GET', array $headers = []): array
+    {
+        try {
+            // Se non c'è un access token, prova a recuperarlo con il login
+            if (!Session::has('access_token')) {
+                dump('Access token non presente, tentativo di login...');
+                $loginResponse = $this->performLogin();
+                if (!$loginResponse['success']) {
+                    dump('Login fallito:', $loginResponse);
+                    return [
+                        'success' => false,
+                        'status' => 401,
+                        'error' => 'Unable to login: ' . $loginResponse['error'],
+                    ];
+                }
+                $headers['Authorization'] = 'Bearer ' . $loginResponse['data']['access_token'];
+            } else {
+                $headers['Authorization'] = 'Bearer ' . Session::get('access_token');
+            }
+
+            // Configura il metodo della richiesta HTTP
+            $method = strtoupper($method);
+            $request = Http::withHeaders($headers);
+
+            // Aggiungi i parametri in base al metodo
+            dump('Eseguo richiesta API:');
+            switch ($method) {
+                case 'POST': $response = $request->post($url, $params); break;
+                case 'PUT': $response = $request->put($url, $params); break;
+                case 'DELETE': $response = $request->delete($url, $params); break;
+                case 'GET':
+                default: $response = $request->get($url, $params); break;
+            }
+
+            // Controlla se la risposta è riuscita
+            dump('Risposta API ricevuta:', $response->json());
+            if ($response->successful()) {
+                return [
+                    'success' => true,
+                    'data' => $response->json(),
+                ];
+            } elseif ($response->status() === 401) {
+                // Token scaduto, prova ad aggiornare il token
+                dump('Token scaduto, tentativo di refresh...');
+                $refreshResponse = $this->performRefreshToken();
+                if ($refreshResponse['success']) {
+                    // Aggiorna l'header con il nuovo token
+                    $headers['Authorization'] = 'Bearer ' . $refreshResponse['data']['access_token'];
+                    return $this->callExternalApi($url, $params, $method, $headers);
+                } else {
+                    dump('Refresh token fallito:', $refreshResponse);
+                    return [
+                        'success' => false,
+                        'status' => 401,
+                        'error' => 'Unable to refresh token: ' . $refreshResponse['error'],
+                    ];
+                }
+            } else {
+                dump('Errore durante la richiesta API:', $response->status(), $response->body());
+                return [
+                    'success' => false,
+                    'status' => $response->status(),
+                    'error' => $response->json()['msg'] ?? $response->body(),
+                ];
+            }
+        } catch (\Exception $e) {
+            dump('Eccezione durante la richiesta API:', $e->getMessage());
+            return [
+                'success' => false,
+                'status' => 500,
+                'error' => $e->getMessage(),
+            ];
+        }
+    }
+
+    private function performRefreshToken(): array
+    {
+        $url = 'http://192.168.0.114:5000/api/auth/token/refresh';
+        $refreshToken = Session::get('refresh_token');
+        if (!$refreshToken) {
+            dump('Refresh token non disponibile');
+            return [
+                'success' => false,
+                'status' => 401,
+                'error' => 'Refresh token not available',
+            ];
+        }
+
+        $headers = [
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $refreshToken,
+        ];
+
+        dump('Tentativo di refresh del token...');
+        $response = Http::withHeaders($headers)->post($url);
+        if ($response->successful()) {
+            $responseData = $response->json();
+            Session::put('access_token', $responseData['access_token']);
+            return [
+                'success' => true,
+                'data' => $responseData,
+            ];
+        } else {
+            dump('Refresh del token fallito:', $response->body());
+            return [
+                'success' => false,
+                'status' => $response->status(),
+                'error' => $response->body(),
+            ];
+        }
+    }
+
+    private function performLogin(): array
+    {
+        $url = 'http://192.168.0.114:5000/api/auth/login';
+        $credentials = [
+            'username' => 'PiDevice1',
+            'password' => 'password123',
+        ];
+
+        dump('Tentativo di login...');
+        $response = Http::post($url, $credentials);
+        if ($response->successful()) {
+            $responseData = $response->json();
+            Session::put('access_token', $responseData['access_token']);
+            Session::put('refresh_token', $responseData['refresh_token']);
+            return [
+                'success' => true,
+                'data' => $responseData,
+            ];
+        } else {
+            dump('Login fallito:', $response->body());
+            return [
+                'success' => false,
+                'status' => $response->status(),
+                'error' => $response->body(),
+            ];
+        }
+    }
+
+    public function getDeviceProfile()
+    {
+        $url = 'http://192.168.0.114:5000/api/device/profile';
+
+        dump('Tentativo di recupero del profilo del dispositivo...');
+        $response = $this->callExternalApi($url, [], 'GET');
+
+        if ($response['success']) {
+            return response()->json(['message' => 'Device profile retrieved successfully', 'data' => $response['data']], 200);
+        } else {
+            dump('Errore nel recupero del profilo del dispositivo:', $response);
+            return response()->json(['message' => 'Failed to retrieve device profile', 'error' => $response['error']], $response['status']);
+        }
+    }
 }

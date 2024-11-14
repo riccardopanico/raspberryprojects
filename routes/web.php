@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::any('shutdown', [HomeController::class, 'shutdown'])->name('shutdown');
     Route::any('campionatura', [HomeController::class, 'campionatura'])->name('campionatura');
     Route::any('signalCampionatura', [HomeController::class, 'signalCampionatura'])->name('signalCampionatura');
+    Route::any('getDeviceProfile', [HomeController::class, 'getDeviceProfile'])->name('getDeviceProfile');
 });
 
 Route::any('clear-cache', function () {
