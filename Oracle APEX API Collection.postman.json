@@ -1,0 +1,93 @@
+{
+    "info": {
+        "_postman_id": "9701d9e1-4752-4d3a-ae93-64286faa21a2",
+        "name": "Oracle APEX API Collection",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "11834280"
+    },
+    "item": [
+        {
+            "name": "Get Device Data",
+            "request": {
+                "method": "GET",
+                "header": [ { "key": "Content-Type", "value": "application/json" } ],
+                "url": {
+                    "raw": "{{base_url}}/device",
+                    "host": [ "{{base_url}}" ],
+                    "path": [ "device" ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get Variable Data",
+            "request": {
+                "method": "GET",
+                "header": [ { "key": "Content-Type", "value": "application/json" } ],
+                "url": {
+                    "raw": "{{base_url}}/variable",
+                    "host": [ "{{base_url}}" ],
+                    "path": [ "variable" ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Register Device Data",
+            "request": {
+                "method": "POST",
+                "header": [ { "key": "Content-Type", "value": "application/json" } ],
+                "url": {
+                    "raw": "{{base_url}}/device/data",
+                    "host": [ "{{base_url}}" ],
+                    "path": [ "device", "data" ]
+                },
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"id_dispositivo\": 123,\n    \"id_variabile\": 456,\n    \"valore_numerico\": 78.9,\n    \"valore_booleano\": 1,\n    \"valore_testo\": \"Esempio di valore testo\",\n    \"id_allarme\": 789,\n    \"id_evento\": 321,\n    \"data_record\": \"2024-11-18T12:34:56\"\n}"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Create Task",
+            "request": {
+                "method": "POST",
+                "header": [ { "key": "Content-Type", "value": "application/json" } ],
+                "url": {
+                    "raw": "{{base_url}}/task",
+                    "host": [ "{{base_url}}" ],
+                    "path": [ "task" ]
+                },
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"id_dispositivo\": 123,\n    \"tipo\": \"maintenance\"\n}"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Update Variable Data",
+            "request": {
+                "method": "POST",
+                "header": [ { "key": "Content-Type", "value": "application/json" } ],
+                "url": {
+                    "raw": "{{base_url}}/variable",
+                    "host": [ "{{base_url}}" ],
+                    "path": [ "variable" ]
+                },
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"id_scrittura\": 789\n}"
+                }
+            },
+            "response": []
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "https://g9f08d451aa416c-autodb02.adb.eu-frankfurt-1.oraclecloudapps.com/ords/tap_in_restart"
+        }
+    ]
+}
