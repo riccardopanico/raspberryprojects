@@ -23,12 +23,14 @@ class AuthController extends Controller
     {
         try {
             // DB::enableQueryLog();
-            $user = User::find($request->id_operatore);
+            $user = User::where('badge', $request->id_operatore)->firstOrFail();
             Auth::login($user);
 
             Impostazioni::where('codice', 'id_operatore')->update(['valore' => $request->id_operatore]);
 
             extract(Impostazioni::all()->pluck('valore', 'codice')->toArray());
+            // session()->put(Impostazioni::all()->pluck('valore', 'codice')->toArray());
+
             LogOperazioni::create([
                 'id_macchina'  => $id_macchina,
                 'id_operatore' => $id_operatore,
