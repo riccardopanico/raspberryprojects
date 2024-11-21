@@ -1,3 +1,4 @@
+USE `raspberryprojects`;
 INSERT INTO `impostazioni` (`codice`, `descrizione`, `valore`) VALUES
     ('alert_olio', 'Alert Olio', '1'),
     ('alert_spola', 'Alert Spola', '0'),
@@ -36,7 +37,7 @@ INSERT INTO `impostazioni` (`codice`, `descrizione`, `valore`) VALUES
     ('websocket_host', 'WebSocket Host', '192.168.0.97'),
     ('websocket_port', 'WebSocket Port', '8765');
 
-INSERT INTO `operatori` (`id`, `nome`, `cognome`) VALUES
+INSERT INTO `users` (`badge`, `name`, `last_name` ) VALUES
     ('0001752390', 'Mario', 'Rossi'),
     ('0001978094', 'Luigi', 'Verdi'),
     ('0010452223', 'Riccardo', 'Panico');

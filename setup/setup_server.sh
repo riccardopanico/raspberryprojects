@@ -2,6 +2,7 @@
 
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 FLASK_DIR="/home/pi/flask_project"
+$DATABASE_NAME="datacenter"
 
 echo "Aggiornamento della lista dei pacchetti in corso..." && sudo apt update -y >/dev/null 2>&1
 echo "Aggiornamento dei pacchetti in corso..." && sudo apt upgrade -y >/dev/null 2>&1
@@ -33,8 +34,8 @@ sudo systemctl restart mysql
 sudo mysql -u root -praspberry -e "
 DROP USER IF EXISTS 'niva'@'%';
 CREATE USER 'niva'@'%' IDENTIFIED BY '01NiVa18';
-DROP DATABASE IF EXISTS datacenter;
-CREATE DATABASE IF NOT EXISTS datacenter;
+DROP DATABASE IF EXISTS $DATABASE_NAME;
+CREATE DATABASE IF NOT EXISTS $DATABASE_NAME;
 GRANT ALL PRIVILEGES ON *.* TO 'niva'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 "
