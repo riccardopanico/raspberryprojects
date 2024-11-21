@@ -4,7 +4,7 @@ DYSPLAY_ROTATION=$1
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 PROJECT_DIR="/var/www/html/raspberryprojects"
 FLASK_DIR="$PROJECT_DIR/python/flask_project"
-$DATABASE_NAME="raspberryprojects"
+DATABASE_NAME="raspberryprojects"
 
 if [ -z "$DYSPLAY_ROTATION" ]; then
     DYSPLAY_ROTATION=0

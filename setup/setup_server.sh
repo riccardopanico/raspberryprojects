@@ -2,7 +2,7 @@
 
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 FLASK_DIR="/home/pi/flask_project"
-$DATABASE_NAME="datacenter"
+DATABASE_NAME="datacenter"
 
 echo "Aggiornamento della lista dei pacchetti in corso..." && sudo apt update -y >/dev/null 2>&1
 echo "Aggiornamento dei pacchetti in corso..." && sudo apt upgrade -y >/dev/null 2>&1
