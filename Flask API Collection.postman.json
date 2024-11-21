@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e785d7c6-bf7b-465b-bbeb-e736ff02b39f",
+		"_postman_id": "f5cb9647-8a54-4160-a92a-91f190e9ad68",
 		"name": "Flask API Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "11834280"
@@ -10,16 +10,27 @@
 			"name": "User Registration",
 			"request": {
 				"method": "POST",
-				"header": [ { "key": "Content-Type", "value": "application/json" } ],
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n  \"username\": \"{{username}}\",\n  \"password\": \"{{password}}\",\n  \"user_type\": \"{{user_type}}\",\n  \"ip_address\": \"{{ip_address}}\"\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}:{{port}}/api/auth/register",
-					"host": [ "{{base_url}}" ],
+					"host": [
+						"{{base_url}}"
+					],
 					"port": "{{port}}",
-					"path": [ "api", "auth", "register" ]
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
 				}
 			},
 			"response": []
@@ -28,16 +39,27 @@
 			"name": "User Login",
 			"request": {
 				"method": "POST",
-				"header": [ { "key": "Content-Type", "value": "application/json" } ],
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n  \"username\": \"{{username}}\",\n  \"password\": \"{{password}}\"\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}:{{port}}/api/auth/login",
-					"host": [ "{{base_url}}" ],
+					"host": [
+						"{{base_url}}"
+					],
 					"port": "{{port}}",
-					"path": [ "api", "auth", "login" ]
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
 				}
 			},
 			"response": []
@@ -46,15 +68,28 @@
 			"name": "Refresh Token",
 			"request": {
 				"method": "POST",
-				"header": [ 
-                    { "key": "Content-Type", "value": "application/json" }, 
-                    { "key": "Authorization", "value": "Bearer {{refresh_token}}" }
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{refresh_token}}"
+					}
 				],
 				"url": {
 					"raw": "{{base_url}}:{{port}}/api/auth/token/refresh",
-					"host": [ "{{base_url}}" ],
+					"host": [
+						"{{base_url}}"
+					],
 					"port": "{{port}}",
-					"path": [ "api", "auth", "token", "refresh" ]
+					"path": [
+						"api",
+						"auth",
+						"token",
+						"refresh"
+					]
 				}
 			},
 			"response": []
@@ -63,25 +98,93 @@
 			"name": "Get Device Profile",
 			"request": {
 				"method": "GET",
-				"header": [ { "key": "Authorization", "value": "Bearer {{access_token}}" } ],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
 				"url": {
 					"raw": "{{base_url}}:{{port}}/api/device/profile",
-					"host": [ "{{base_url}}" ],
+					"host": [
+						"{{base_url}}"
+					],
 					"port": "{{port}}",
-					"path": [ "api", "device", "profile" ]
+					"path": [
+						"api",
+						"device",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Task",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id_dispositivo\": 123,\n  \"tipo_intervento\": \"maintenance\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}:{{port}}/api/device/task",
+					"host": [
+						"{{base_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"device",
+						"task"
+					]
 				}
 			},
 			"response": []
 		}
 	],
 	"variable": [
-		{ "key": "base_url", "value": "http://localhost" },
-		{ "key": "port", "value": "5000" },
-		{ "key": "username", "value": "PiDevice1" },
-		{ "key": "password", "value": "password123" },
-		{ "key": "user_type", "value": "device" },
-		{ "key": "ip_address", "value": "192.168.1.150" },
-		{ "key": "access_token", "value": "" },
-		{ "key": "refresh_token", "value": "" }
+		{
+			"key": "base_url",
+			"value": "http://localhost"
+		},
+		{
+			"key": "port",
+			"value": "5000"
+		},
+		{
+			"key": "username",
+			"value": "PiDevice1"
+		},
+		{
+			"key": "password",
+			"value": "password123"
+		},
+		{
+			"key": "user_type",
+			"value": "device"
+		},
+		{
+			"key": "ip_address",
+			"value": "192.168.1.150"
+		},
+		{
+			"key": "access_token",
+			"value": ""
+		},
+		{
+			"key": "refresh_token",
+			"value": ""
+		}
 	]
 }
