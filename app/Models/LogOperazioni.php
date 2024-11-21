@@ -10,6 +10,7 @@ class LogOperazioni extends Model
     use HasFactory;
 
     protected $table = 'log_operazioni';
+    public $timestamps = false;
 
     protected $fillable = [
         'data',
@@ -17,8 +18,6 @@ class LogOperazioni extends Model
         'id_operatore',
         'codice',
         'valore',
-        'created_at',
-        'updated_at',
-        'deleted_at'
+        'created_at'
     ];
 }

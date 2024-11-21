@@ -10,6 +10,7 @@ class LogOrlatura extends Model
     use HasFactory;
 
     protected $table = 'log_orlatura';
+    public $timestamps = false;
 
     protected $fillable = [
         'data',
@@ -17,8 +18,6 @@ class LogOrlatura extends Model
         'id_macchina',
         'id_operatore',
         'commessa',
-        'created_at',
-        'updated_at',
-        'deleted_at'
+        'created_at'
     ];
 }
