@@ -9,9 +9,9 @@ FLUSH PRIVILEGES;
 sudo rm -rf /var/www/html/raspberryprojects/python/flask_project/migrations
 
 echo "Migrazione del database Flask..."
-flask db init >/dev/null 2>&1
-flask db migrate >/dev/null 2>&1
-flask db upgrade >/dev/null 2>&1
+flask db init
+flask db migrate
+flask db upgrade
 
 sudo mysql -u root -praspberry < /var/www/html/raspberryprojects/insert.sql
 #---------------------------------------------------------------------------------

@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class TokenMiddleware {
     public function handle($request, Closure $next) {
         try {
-            $token = Impostazioni::where('codice', 'token')->first()->valore;
-    
+            $token = session('access_token');
             if($request->bearerToken() == $token || $request->api_token == $token) {
                 return $next($request);
             }

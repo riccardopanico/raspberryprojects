@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Tasks;
 use App\Models\LogOrlatura;
 use App\Models\Campionatura;
 use App\Models\Impostazioni;
@@ -20,7 +21,15 @@ class HomeController extends Controller
     {
         $impostazioni = Impostazioni::all()->pluck('valore', 'codice')->toArray();
         extract($impostazioni);
-
+        $richiesta_filato = 0;
+        $richiesta_intervento = 0;
+        $tasks = Tasks::whereNotIn('status', ['CANCELED', 'COMPLETED'])
+            ->select('task_type', DB::raw('count(*) as count'))
+            ->groupBy('task_type')
+            ->get()
+            ->each(function($task) use(&$richiesta_filato, &$richiesta_intervento) {
+                ${$task->task_type} = $task->count ? 1 : 0;
+            });
         return view('MF1.home', get_defined_vars());
     }
 
@@ -79,6 +88,14 @@ class HomeController extends Controller
                 case 'data_cambio_spola':
                     Impostazioni::where('codice', $request->setting)->update(['valore' => $request->value]);
                     Impostazioni::where('codice', 'alert_spola')->update(['valore' => 0]);
+                    break;
+                case 'richiesta_filato':
+                case 'richiesta_intervento':
+                    Tasks::create([
+                        'device_id' => $id_macchina,
+                        'task_type' => $request->setting,
+                        'status' => 'UNASSIGNED'
+                    ]);
                     break;
                 default:
                     Impostazioni::where('codice', $request->setting)->update(['valore' => $request->value]);
