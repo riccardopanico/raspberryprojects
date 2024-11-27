@@ -1,3 +1,8 @@
+sudo systemctl stop flask.service
+cd /var/www/html/raspberryprojects/python/flask_project
+source venv/bin/activate
+/var/www/html/raspberryprojects/python/flask_project/venv/bin/gunicorn --workers 1 --threads 8 --timeout 60 --bind 0.0.0.0:5000 manage:app
+
 sudo mysql -u root -praspberry -e "
 DROP USER IF EXISTS 'niva'@'%';
 CREATE USER 'niva'@'%' IDENTIFIED BY '01NiVa18';
@@ -13,7 +18,7 @@ flask db init
 flask db migrate
 flask db upgrade
 
-sudo mysql -u root -praspberry < /var/www/html/raspberryprojects/insert.sql
+sudo mysql -u root -praspberry < /home/pi/setup/insert.sql
 #---------------------------------------------------------------------------------
 
 #!/bin/bash
@@ -85,7 +90,7 @@ else
     exit 1
 fi
 
-sudo mysql -u root -praspberry < "$PROJECT_DIR/insert.sql"
+sudo mysql -u root -praspberry < "$SCRIPT_DIR/insert.sql"
 
 echo "Creazione dei servizi in corso..."
 sudo cp "$SCRIPT_DIR/systemd/chromium-kiosk.service" /etc/systemd/system/chromium-kiosk.service
