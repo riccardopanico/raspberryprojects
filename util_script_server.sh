@@ -1,19 +1,39 @@
+
+SCRIPT_DIR="/home/pi/setup"
+PROJECT_DIR="/home/pi"
+FLASK_DIR="$PROJECT_DIR/flask_project"
+DATABASE_NAME="datacenter"
+
 sudo mysql -u root -praspberry -e "
 DROP USER IF EXISTS 'niva'@'%';
 CREATE USER 'niva'@'%' IDENTIFIED BY '01NiVa18';
-DROP DATABASE IF EXISTS raspberryprojects;
-CREATE DATABASE IF NOT EXISTS raspberryprojects;
+DROP DATABASE IF EXISTS $DATABASE_NAME;
+CREATE DATABASE IF NOT EXISTS $DATABASE_NAME;;
 GRANT ALL PRIVILEGES ON *.* TO 'niva'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 "
-sudo rm -rf /var/www/html/raspberryprojects/python/flask_project/migrations
 
-echo "Migrazione del database Flask..."
-flask db init >/dev/null 2>&1
-flask db migrate >/dev/null 2>&1
-flask db upgrade >/dev/null 2>&1
+sudo rm -rf "$FLASK_DIR/migrations"
 
-sudo mysql -u root -praspberry < /var/www/html/raspberryprojects/insert.sql
+if [ -d "$FLASK_DIR/venv" ]; then
+    source "$FLASK_DIR/venv/bin/activate"
+    pip install -r "$FLASK_DIR/requirements.txt"
+    echo "Esecuzione delle migrazioni del database Flask..."
+    flask db init
+    flask db migrate -m "Inizializzazione del database"
+    flask db upgrade
+    deactivate
+else
+    echo "Errore: il virtual environment non è stato creato correttamente."
+    exit 1
+fi
+
+sudo mysql -u root -praspberry < "$SCRIPT_DIR/insert_server.sql"
+
+echo "Creazione dei servizi in corso..."
+sudo cp "$SCRIPT_DIR/systemd/flask_server.service" /etc/systemd/system/flask.service
+sudo systemctl daemon-reload >/dev/null 2>&1
+
 #---------------------------------------------------------------------------------
 
 #!/bin/bash
