@@ -14,7 +14,7 @@ class LogOperazioni extends Model
 
     protected $fillable = [
         'data',
-        'id_macchina',
+        'device_id',
         'id_operatore',
         'codice',
         'valore',

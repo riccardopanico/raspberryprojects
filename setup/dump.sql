@@ -92,7 +92,7 @@ INSERT INTO `impostazioni` (`codice`, `descrizione`, `valore`, `created_at`) VAL
 	('dns_nameservers', 'DNS Name Servers', '8.8.8.8', '2024-11-21 16:45:10'),
 	('fattore_taratura', 'Fattore Taratura', '78', '2024-11-21 16:45:10'),
 	('gateway', 'Gateway', '192.168.10.253', '2024-11-21 16:45:10'),
-	('id_macchina', 'ID Macchina', '1', '2024-11-21 16:45:10'),
+	('device_id', 'ID Macchina', '1', '2024-11-21 16:45:10'),
 	('id_operatore', 'Badge', '0010452223', '2024-11-21 16:45:10'),
 	('ip_local_server', 'IP Server Locale', '192.168.10.207', '2024-11-21 16:45:10'),
 	('ip_macchina', 'IP Macchina', '192.168.10.201', '2024-11-21 16:45:10'),
@@ -117,7 +117,7 @@ DROP TABLE IF EXISTS `log_operazioni`;
 CREATE TABLE IF NOT EXISTS `log_operazioni` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `data` datetime NOT NULL DEFAULT current_timestamp(),
-  `id_macchina` int(11) NOT NULL,
+  `device_id` int(11) NOT NULL,
   `id_operatore` varchar(50) NOT NULL,
   `codice` varchar(255) NOT NULL,
   `valore` varchar(255) NOT NULL,
@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `log_operazioni` (
 
 -- Dump dei dati della tabella raspberryprojects.log_operazioni: ~5 rows (circa)
 DELETE FROM `log_operazioni`;
-INSERT INTO `log_operazioni` (`id`, `data`, `id_macchina`, `id_operatore`, `codice`, `valore`, `created_at`) VALUES
+INSERT INTO `log_operazioni` (`id`, `data`, `device_id`, `id_operatore`, `codice`, `valore`, `created_at`) VALUES
 	(1, '2024-11-25 16:21:12', 1, '0010452223', 'id_operatore', '0010452223', '2024-11-25 16:21:12'),
 	(2, '2024-11-26 09:10:28', 1, '0010452223', 'id_operatore', '0010452223', '2024-11-26 09:10:28'),
 	(3, '2024-11-26 09:11:44', 1, '0010452223', 'richiesta_filato', '1', '2024-11-26 09:11:44'),
@@ -139,7 +139,7 @@ INSERT INTO `log_operazioni` (`id`, `data`, `id_macchina`, `id_operatore`, `codi
 DROP TABLE IF EXISTS `log_orlatura`;
 CREATE TABLE IF NOT EXISTS `log_orlatura` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_macchina` int(11) NOT NULL,
+  `device_id` int(11) NOT NULL,
   `id_operatore` varchar(50) NOT NULL,
   `consumo` decimal(11,2) NOT NULL,
   `tempo` int(11) NOT NULL,

@@ -15,7 +15,7 @@ class LogOrlatura extends Model
     protected $fillable = [
         'data',
         'consumo',
-        'id_macchina',
+        'device_id',
         'id_operatore',
         'commessa',
         'created_at'

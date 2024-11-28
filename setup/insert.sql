@@ -11,7 +11,7 @@ INSERT INTO `impostazioni` (`codice`, `descrizione`, `valore`, `created_at`) VAL
 	('dns_nameservers', 'DNS Name Servers', '8.8.8.8', '2024-11-21 16:45:10'),
 	('fattore_taratura', 'Fattore Taratura', '78', '2024-11-21 16:45:10'),
 	('gateway', 'Gateway', '192.168.10.253', '2024-11-21 16:45:10'),
-	('id_macchina', 'ID Macchina', '1', '2024-11-21 16:45:10'),
+	('device_id', 'ID Macchina', '1', '2024-11-21 16:45:10'),
 	('id_operatore', 'Badge', '0010452223', '2024-11-21 16:45:10'),
 	('ip_local_server', 'IP Server Locale', '192.168.10.207', '2024-11-21 16:45:10'),
 	('ip_macchina', 'IP Macchina', '192.168.10.201', '2024-11-21 16:45:10'),
@@ -32,7 +32,7 @@ INSERT INTO `impostazioni` (`codice`, `descrizione`, `valore`, `created_at`) VAL
 	('websocket_port', 'WebSocket Port', '8765', '2024-11-21 16:45:10');
 
 -- Dump dei dati della tabella raspberryprojects.log_operazioni: ~3 rows (circa)
-INSERT INTO `log_operazioni` (`id`, `data`, `id_macchina`, `id_operatore`, `codice`, `valore`, `created_at`) VALUES
+INSERT INTO `log_operazioni` (`id`, `data`, `device_id`, `id_operatore`, `codice`, `valore`, `created_at`) VALUES
 	(1, '2024-11-25 16:21:12', 1, '0010452223', 'id_operatore', '0010452223', '2024-11-25 16:21:12'),
 	(2, '2024-11-26 09:10:28', 1, '0010452223', 'id_operatore', '0010452223', '2024-11-26 09:10:28'),
 	(3, '2024-11-26 09:11:44', 1, '0010452223', 'richiesta_filato', '1', '2024-11-26 09:11:44');

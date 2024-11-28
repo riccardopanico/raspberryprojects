@@ -46,11 +46,11 @@ class HomeController extends Controller
         $impostazioni = Impostazioni::all()->pluck('valore', 'codice')->toArray();
         extract($impostazioni);
 
-        $dati_totali = LogOrlatura::where('id_macchina', $id_macchina)
+        $dati_totali = LogOrlatura::where('device_id', $device_id)
             ->selectRaw('SUM(consumo) as consumo_totale, SUM(tempo) as tempo_totale')
             ->first();
 
-        $dati_commessa = LogOrlatura::where('id_macchina', $id_macchina)
+        $dati_commessa = LogOrlatura::where('device_id', $device_id)
             ->where('commessa', $commessa)
             ->selectRaw('SUM(consumo) as consumo_commessa, SUM(tempo) as tempo_commessa')
             ->first();
@@ -92,7 +92,7 @@ class HomeController extends Controller
                 case 'richiesta_filato':
                 case 'richiesta_intervento':
                     Tasks::create([
-                        'device_id' => $id_macchina,
+                        'device_id' => $device_id,
                         'task_type' => $request->setting,
                         'status' => 'UNASSIGNED'
                     ]);
@@ -103,7 +103,7 @@ class HomeController extends Controller
             }
 
             LogOperazioni::create([
-                'id_macchina'  => $id_macchina,
+                'device_id'  => $device_id,
                 'id_operatore' => $id_operatore,
                 'codice'       => $request->setting,
                 'valore'       => $request->value
@@ -134,7 +134,7 @@ class HomeController extends Controller
                         'valore' => $value
                     ]);
                 LogOperazioni::create([
-                    'id_macchina'  => $id_macchina,
+                    'device_id'  => $device_id,
                     'id_operatore' => Auth::id(),
                     'codice'       => $key,
                     'valore'       => $value

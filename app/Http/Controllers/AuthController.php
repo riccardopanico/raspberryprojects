@@ -32,7 +32,7 @@ class AuthController extends Controller
             // session()->put(Impostazioni::all()->pluck('valore', 'codice')->toArray());
 
             LogOperazioni::create([
-                'id_macchina'  => $id_macchina,
+                'device_id'  => $device_id,
                 'id_operatore' => $id_operatore,
                 'codice'       => 'id_operatore',
                 'valore'       => $id_operatore

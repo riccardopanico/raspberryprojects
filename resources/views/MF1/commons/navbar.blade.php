@@ -7,7 +7,7 @@
     <ul class="navbar-nav ml-auto">
         <li class="nav-item" style="zoom: 1.23;">
             <a class="nav-link" href="#" role="button" style="padding: 0; font-size: 28px;">
-                <b>ID&nbsp;<span>{{ $id_macchina }}</span></b>
+                <b>ID&nbsp;<span>{{ $device_id }}</span></b>
             </a>
         </li>
     </ul>
