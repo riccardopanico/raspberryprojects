@@ -16,6 +16,7 @@ sudo systemctl status flask.service
 sudo systemctl stop flask.service
 /home/pi/flask_project/venv/bin/gunicorn --workers 1 --threads 8 --timeout 60 --bind 0.0.0.0:5000 manage:app
 /var/www/html/raspberryprojects/python/flask_project/venv/bin/gunicorn --workers 1 --threads 8 --timeout 60 --bind 0.0.0.0:5000 manage:app
+python /home/pi/flask_project/manage.py
 
 # per ottenere la lista dei pacchetti installati, si usa il comando
 dpkg --get-selections | grep -v deinstall | awk '{print $1}' > packages-list.txt
