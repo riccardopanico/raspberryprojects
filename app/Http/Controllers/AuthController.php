@@ -39,6 +39,7 @@ class AuthController extends Controller
 
             return redirect()->intended('home');
         } catch (\Throwable $th) {
+            dd($th->getMessage());
             return redirect()->route('login')->with(['error' => 'BADGE NON VALIDO!']);
         }
     }

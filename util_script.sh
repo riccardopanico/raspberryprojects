@@ -1,9 +1,56 @@
-
-SCRIPT_DIR=$(dirname "$(realpath "$0")")
+SCRIPT_DIR="/home/pi/setup"
 PROJECT_DIR="/var/www/html/raspberryprojects"
 FLASK_DIR="$PROJECT_DIR/python/flask_project"
 MIGRATIONS_DIR="$FLASK_DIR/migrations/versions"
 DATABASE_NAME="raspberryprojects"
+
+sudo systemctl restart mysql
+sudo mysql -u root -praspberry -e "
+DROP USER IF EXISTS 'niva'@'%';
+CREATE USER 'niva'@'%' IDENTIFIED BY '01NiVa18';
+DROP DATABASE IF EXISTS $DATABASE_NAME;
+CREATE DATABASE IF NOT EXISTS $DATABASE_NAME;;
+GRANT ALL PRIVILEGES ON *.* TO 'niva'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+"
+
+source "$FLASK_DIR/venv/bin/activate"
+sudo rm -rf "$FLASK_DIR/migrations/"
+flask db init
+flask db migrate -m "Migrazioni generate dai modelli"
+flask db upgrade
+echo "Copia e processamento delle migrazioni personalizzate..."
+PREVIOUS_REVISION=$(flask db heads | grep -oE "^[a-f0-9]{12}")
+for file in $(ls "$SCRIPT_DIR/migrations/versions/"*.py | sort); do
+    NEW_REVISION=$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]' | head -c 12)
+    BASENAME=$(basename "$file" .py)
+    TARGET_FILE="$MIGRATIONS_DIR/${NEW_REVISION}_$(echo "$BASENAME" | tr ' ' '_').py"
+    cp "$file" "$TARGET_FILE"
+    sed -i "s/^revision = None/revision = '$NEW_REVISION'/g" "$TARGET_FILE"
+    sed -i "s/^down_revision = None/down_revision = '$PREVIOUS_REVISION'/g" "$TARGET_FILE"
+    echo "Migrazione personalizzata processata: $TARGET_FILE"
+    PREVIOUS_REVISION=$NEW_REVISION
+done
+flask db upgrade
+deactivate
+
+###############################################
+SCRIPT_DIR="/home/pi/setup"
+PROJECT_DIR="/var/www/html/raspberryprojects"
+FLASK_DIR="$PROJECT_DIR/python/flask_project"
+MIGRATIONS_DIR="$FLASK_DIR/migrations/versions"
+DATABASE_NAME="raspberryprojects"
+
+sudo systemctl restart mysql
+sudo mysql -u root -praspberry -e "
+DROP USER IF EXISTS 'niva'@'%';
+CREATE USER 'niva'@'%' IDENTIFIED BY '01NiVa18';
+DROP DATABASE IF EXISTS $DATABASE_NAME;
+CREATE DATABASE IF NOT EXISTS $DATABASE_NAME;;
+GRANT ALL PRIVILEGES ON *.* TO 'niva'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+"
+sudo rm -rf "$PROJECT_DIR"
 
 echo "Installazione Laravel - Clonando raspberryprojects..."
 cd /var/www/html
@@ -18,7 +65,7 @@ sudo npm install >/dev/null 2>&1
 sudo npm run dev >/dev/null 2>&1
 
 echo "Creazione .env..."
-ENV_FILE=""$PROJECT_DIR/.env""
+ENV_FILE="$PROJECT_DIR/.env"
 sudo cp "$SCRIPT_DIR/.env_laravel" "$ENV_FILE"
 sudo sed -i "s/^DB_CONNECTION=.*/DB_CONNECTION=mysql/" "$ENV_FILE"
 sudo sed -i "s/^DB_HOST=.*/DB_HOST=localhost/" "$ENV_FILE"
@@ -49,7 +96,6 @@ flask db migrate -m "Migrazioni generate dai modelli"
 flask db upgrade
 echo "Copia e processamento delle migrazioni personalizzate..."
 PREVIOUS_REVISION=$(flask db heads | grep -oE "^[a-f0-9]{12}")
-mkdir -p "$MIGRATIONS_DIR"
 for file in $(ls "$SCRIPT_DIR/migrations/versions/"*.py | sort); do
     NEW_REVISION=$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]' | head -c 12)
     BASENAME=$(basename "$file" .py)
