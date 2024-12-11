@@ -23,7 +23,7 @@ $(document).ready(function () {
         }
     }, 500);
 
-    var KioskBoardSelector = 'input:not(#id_operatore,#commessa)';
+    var KioskBoardSelector = 'input:not(#badge,#commessa)';
 
     KioskBoard.init({
         keysArrayOfObjects: null,

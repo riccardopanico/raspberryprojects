@@ -6,9 +6,8 @@ use Carbon\Carbon;
 use App\Models\Tasks;
 use App\Models\LogOrlatura;
 use App\Models\Campionatura;
-use App\Models\Impostazioni;
+use App\Models\Variables;
 use Illuminate\Http\Request;
-use App\Models\LogOperazioni;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -19,8 +18,8 @@ class HomeController extends Controller
 {
     public function home(Request $request)
     {
-        $impostazioni = Impostazioni::all()->pluck('valore', 'codice')->toArray();
-        extract($impostazioni);
+        $Variables = Variables::all()->pluck('valore', 'codice')->toArray();
+        extract($Variables);
         $richiesta_filato = 0;
         $richiesta_intervento = 0;
         $tasks = Tasks::whereNotIn('status', ['CANCELED', 'COMPLETED'])
@@ -35,16 +34,16 @@ class HomeController extends Controller
 
     public function impostazioni(Request $request)
     {
-        $impostazioni = Impostazioni::all()->pluck('valore', 'codice')->toArray();
-        extract($impostazioni);
+        $Variables = Variables::all()->pluck('valore', 'codice')->toArray();
+        extract($Variables);
 
         return view('MF1.impostazioni', get_defined_vars());
     }
 
     public function reports(Request $request)
     {
-        $impostazioni = Impostazioni::all()->pluck('valore', 'codice')->toArray();
-        extract($impostazioni);
+        $Variables = Variables::all()->pluck('valore', 'codice')->toArray();
+        extract($Variables);
 
         $dati_totali = LogOrlatura::where('device_id', $device_id)
             ->selectRaw('SUM(consumo) as consumo_totale, SUM(tempo) as tempo_totale')
@@ -65,29 +64,29 @@ class HomeController extends Controller
 
     public function manuale(Request $request)
     {
-        $impostazioni = Impostazioni::all()->pluck('valore', 'codice')->toArray();
-        extract($impostazioni);
+        $Variables = Variables::all()->pluck('valore', 'codice')->toArray();
+        extract($Variables);
 
         return view('MF1.manuale', get_defined_vars());
     }
 
     public function settingsSave(Request $request)
     {
-        $impostazioni = Impostazioni::all()->pluck('valore', 'codice')->toArray();
-        extract($impostazioni);
+        $Variables = Variables::all()->pluck('valore', 'codice')->toArray();
+        extract($Variables);
         DB::beginTransaction();
         try {
             switch ($request->setting) {
                 case '______':
-                    Impostazioni::where('codice', '______')->update(['valore' => 1]);
+                    Variables::where('codice', '______')->update(['valore' => 1]);
                     break;
                 case 'data_cambio_olio':
-                    Impostazioni::where('codice', $request->setting)->update(['valore' => $request->value]);
-                    Impostazioni::where('codice', 'alert_olio')->update(['valore' => 0]);
+                    Variables::where('codice', $request->setting)->update(['valore' => $request->value]);
+                    Variables::where('codice', 'alert_olio')->update(['valore' => 0]);
                     break;
                 case 'data_cambio_spola':
-                    Impostazioni::where('codice', $request->setting)->update(['valore' => $request->value]);
-                    Impostazioni::where('codice', 'alert_spola')->update(['valore' => 0]);
+                    Variables::where('codice', $request->setting)->update(['valore' => $request->value]);
+                    Variables::where('codice', 'alert_spola')->update(['valore' => 0]);
                     break;
                 case 'richiesta_filato':
                 case 'richiesta_intervento':
@@ -98,17 +97,9 @@ class HomeController extends Controller
                     ]);
                     break;
                 default:
-                    Impostazioni::where('codice', $request->setting)->update(['valore' => $request->value]);
+                    Variables::where('codice', $request->setting)->update(['valore' => $request->value]);
                     break;
             }
-
-            LogOperazioni::create([
-                'device_id'  => $device_id,
-                'id_operatore' => $id_operatore,
-                'codice'       => $request->setting,
-                'valore'       => $request->value
-            ]);
-
             DB::commit();
 
             return ['success' => true];
@@ -121,24 +112,18 @@ class HomeController extends Controller
 
     public function settingsSaveAll(Request $request)
     {
-        $impostazioni = Impostazioni::all()->pluck('valore', 'codice')->toArray();
-        extract($impostazioni);
+        $Variables = Variables::all()->pluck('valore', 'codice')->toArray();
+        extract($Variables);
         DB::beginTransaction();
         try {
             foreach ($request->settings as $key => $value) {
                 if ($key == 'parametro_olio_attivo' || $key == 'parametro_spola_attivo') {
                     $value = $value ? 1 : 0;
                 };
-                Impostazioni::where('codice', $key)
+                Variables::where('codice', $key)
                     ->update([
                         'valore' => $value
                     ]);
-                LogOperazioni::create([
-                    'device_id'  => $device_id,
-                    'id_operatore' => Auth::id(),
-                    'codice'       => $key,
-                    'valore'       => $value
-                ]);
             }
             DB::commit();
 
@@ -152,8 +137,8 @@ class HomeController extends Controller
 
     public function campionatura(Request $request)
     {
-        $impostazioni = Impostazioni::all()->pluck('valore', 'codice')->toArray();
-        extract($impostazioni);
+        $Variables = Variables::all()->pluck('valore', 'codice')->toArray();
+        extract($Variables);
 
         return view('MF1.campionatura', get_defined_vars());
     }

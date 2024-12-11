@@ -4,6 +4,7 @@ DYSPLAY_ROTATION=$1
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 PROJECT_DIR="/var/www/html/raspberryprojects"
 FLASK_DIR="$PROJECT_DIR/python/flask_project"
+MIGRATIONS_DIR="$FLASK_DIR/migrations/versions"
 DATABASE_NAME="raspberryprojects"
 
 if [ -z "$DYSPLAY_ROTATION" ]; then
@@ -56,7 +57,7 @@ if [ -f /boot/firmware/config.txt ]; then
 fi
 
 echo "Installazione delle dipendenze in corso..."
-sudo apt install -y --no-install-recommends xorg xserver-xorg-input-evdev xinput-calibrator openbox chromium-browser git apache2 mariadb-server npm python3-pip python3-dev build-essential network-manager plymouth plymouth-themes vsftpd xinput >/dev/null 2>&1
+sudo apt install -y --no-install-recommends xorg xserver-xorg-input-evdev xinput-calibrator openbox chromium-browser git apache2 mariadb-server npm python3-pip python3-dev build-essential network-manager plymouth plymouth-themes vsftpd xinput arandr uuid-runtime >/dev/null 2>&1
 echo "Installazione completata!"
 
 echo "Configurazione dello schermo in corso..."
@@ -161,30 +162,37 @@ sudo chown -R pi:www-data "$PROJECT_DIR/python"
 sudo chmod -R 775 "$PROJECT_DIR/python"
 cd "$PROJECT_DIR/python"
 sudo git clone https://github.com/riccardopanico/flask_project.git >/dev/null 2>&1
-sudo cp "$SCRIPT_DIR/.env_flask" "$PROJECT_DIR/python/flask_project/.env"
+sudo cp "$SCRIPT_DIR/.env_flask" "$FLASK_DIR/.env"
 sudo chown -R pi:www-data "$PROJECT_DIR/python"
 sudo chmod -R 775 "$PROJECT_DIR/python"
 
 echo "Configurazione del virtual environment per il progetto Flask..."
-cd "$PROJECT_DIR/python/flask_project"
+cd "$FLASK_DIR"
 python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt >/dev/null 2>&1
-
-if [ -d "$FLASK_DIR/venv" ]; then
-    source "$FLASK_DIR/venv/bin/activate"
-    pip install -r "$FLASK_DIR/requirements.txt" >/dev/null 2>&1
-    echo "Esecuzione delle migrazioni del database Flask..."
-    flask db init >/dev/null 2>&1
-    flask db migrate -m "Inizializzazione del database" >/dev/null 2>&1
-    flask db upgrade >/dev/null 2>&1
-    deactivate
-else
-    echo "Errore: il virtual environment non è stato creato correttamente."
-    exit 1
-fi
+source "$FLASK_DIR/venv/bin/activate"
+pip install -r "$FLASK_DIR/requirements.txt" >/dev/null 2>&1
+sudo rm -rf "$FLASK_DIR/migrations/"
+flask db init
+flask db migrate -m "Migrazioni generate dai modelli"
+flask db upgrade
+echo "Copia e processamento delle migrazioni personalizzate..."
+PREVIOUS_REVISION=$(flask db heads | grep -oE "^[a-f0-9]{12}")
+mkdir -p "$MIGRATIONS_DIR"
+for file in $(ls "$SCRIPT_DIR/migrations/versions/"*.py | sort); do
+    NEW_REVISION=$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]' | head -c 12)
+    BASENAME=$(basename "$file" .py)
+    TARGET_FILE="$MIGRATIONS_DIR/${NEW_REVISION}_$(echo "$BASENAME" | tr ' ' '_').py"
+    cp "$file" "$TARGET_FILE"
+    sed -i "s/^revision = None/revision = '$NEW_REVISION'/g" "$TARGET_FILE"
+    sed -i "s/^down_revision = None/down_revision = '$PREVIOUS_REVISION'/g" "$TARGET_FILE"
+    echo "Migrazione personalizzata processata: $TARGET_FILE"
+    PREVIOUS_REVISION=$NEW_REVISION
+done
+flask db upgrade
+deactivate
 
 echo "Creazione dei servizi in corso..."
+sudo mkdir -p /etc/systemd/system/getty@tty1.service.d
 sudo cp "$SCRIPT_DIR/systemd/chromium-kiosk.service" /etc/systemd/system/chromium-kiosk.service
 sudo cp "$SCRIPT_DIR/systemd/flask.service" /etc/systemd/system/flask.service
 sudo cp "$SCRIPT_DIR/systemd/getty-override.conf" /etc/systemd/system/getty@tty1.service.d/getty-override.conf

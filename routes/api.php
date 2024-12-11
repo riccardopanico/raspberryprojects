@@ -14,8 +14,7 @@ use App\Http\Controllers\ApiController;
 |
 */
 
-Route::middleware('token')->group(function () {
-    Route::any('getSetting/{setting}', [ApiController::class, 'getSetting'])->name('getSetting');
-    Route::any('setSetting/{setting}', [ApiController::class, 'setSetting'])->name('setSetting');
-    // Route::any('getLogs', [ApiController::class, 'getLogs'])->name('getLogs');
-});
+// Route::middleware('token')->group(function () {
+//     Route::any('getSetting/{setting}', [ApiController::class, 'getSetting'])->name('getSetting');
+//     Route::any('setSetting/{setting}', [ApiController::class, 'setSetting'])->name('setSetting');
+// });

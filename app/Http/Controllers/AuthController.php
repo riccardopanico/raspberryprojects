@@ -3,44 +3,42 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Impostazioni;
+use App\Models\Variables;
 use Illuminate\Http\Request;
-use App\Models\LogOperazioni;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    private function loadVariables()
+    {
+        $Variables = Variables::all();
+        $variablesArray = [];
+        foreach ($Variables as $variable) {
+            $variablesArray[$variable->variable_code] = $variable->getValue();
+        }
+        return $variablesArray;
+    }
+
     public function login(Request $request)
     {
-        $impostazioni = Impostazioni::all()->pluck('valore', 'codice')->toArray();
-        extract($impostazioni);
+        $variablesArray = $this->loadVariables();
         $error = session('error');
 
-        return view('MF1.login', get_defined_vars());
+        return view('MF1.login', array_merge($variablesArray, get_defined_vars()));
     }
 
     public function signin(Request $request)
     {
         try {
-            // DB::enableQueryLog();
-            $user = User::where('badge', $request->id_operatore)->firstOrFail();
+            $user = User::where('badge', $request->badge)->firstOrFail();
             Auth::login($user);
 
-            Impostazioni::where('codice', 'id_operatore')->update(['valore' => $request->id_operatore]);
-
-            extract(Impostazioni::all()->pluck('valore', 'codice')->toArray());
-            // session()->put(Impostazioni::all()->pluck('valore', 'codice')->toArray());
-
-            LogOperazioni::create([
-                'device_id'  => $device_id,
-                'id_operatore' => $id_operatore,
-                'codice'       => 'id_operatore',
-                'valore'       => $id_operatore
-            ]);
+            $variable = Variables::where('variable_code', 'badge')->firstOrFail();
+            $variable->setValue($user->badge);
+            $variable->save();
 
             return redirect()->intended('home');
         } catch (\Throwable $th) {
-            // dd($th->getMessage());
             return redirect()->route('login')->with(['error' => 'BADGE NON VALIDO!']);
         }
     }
@@ -51,5 +49,4 @@ class AuthController extends Controller
 
         return redirect()->route('login');
     }
-
 }

@@ -62,7 +62,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text fixed-width-home"><i class="fas fa-id-card"></i></span>
                 </div>
-                <input type="password" id="id_operatore" name="id_operatore" class="font-lg form-control"
+                <input type="password" id="badge" name="badge" class="font-lg form-control"
                     placeholder="ID Operatore" autofocus>
             </div>
 
@@ -110,16 +110,16 @@
 @section('script')
     <script>
         setInterval(() => {
-            $('#id_operatore').focus();
+            $('#badge').focus();
         }, 1000);
 
         function inputNumpad(n) {
-            $('#id_operatore').val($('#id_operatore').val() + n);
+            $('#badge').val($('#badge').val() + n);
         }
 
         function cancelNumpad() {
-            var currentValue = $('#id_operatore').val();
-            $('#id_operatore').val(currentValue.slice(0, -1));
+            var currentValue = $('#badge').val();
+            $('#badge').val(currentValue.slice(0, -1));
         }
     </script>
 @endsection
