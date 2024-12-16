@@ -3,28 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Variables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    private function loadVariables()
-    {
-        $Variables = Variables::all();
-        $variablesArray = [];
-        foreach ($Variables as $variable) {
-            $variablesArray[$variable->variable_code] = $variable->getValue();
-        }
-        return $variablesArray;
-    }
-
     public function login(Request $request)
     {
-        $variablesArray = $this->loadVariables();
+        // Puoi accedere direttamente alle variabili con `$this->nome_variabile`
         $error = session('error');
 
-        return view('MF1.login', array_merge($variablesArray, get_defined_vars()));
+        return view('MF1.login', get_defined_vars());
     }
 
     public function signin(Request $request)
@@ -33,13 +22,11 @@ class AuthController extends Controller
             $user = User::where('badge', $request->badge)->firstOrFail();
             Auth::login($user);
 
-            $variable = Variables::where('variable_code', 'badge')->firstOrFail();
-            $variable->setValue($user->badge);
-            $variable->save();
+            // Imposta direttamente il valore utilizzando il modello della variabile
+            $this->badge->setValue($user->badge);
 
             return redirect()->intended('home');
         } catch (\Throwable $th) {
-            dd($th->getMessage());
             return redirect()->route('login')->with(['error' => 'BADGE NON VALIDO!']);
         }
     }

@@ -5,10 +5,10 @@ After=network.target
 [Service]
 User=pi
 Group=www-data
-WorkingDirectory=/home/pi/flask_project
-Environment="PATH=/home/pi/flask_project/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+WorkingDirectory=/home/webserver/flask_project
+Environment="PATH=/home/webserver/flask_project/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 Environment="FLASK_ENV=production"
-ExecStart=/home/pi/flask_project/venv/bin/gunicorn --workers 1 --threads 8 --timeout 60 --bind 0.0.0.0:5000 manage:app
+ExecStart=/home/webserver/flask_project/venv/bin/gunicorn --workers 1 --threads 8 --timeout 60 --bind 0.0.0.0:5000 manage:app
 Restart=always
 RestartSec=5s
 Umask=007

@@ -65,7 +65,11 @@ sudo sed -i '$s/$/ fbcon=rotate:1 splash quiet plymouth.ignore-serial-consoles l
 if [ "$DYSPLAY_ROTATION" -eq 0 ]; then
     sudo sed -i '$s/$/ boot=silent/' /boot/firmware/cmdline.txt
 fi
-sudo sed -i '/^\[all\]/a # Configurazione dello schermo HDMI-1\nhdmi_group=2\nhdmi_mode=87\nhdmi_cvt=800 480 66 1 0 0 0\ndisable_splash=1' /boot/firmware/config.txt
+sudo sed -i '/^\[all\]/a # Configurazione dello schermo HDMI-1' /boot/firmware/config.txt
+sudo sed -i '/^\[all\]/a hdmi_group=2' /boot/firmware/config.txt
+sudo sed -i '/^\[all\]/a hdmi_mode=87' /boot/firmware/config.txt
+sudo sed -i '/^\[all\]/a hdmi_cvt=800 480 66 1 0 0 0' /boot/firmware/config.txt
+sudo sed -i '/^\[all\]/a disable_splash=1' /boot/firmware/config.txt
 
 echo "Configuro l'interfaccia grafica..."
 echo '[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx -- -nocursor -quiet > /dev/null 2>&1' >> "$HOME/.profile"
@@ -75,6 +79,13 @@ cat << EOF > "$HOME/.config/openbox/autostart"
 sudo systemctl start flask.service
 sudo systemctl start chromium-kiosk.service
 EOF
+
+echo "Creazione dei servizi in corso..."
+sudo mkdir -p /etc/systemd/system/getty@tty1.service.d
+sudo cp "$SCRIPT_DIR/systemd/chromium-kiosk.service" /etc/systemd/system/chromium-kiosk.service
+sudo cp "$SCRIPT_DIR/systemd/flask.service" /etc/systemd/system/flask.service
+sudo cp "$SCRIPT_DIR/systemd/getty-override.conf" /etc/systemd/system/getty@tty1.service.d/getty-override.conf
+sudo systemctl daemon-reload >/dev/null 2>&1
 
 echo "Impostazione del motd e issue in corso..."
 sudo sh -c 'echo -n > /etc/motd'
@@ -95,8 +106,8 @@ sudo mkdir -p /usr/share/plymouth/themes/niva
 sudo cp "$SCRIPT_DIR/img/logoniva$ROTAZIONE_PARAMETRO.png" /usr/share/plymouth/themes/niva/logoniva.png
 sudo cp "$SCRIPT_DIR/plymouth/niva.plymouth" /usr/share/plymouth/themes/niva/niva.plymouth
 sudo cp "$SCRIPT_DIR/plymouth/niva.script" /usr/share/plymouth/themes/niva/niva.script
-sudo plymouth-set-default-theme -R niva --rebuild-initrd
-sudo update-initramfs -u
+sudo plymouth-set-default-theme -R niva --rebuild-initrd >/dev/null 2>&1
+sudo update-initramfs -u >/dev/null 2>&1
 
 sudo systemctl restart mysql
 sudo mysql -u root -praspberry -e "
@@ -107,7 +118,6 @@ CREATE DATABASE IF NOT EXISTS $DATABASE_NAME;
 GRANT ALL PRIVILEGES ON *.* TO 'niva'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 "
-sudo mysql -u root -praspberry < "$SCRIPT_DIR/insert.sql"
 
 echo "Abilito connessioni da esterno (optional)"
 sudo bash -c 'echo "[mysqld]" >> /etc/mysql/my.cnf'
@@ -118,7 +128,7 @@ sudo wget -qO /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.g
 echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list >/dev/null
 sudo apt update -y >/dev/null 2>&1
 sudo apt install -y php8.1-common php8.1-cli php8.1-curl php8.1-gd php8.1-mbstring php8.1-xml php8.1-zip php8.1-mysql libapache2-mod-php8.1 >/dev/null 2>&1
-# sudo service apache2 restart >/dev/null 2>&1
+sudo service apache2 restart >/dev/null 2>&1
 
 echo "Installazione Composer..."
 sudo wget -qO composer-setup.php https://getcomposer.org/installer >/dev/null 2>&1
@@ -190,13 +200,6 @@ for file in $(ls "$SCRIPT_DIR/migrations/versions/"*.py | sort); do
 done
 flask db upgrade >/dev/null 2>&1
 deactivate
-
-echo "Creazione dei servizi in corso..."
-sudo mkdir -p /etc/systemd/system/getty@tty1.service.d
-sudo cp "$SCRIPT_DIR/systemd/chromium-kiosk.service" /etc/systemd/system/chromium-kiosk.service
-sudo cp "$SCRIPT_DIR/systemd/flask.service" /etc/systemd/system/flask.service
-sudo cp "$SCRIPT_DIR/systemd/getty-override.conf" /etc/systemd/system/getty@tty1.service.d/getty-override.conf
-sudo systemctl daemon-reload >/dev/null 2>&1
 
 echo "
 #######  ###  #     #  #######
