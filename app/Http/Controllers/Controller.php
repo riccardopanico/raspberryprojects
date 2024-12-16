@@ -26,4 +26,20 @@ class Controller extends BaseController
 
         return $this->variables[$name];
     }
+
+    /**
+     * Carica tutte le variabili dal database e le memorizza in $this->variables con i loro valori.
+     *
+     * @return void
+     */
+    public function loadAllVariables()
+    {
+        $variables = [];
+
+        foreach (Variables::all() as $variable) {
+            $this->variables[$variable->variable_code] = $variable;
+            $variables[$variable->variable_code] = $variable->getValue();
+        }
+        return $variables;
+    }
 }

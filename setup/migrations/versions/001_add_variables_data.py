@@ -21,7 +21,7 @@ def upgrade():
         {"variable_code": "dns_nameservers", "variable_name": "DNS Name Servers", "string_value": "8.8.8.8", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "fattore_taratura", "variable_name": "Fattore Taratura", "string_value": None, "numeric_value": 78, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "gateway", "variable_name": "Gateway", "string_value": "192.168.10.253", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
-        {"variable_code": "device_id", "variable_name": "ID Macchina", "string_value": "1", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
+        {"variable_code": "device_id", "variable_name": "ID Macchina", "string_value": None, "numeric_value": 5, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "badge", "variable_name": "Badge", "string_value": "0010452223", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "ip_local_server", "variable_name": "IP Server Locale", "string_value": "192.168.10.207", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "ip_macchina", "variable_name": "IP Macchina", "string_value": "192.168.10.201", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
@@ -39,8 +39,8 @@ def upgrade():
         {"variable_code": "richiesta_intervento", "variable_name": "Richiesta Intervento", "string_value": None, "numeric_value": None, "boolean_value": 0, "device_id": None, "created_at": created_at_value},
         {"variable_code": "subnet", "variable_name": "Subnet", "string_value": "255.255.255.0", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "websocket_host", "variable_name": "WebSocket Host", "string_value": "192.168.0.97", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
-        {"variable_code": "websocket_port", "variable_name": "WebSocket Port", "string_value": None, "numeric_value": 8765, "boolean_value": None, "device_id": None, "created_at": created_at_value}
+        {"variable_code": "websocket_port", "variable_name": "WebSocket Port", "string_value": None, "numeric_value": 8765, "boolean_value": None, "device_id": None, "created_at": created_at_value},
+        {"variable_code": "encoder_consumo", "variable_name": "Consumo Encoder", "string_value": None, "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
+        {"variable_code": "encoder_operativita", "variable_name": "Operatività Encoder", "string_value": None, "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
+        {"variable_code": "encoder_impulsi", "variable_name": "Impulsi Encoder", "string_value": None, "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
     ])
-
-def downgrade():
-    op.execute("DELETE FROM variables WHERE created_at = '2024-11-21 16:45:10'")

@@ -20,6 +20,8 @@ class HomeController extends Controller
         $richiesta_filato = 0;
         $richiesta_intervento = 0;
 
+        extract($this->loadAllVariables());
+
         $tasks = Tasks::whereNotIn('status', ['CANCELED', 'COMPLETED'])
             ->select('task_type', DB::raw('count(*) as count'))
             ->groupBy('task_type')
@@ -33,17 +35,22 @@ class HomeController extends Controller
 
     public function impostazioni(Request $request)
     {
+        $this->loadAllVariables();
+        extract($this->variables);
         return view('MF1.impostazioni', get_defined_vars());
     }
 
     public function reports(Request $request)
     {
-        $dati_totali = LogOrlatura::where('device_id', $this->device_id->getValue())
+        $this->loadAllVariables();
+        extract($this->variables);
+
+        $dati_totali = LogOrlatura::where('device_id', $device_id)
             ->selectRaw('SUM(consumo) as consumo_totale, SUM(tempo) as tempo_totale')
             ->first();
 
-        $dati_commessa = LogOrlatura::where('device_id', $this->device_id->getValue())
-            ->where('commessa', $this->commessa->getValue())
+        $dati_commessa = LogOrlatura::where('device_id', $device_id)
+            ->where('commessa', $commessa)
             ->selectRaw('SUM(consumo) as consumo_commessa, SUM(tempo) as tempo_commessa')
             ->first();
 
@@ -64,26 +71,30 @@ class HomeController extends Controller
     {
         DB::beginTransaction();
         try {
-            switch ($request->setting) {
+            $setting = $request->setting;
+            $value = $request->value;
+
+            switch ($setting) {
                 case '______':
                     $this->______->setValue(1);
                     break;
                 case 'data_cambio_olio':
                 case 'data_cambio_spola':
-                    $this->{$request->setting}->setValue($request->value);
+                    $this->{$setting}->setValue($value);
                     break;
                 case 'richiesta_filato':
                 case 'richiesta_intervento':
                     Tasks::create([
-                        'device_id' => $this->device_id->getValue(),
-                        'task_type' => $request->setting,
+                        'device_id' => $this->device_id,
+                        'task_type' => $setting,
                         'status' => 'UNASSIGNED'
                     ]);
                     break;
                 default:
-                    $this->{$request->setting}->setValue($request->value);
+                    $this->{$setting}->setValue($value);
                     break;
             }
+
             DB::commit();
 
             return ['success' => true];
@@ -104,6 +115,7 @@ class HomeController extends Controller
                 }
                 $this->{$key}->setValue($value);
             }
+
             DB::commit();
 
             return ['success' => true];

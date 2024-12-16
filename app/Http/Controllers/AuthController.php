@@ -10,7 +10,6 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        // Puoi accedere direttamente alle variabili con `$this->nome_variabile`
         $error = session('error');
 
         return view('MF1.login', get_defined_vars());
@@ -22,7 +21,6 @@ class AuthController extends Controller
             $user = User::where('badge', $request->badge)->firstOrFail();
             Auth::login($user);
 
-            // Imposta direttamente il valore utilizzando il modello della variabile
             $this->badge->setValue($user->badge);
 
             return redirect()->intended('home');
