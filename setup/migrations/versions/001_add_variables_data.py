@@ -43,4 +43,5 @@ def upgrade():
         {"variable_code": "encoder_consumo", "variable_name": "Consumo Encoder", "string_value": None, "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "encoder_operativita", "variable_name": "Operatività Encoder", "string_value": None, "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "encoder_impulsi", "variable_name": "Impulsi Encoder", "string_value": None, "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
+        {"variable_code": "user_id", "variable_name": "ID Utente", "string_value": None, "numeric_value": 6, "boolean_value": None, "device_id": None, "created_at": created_at_value},
     ])
