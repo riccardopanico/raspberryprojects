@@ -20,5 +20,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         error_reporting(0);
+        date_default_timezone_set('Europe/Rome');
     }
 }

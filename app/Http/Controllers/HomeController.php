@@ -4,14 +4,11 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Tasks;
+use App\Models\LogData;
 use App\Models\LogOrlatura;
 use App\Models\Campionatura;
-use App\Helpers\ApiHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-use Symfony\Component\Process\Process;
-use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -35,35 +32,59 @@ class HomeController extends Controller
 
     public function impostazioni(Request $request)
     {
-        $this->loadAllVariables();
-        extract($this->variables);
+        extract($this->loadAllVariables());
         return view('MF1.impostazioni', get_defined_vars());
     }
 
     public function reports(Request $request)
     {
-        $this->loadAllVariables();
-        extract($this->variables);
+        extract($this->loadAllVariables());
 
-        $dati_totali = LogOrlatura::where('device_id', $device_id)
-            ->selectRaw('SUM(consumo) as consumo_totale, SUM(tempo) as tempo_totale')
+        // Query per dati totali
+        $dati_totali = LogData::where('device_id', $device_id)
+            ->where('variable_id', $this->encoder_consumo->id)
+            ->selectRaw('SUM(numeric_value) as consumo_totale')
             ->first();
 
-        $dati_commessa = LogOrlatura::where('device_id', $device_id)
-            ->where('commessa', $commessa)
-            ->selectRaw('SUM(consumo) as consumo_commessa, SUM(tempo) as tempo_commessa')
+        $tempo_totale = LogData::where('device_id', $device_id)
+            ->where('variable_id', $this->encoder_operativita->id)
+            ->selectRaw('SUM(numeric_value) as tempo_totale')
             ->first();
 
+        // Trova la data dell'ultima commessa nel log fino ad ora
+        $start_commessa = LogData::where('device_id', $device_id)
+            ->where('variable_id', $this->commessa->id)
+            ->where('string_value', $commessa)
+            ->max('created_at');
+
+        $stop_commessa = Carbon::now()->format('Y-m-d H:i:s');
+
+        // Query per dati commessa
+        $dati_commessa = LogData::where('device_id', $device_id)
+            ->where('variable_id', $this->encoder_consumo->id)
+            ->whereBetween('created_at', [$start_commessa, $stop_commessa])
+            ->selectRaw('SUM(numeric_value) as consumo_commessa')
+            ->first();
+
+        $tempo_commessa = LogData::where('device_id', $device_id)
+            ->where('variable_id', $this->encoder_operativita->id)
+            ->whereBetween('created_at', [$start_commessa, $stop_commessa])
+            ->selectRaw('SUM(numeric_value) as tempo_commessa')
+            ->first();
+
+        // Arrotonda i valori finali
         $consumo_totale = round($dati_totali->consumo_totale ?? 0, 2);
-        $tempo_totale = round($dati_totali->tempo_totale ?? 0, 2);
+        $tempo_totale = round($tempo_totale->tempo_totale ?? 0, 2);
         $consumo_commessa = round($dati_commessa->consumo_commessa ?? 0, 2);
-        $tempo_commessa = round($dati_commessa->tempo_commessa ?? 0, 2);
+        $tempo_commessa = round($tempo_commessa->tempo_commessa ?? 0, 2);
 
         return view('MF1.reports', get_defined_vars());
     }
 
+
     public function manuale(Request $request)
     {
+        extract($this->loadAllVariables());
         return view('MF1.manuale', get_defined_vars());
     }
 
@@ -109,12 +130,11 @@ class HomeController extends Controller
     {
         DB::beginTransaction();
         try {
-            foreach ($request->settings as $key => $value) {
-                if (in_array($key, ['parametro_olio_attivo', 'parametro_spola_attivo'])) {
-                    $value = $value ? 1 : 0;
-                }
-                $this->{$key}->setValue($value);
-            }
+            $this->parametro_olio_attivo->setValue(filter_var($request->parametro_olio_attivo, FILTER_VALIDATE_BOOLEAN));
+            $this->parametro_olio->setValue((int) $request->parametro_olio);
+            $this->parametro_spola_attivo->setValue(filter_var($request->parametro_spola_attivo, FILTER_VALIDATE_BOOLEAN));
+            $this->parametro_spola->setValue((int) $request->parametro_spola);
+            $this->fattore_taratura->setValue((int) $request->fattore_taratura);
 
             DB::commit();
 
@@ -128,6 +148,7 @@ class HomeController extends Controller
 
     public function campionatura(Request $request)
     {
+        extract($this->loadAllVariables());
         return view('MF1.campionatura', get_defined_vars());
     }
 

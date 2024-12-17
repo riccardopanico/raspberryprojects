@@ -12,13 +12,13 @@
                     </tr>
                     <tr>
                         <td class="custom-cell">
-                            <div class="header-section">Tempo Operatività Macchina</div>
+                            <div class="header-section">Tempo Operatività</div>
                             <div class="value-section"><span id="tempo_campionatura">0 s</span></div>
                         </td>
                     </tr>
                     <tr>
                         <td class="custom-cell">
-                            <div class="header-section">Tempo Totale Campionatura</div>
+                            <div class="header-section">Tempo Totale</div>
                             <div class="value-section"><span id="tempo_totale_campionatura">0 s</span></div>
                         </td>
                     </tr>

@@ -60,18 +60,26 @@
 @section('script')
     <script>
         function settingsSaveAll() {
+            if (!$("#parametro_olio").val() || !$("#parametro_spola").val() || !$("#fattore_taratura").val()) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Attenzione!",
+                    text: "Completa tutti i campi prima di procedere!",
+                    customClass: {
+                        popup: 'zoom-swal-popup'
+                    }
+                });
+            }
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
                 url: "{{ route('settingsSaveAll') }}",
                 data: {
-                    settings: {
-                        "parametro_olio_attivo": $("#parametro_olio_attivo").bootstrapSwitch('state') ? 1 : 0,
-                        "parametro_olio": $("#parametro_olio").val(),
-                        "parametro_spola_attivo": $("#parametro_spola_attivo").bootstrapSwitch('state') ? 1 : 0,
-                        "parametro_spola": $("#parametro_spola").val(),
-                        "fattore_taratura": $("#fattore_taratura").val()
-                    }
+                    parametro_olio_attivo: $("#parametro_olio_attivo").bootstrapSwitch('state'),
+                    parametro_olio: parseInt($("#parametro_olio").val()),
+                    parametro_spola_attivo: $("#parametro_spola_attivo").bootstrapSwitch('state'),
+                    parametro_spola: parseInt($("#parametro_spola").val()),
+                    fattore_taratura: parseInt($("#fattore_taratura").val()),
                 }
                 // data: $("#form_impostazioni").serialize()
             }).done(function(data) {
