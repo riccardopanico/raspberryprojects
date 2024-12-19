@@ -80,7 +80,7 @@ sudo mkdir python
 sudo chown -R pi:www-data "$PROJECT_DIR/python"
 sudo chmod -R 775 "$PROJECT_DIR/python"
 cd "$PROJECT_DIR/python"
-sudo git clone https://github.com/riccardopanico/flask_project.git >/dev/null 2>&1
+sudo git clone --branch device https://github.com/riccardopanico/flask_project.git "$FLASK_DIR" >/dev/null 2>&1
 sudo cp "$SCRIPT_DIR/.env_flask" "$FLASK_DIR/.env"
 sudo chown -R pi:www-data "$PROJECT_DIR/python"
 sudo chmod -R 775 "$PROJECT_DIR/python"

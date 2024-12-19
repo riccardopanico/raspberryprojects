@@ -2,6 +2,7 @@
 
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 FLASK_DIR="/home/webserver/flask_project"
+MIGRATIONS_DIR="$FLASK_DIR/migrations/versions"
 DATABASE_NAME="datacenter"
 
 echo "Installazione delle dipendenze in corso..."
@@ -42,6 +43,20 @@ if [ -d "$FLASK_DIR/venv" ]; then
     echo "Esecuzione delle migrazioni del database Flask..."
     flask db init >/dev/null 2>&1
     flask db migrate -m "Inizializzazione del database" >/dev/null 2>&1
+    flask db upgrade >/dev/null 2>&1
+    echo "Copia e processamento delle migrazioni personalizzate..."
+    PREVIOUS_REVISION=$(flask db heads | grep -oE "^[a-f0-9]{12}")
+    mkdir -p "$MIGRATIONS_DIR"
+    for file in $(ls "$SCRIPT_DIR/migrations/versions/"*.py | sort); do
+        NEW_REVISION=$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]' | head -c 12)
+        BASENAME=$(basename "$file" .py)
+        TARGET_FILE="$MIGRATIONS_DIR/${NEW_REVISION}_$(echo "$BASENAME" | tr ' ' '_').py"
+        cp "$file" "$TARGET_FILE"
+        sed -i "s/^revision = None/revision = '$NEW_REVISION'/g" "$TARGET_FILE"
+        sed -i "s/^down_revision = None/down_revision = '$PREVIOUS_REVISION'/g" "$TARGET_FILE"
+        echo "Migrazione personalizzata processata: $TARGET_FILE"
+        PREVIOUS_REVISION=$NEW_REVISION
+    done
     flask db upgrade >/dev/null 2>&1
     deactivate
 else
