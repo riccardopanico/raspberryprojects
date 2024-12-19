@@ -13,9 +13,6 @@ sudo systemctl restart flask.service
 sudo systemctl stop chromium-kiosk.service
 sudo systemctl restart chromium-kiosk.service
 
-/home/pi/flask_project/venv/bin/gunicorn --workers 1 --threads 8 --timeout 60 --bind 0.0.0.0:5000 manage:app
-/var/www/html/raspberryprojects/python/flask_project/venv/bin/gunicorn --workers 1 --threads 8 --timeout 60 --bind 0.0.0.0:5000 manage:app
-
 python /var/www/html/raspberryprojects/python/flask_project/manage.py
 python /home/pi/flask_project/manage.py
 
@@ -33,6 +30,7 @@ cd /var/www/html/raspberryprojects/python/flask_project
 source venv/bin/activate
 /var/www/html/raspberryprojects/python/flask_project/venv/bin/gunicorn --workers 1 --threads 8 --timeout 60 --bind 0.0.0.0:5000 manage:app
 
+sudo systemctl stop flask.service
 cd /home/webserver/flask_project
 source venv/bin/activate
 /home/webserver/flask_project/venv/bin/gunicorn --workers 1 --threads 8 --timeout 60 --bind 0.0.0.0:5000 manage:app
