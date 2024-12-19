@@ -15,7 +15,9 @@ class Tasks extends Model
         'device_id',
         'task_type',
         'created_at',
-        'sent',
+        'sent_to_cloud',
+        'sent_to_data_center',
+        'sent_to_device',
         'status'
     ];
 }
