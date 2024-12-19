@@ -32,3 +32,7 @@ sudo systemctl stop flask.service
 cd /var/www/html/raspberryprojects/python/flask_project
 source venv/bin/activate
 /var/www/html/raspberryprojects/python/flask_project/venv/bin/gunicorn --workers 1 --threads 8 --timeout 60 --bind 0.0.0.0:5000 manage:app
+
+cd /home/webserver/flask_project
+source venv/bin/activate
+/home/webserver/flask_project/venv/bin/gunicorn --workers 1 --threads 8 --timeout 60 --bind 0.0.0.0:5000 manage:app
