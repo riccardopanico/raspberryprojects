@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Tasks;
 use App\Models\LogData;
-use App\Models\LogOrlatura;
 use App\Models\Campionatura;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

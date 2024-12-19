@@ -2,7 +2,10 @@
 
 SCRIPT_DIR="/home/webserver/setup"
 FLASK_DIR="/home/webserver/flask_project"
+HOME_DIR="/home/webserver"
 DATABASE_NAME="datacenter"
+
+cd "$HOME_DIR"
 
 echo "Configurazione di MariaDB..."
 sudo mysql -u root -praspberry -e "
@@ -17,6 +20,7 @@ sudo systemctl restart mysql
 
 echo "Clonazione del progetto Flask..."
 sudo rm -rf "$FLASK_DIR"
+mkdir -p "$FLASK_DIR"
 sudo git clone https://github.com/riccardopanico/flask_project.git "$FLASK_DIR"
 sudo cp "$SCRIPT_DIR/.env_flask_server" "$FLASK_DIR/.env"
 sudo chown -R webserver:www-data "$FLASK_DIR"
@@ -28,7 +32,7 @@ python3 -m venv "$FLASK_DIR/venv"
 
 if [ -d "$FLASK_DIR/venv" ]; then
     source "$FLASK_DIR/venv/bin/activate"
-    pip install -r "$FLASK_DIR/requirements.txt"
+    pip install -r "$FLASK_DIR/requirements_server.txt"
     echo "Esecuzione delle migrazioni del database Flask..."
     flask db init
     flask db migrate -m "Inizializzazione del database"
