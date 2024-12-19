@@ -27,7 +27,7 @@ echo "Clonazione del progetto Flask..."
 if [ -d "$FLASK_DIR" ]; then
     sudo rm -rf "$FLASK_DIR"
 fi
-sudo git clone https://github.com/riccardopanico/flask_project.git "$FLASK_DIR" >/dev/null 2>&1
+sudo git clone --branch datacenter https://github.com/riccardopanico/flask_project.git "$FLASK_DIR" >/dev/null 2>&1
 sudo cp "$SCRIPT_DIR/.env_flask_server" "$FLASK_DIR/.env"
 sudo chown -R webserver:www-data "$FLASK_DIR"
 sudo chmod -R 775 "$FLASK_DIR"
@@ -38,7 +38,7 @@ python3 -m venv "$FLASK_DIR/venv"
 
 if [ -d "$FLASK_DIR/venv" ]; then
     source "$FLASK_DIR/venv/bin/activate"
-    pip install -r "$FLASK_DIR/requirements_server.txt" >/dev/null 2>&1
+    pip install -r "$FLASK_DIR/requirements.txt" >/dev/null 2>&1
     echo "Esecuzione delle migrazioni del database Flask..."
     flask db init >/dev/null 2>&1
     flask db migrate -m "Inizializzazione del database" >/dev/null 2>&1
