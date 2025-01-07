@@ -1,0 +1,2 @@
+sudo systemctl start flask.service
+sudo systemctl start chromium-kiosk.service

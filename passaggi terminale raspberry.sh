@@ -11,8 +11,11 @@ unzip setup.zip && cd setup && chmod +x setup_server.sh && ./setup_server.sh
 sudo systemctl status flask.service
 sudo systemctl restart flask.service
 sudo systemctl stop chromium-kiosk.service
+sudo systemctl stop flask.service
+sudo systemctl disable chromium-kiosk.service
+sudo systemctl disable flask.service
 sudo systemctl restart chromium-kiosk.service
-
+sudo systemctl daemon-reload
 python /var/www/html/raspberryprojects/python/flask_project/manage.py
 python /home/pi/flask_project/manage.py
 

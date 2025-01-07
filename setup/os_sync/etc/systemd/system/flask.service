@@ -1,0 +1,19 @@
+[Unit]
+Description=Gunicorn instance to serve Flask app
+After=network.target
+
+[Service]
+User=pi
+Group=www-data
+WorkingDirectory=__PATH__
+Environment="PATH=__PATH__/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Environment="FLASK_ENV=production"
+ExecStart=__PATH__/venv/bin/gunicorn --workers 1 --threads 8 --timeout 60 --bind 0.0.0.0:5000 manage:app
+Restart=always
+RestartSec=5s
+Umask=007
+KillMode=control-group
+TimeoutStopSec=1s
+
+[Install]
+WantedBy=multi-user.target

@@ -1,51 +1,47 @@
-Attività:
-1. Refactor del setup una configurazione del sistema operativo Raspberry OS Lite
-2. Test touch screen, definizione del file di configurazione
-3. Bug fix e ottimizzazione app MF1
-4. Analisi e progettazione delle autenticazioni e autorizzazioni
-5. Drivers MF1, Datacenter e Cloud
-    1. Tasks
-        1. [Job] Check [MF1]
-            Controllo i tasks da inviare al Datacenter
-        2. [Api] POST [Datacenter]
-            Ricevo i task da inviare al Cloud
-        3. [Job] Check [Datacenter]
-            Controllo i task da inviare al Cloud
-        4. [Api] POST [Cloud]
-            Ricevo i task dal Datacenter
-        5. [Job] Poilling [Datacenter]
-            Controllo lo stato dei task dal Cloud
-        6. [Api] GET [Cloud]
-            Espongo lo stato dei task per il Datacenter
-        7. [Api] POST [MF1]
-            Aggiorno lo stato dei task
-    2. Devices
-        1. [Job] Check [Datacenter]
-            Sincronizzo i dispositivi interconnessi dal Cloud e notifico l'eventuale cambio password
-        2. [Api] POST [MF1]
-            Aggiorno le credenziali dei dispositivi
-    3. LogData
-        1. [Api] GET [MF1]
-            Espongo i log da MF1
-        2. [Job] Check [Datacenter]
-            Chiedo i log da MF1 e li salvo nel Datacenter
-        3. [Job] Check [Datacenter]
-            Invio i log al Cloud
-        4. [Api] POST [Cloud]
-            Ricevo i log dal Datacenter
-6. Grafici
-7. Versione 1.0 di Machine and Plant Management
-8. Simulazione finale MF1, Datacenter e Cloud
+Attività:
+
+1. Refactoring dello script di installazione per configurare Raspberry OS Lite in modo standardizzato e replicabile, semplificando l'installazione su più unità.
+2. Riconfigurazione e test del touch screen per stabilizzare l'interfaccia.
+3. Testing e validazione dell'app MF1, con correzioni di bug e ottimizzazioni per soddisfare i requisiti.
+4. Progettazione di un sistema OAuth2 per garantire accessi sicuri e operazioni autorizzate.
+5. Drivers per MF1, Datacenter e Cloud
+   Implementazione di moduli strutturati come segue:
+   - [Tipo di driver] Descrizione dell'azione da svolgere [Dispositivo di riferimento].
+
+   1. Tasks
+      - [Job] Monitoraggio dei task da inviare al Datacenter [MF1].
+      - [API] Endpoint per la ricezione dei task e il loro inoltro al Cloud [Datacenter].
+      - [Job] Monitoraggio dei task da trasferire al Cloud [Datacenter].
+      - [API] Endpoint per la ricezione dei task dal Datacenter [Cloud].
+      - [Job] Verifica dello stato dei task ricevuti dal Cloud [Datacenter].
+      - [API] Endpoint per l'esposizione dello stato dei task [Cloud].
+      - [API] Endpoint per l'aggiornamento dello stato dei task [MF1].
+
+   2. Devices
+      - [Job] Sincronizzazione dei dispositivi e notifica di cambiamenti di credenziali [Datacenter].
+      - [API] Endpoint per l'aggiornamento delle credenziali dei dispositivi [MF1].
+
+   3. LogData
+      - [API] Endpoint per l'esposizione dei log di sistema [MF1].
+      - [Job] Richiesta dei log da MF1 e memorizzazione [Datacenter].
+      - [Job] Invio dei log al Cloud [Datacenter].
+      - [API] Endpoint per la ricezione dei log dal Datacenter [Cloud].
+
+6. Sviluppo di grafici interattivi per rappresentare visivamente i dati raccolti.
+7. Completamento della versione 1.0 di Machine and Plant Management.
+8. Simulazione finale per verificare l'interazione tra MF1, Datacenter e Cloud.
+9. Implementazione della connessione con il dispositivo MIGate.
 
 Tempi:
-1. Refactor del setup (2 giorni)
-2. Test touch screen (1 giorno)
-3. Bug fix e ottimizzazione app MF1 (3 giorni)
-4. Analisi e progettazione delle autenticazioni e autorizzazioni (1 giorno)
-5. Drivers MF1, Datacenter e Cloud (15 giorni)
-6. Grafici (5 giorni)
-7. Versione 1.0 di Machine and Plant Management (5 giorni)
-8. Simulazione finale MF1, Datacenter e Cloud (3 giorni)
 
-Totali 35 giorni
-Consegna finale prevista per il 15/02/2025 salvo imprevisti ed eventuali nuove attività prioritarie assegnate a Fabio ed Emanuele
+1. Refactoring del setup (5 giorni).
+2. Test del touch screen (1 giorno).
+3. Bug fix e ottimizzazione app MF1 (5 giorni).
+4. Progettazione dei sistemi di autenticazione e autorizzazione (1 giorno).
+5. Implementazione dei drivers MF1, Datacenter e Cloud (20 giorni).
+6. Sviluppo dei grafici (7 giorni).
+7. Completamento della versione 1.0 di Machine and Plant Management (7 giorni).
+8. Simulazione finale di MF1, Datacenter e Cloud (5 giorni).
+9. Connessione al dispositivo MIGate (attese specifiche).
+
+Totale: 51 giorni lavorativi.
