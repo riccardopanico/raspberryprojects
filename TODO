@@ -1,6 +1,6 @@
 Attività:
 
-1. Refactoring dello script di installazione per configurare Raspberry OS Lite in modo standardizzato e replicabile, semplificando l'installazione su più unità.
+X 1. Refactoring dello script di installazione per configurare Raspberry OS Lite in modo standardizzato e replicabile, semplificando l'installazione su più unità.
 2. Riconfigurazione e test del touch screen per stabilizzare l'interfaccia.
 3. Testing e validazione dell'app MF1, con correzioni di bug e ottimizzazioni per soddisfare i requisiti.
 4. Progettazione di un sistema OAuth2 per garantire accessi sicuri e operazioni autorizzate.

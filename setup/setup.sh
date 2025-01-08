@@ -97,7 +97,7 @@ sudo sh -c 'echo -n > /etc/issue'
 sudo sh -c 'echo -n > /etc/issue.net'
 sudo sed -i 's/^/#/' /etc/pam.d/login
 sudo sed -i 's/^/#/' /etc/profile.d/sshpwd.sh
-# sudo mv /etc/issue.d/IP.issue /etc/issue.d/IP.issue.bak
+sudo mv /etc/issue.d/IP.issue /etc/issue.d/IP.issue.bak
 echo '[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx -- -nocursor -quiet > /dev/null 2>&1' >> "$HOME/.profile"
 sudo sed -i '/ExecStart=-\/sbin\/agetty -o .* --noclear - \$TERM/s/^/# /; /# ExecStart=-\/sbin\/agetty -o .* --noclear - \$TERM/a ExecStart=-/sbin/agetty --noclear %I $TERM' /lib/systemd/system/getty@.service
 echo "mesg n" >> "$HOME/.bashrc"

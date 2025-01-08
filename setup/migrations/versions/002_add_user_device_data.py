@@ -17,11 +17,33 @@ def upgrade():
     created_at_value = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     op.bulk_insert(users_table, [
         {
-            "id": 6,
+            "id": 5,
             "badge": "0010452223",
             "username": "PiDevice1",
-            "password_hash": "scrypt:32768:8:1$pBsAj8fskHZBUtqP$e912d3b6a4361aa222f694384e20b6f3ec521f2c7ab6baff6bde3a0497779b056049c7b107b05ab3d5c2fe3a9ff1e3ba61dc750381c8a977145311553d4287f7",
+            "password_hash": "scrypt:32768:8:1$su2CPmxwlmis7UL3$88ba4f19a6368ba6934ed5d0ea9e92e275b23992f9ac0b6eb7b094e7667ef389563b4ee4386f5c569d1580ef4f5f4eecaf4a60ec348c6cc2fedd1b5686621a5c",
             "user_type": "device",
+            "name": None,
+            "last_name": None,
+            "email": None,
+            "created_at": created_at_value
+        },
+        {
+            "id": 6,
+            "badge": "0010452223",
+            "username": "PiDevice2",
+            "password_hash": "scrypt:32768:8:1$l6rlwqhhWBZi9BaY$cca8d1c83e8c0eba61ad2e4810798b26c12c196cb99c4298de9488b012d7f86c7a937f57ccc3c8cf81ade3f15d32685797a6dc35e5bc40580bf700adb5e57668",
+            "user_type": "device",
+            "name": None,
+            "last_name": None,
+            "email": None,
+            "created_at": created_at_value
+        },
+        {
+            "id": 7,
+            "badge": "0010452223",
+            "username": "DataCenter",
+            "password_hash": "scrypt:32768:8:1$yWOOm5wNPVgnyhRj$0867fe64c2733eb00f5394117307ba8953d2e9e621da2ba79d839f435d84348512f02532c57ec9b6a44ddb84f529d8ab62053d3a4852fac4a69b75037115a64b",
+            "user_type": "datacenter",
             "name": None,
             "last_name": None,
             "email": None,
@@ -33,15 +55,45 @@ def upgrade():
     devices_table = Device.__table__
     op.bulk_insert(devices_table, [
         {
-            "id": 5,
+            "id": 4,
             "device_id": 1,
-            "user_id": 6,
+            "user_id": 5,
             "mac_address": "00:1A:2B:3C:4D:5E",
             "ip_address": "192.168.0.97",
             "gateway": "192.168.0.1",
             "subnet_mask": "255.255.255.0",
             "dns_address": "8.8.8.8",
             "port_address": "8080",
+            "username": "PiDevice1",
+            "password": "PiDevice1",
+            "created_at": created_at_value
+        },
+        {
+            "id": 5,
+            "device_id": 2,
+            "user_id": 6,
+            "mac_address": "00:1A:2B:3C:4D:5E",
+            "ip_address": "192.168.0.93",
+            "gateway": "192.168.0.1",
+            "subnet_mask": "255.255.255.0",
+            "dns_address": "8.8.8.8",
+            "port_address": "8080",
+            "username": "PiDevice2",
+            "password": "PiDevice2",
+            "created_at": created_at_value
+        },
+        {
+            "id": 6,
+            "device_id": None,
+            "user_id": 7,
+            "mac_address": "00:1A:2B:3C:4D:5E",
+            "ip_address": "192.168.0.245",
+            "gateway": "192.168.0.1",
+            "subnet_mask": "255.255.255.0",
+            "dns_address": "8.8.8.8",
+            "port_address": "8080",
+            "username": "DataCenter",
+            "password": "DataCenter",
             "created_at": created_at_value
         }
     ])
