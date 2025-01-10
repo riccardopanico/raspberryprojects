@@ -3,7 +3,7 @@
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 FLASK_DIR="/home/webserver/flask_project"
 MIGRATIONS_DIR="$FLASK_DIR/migrations/versions"
-DATABASE_NAME="datacenter"
+DATABASE_NAME="IndustrySyncDB"
 
 echo "Installazione delle dipendenze in corso..."
 sudo apt install -y --no-install-recommends mariadb-server python3-pip python3-dev build-essential libmariadb-dev git >/dev/null 2>&1
@@ -29,7 +29,7 @@ if [ -d "$FLASK_DIR" ]; then
     sudo rm -rf "$FLASK_DIR"
 fi
 sudo git clone --branch datacenter https://github.com/riccardopanico/flask_project.git "$FLASK_DIR" >/dev/null 2>&1
-sudo cp "$SCRIPT_DIR/.env_flask_server" "$FLASK_DIR/.env"
+sudo cp "$SCRIPT_DIR/.env_flask" "$FLASK_DIR/.env"
 sudo chown -R webserver:www-data "$FLASK_DIR"
 sudo chmod -R 775 "$FLASK_DIR"
 

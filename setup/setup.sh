@@ -5,7 +5,7 @@ SCRIPT_DIR=$(dirname "$(realpath "$0")")
 PROJECT_DIR="/var/www/html/raspberryprojects"
 FLASK_DIR="$PROJECT_DIR/python/flask_project"
 MIGRATIONS_DIR="$FLASK_DIR/migrations/versions"
-DATABASE_NAME="raspberryprojects"
+DATABASE_NAME="IndustrySyncDB"
 
 if [ -z "$ROTAZIONE_DYSPLAY" ]; then
     ROTAZIONE_DYSPLAY="0"
