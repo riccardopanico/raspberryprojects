@@ -4,7 +4,7 @@ SCRIPT_DIR="/home/webserver/setup"
 FLASK_DIR="/home/webserver/flask_project"
 MIGRATIONS_DIR="$FLASK_DIR/migrations/versions"
 HOME_DIR="/home/webserver"
-DATABASE_NAME="datacenter"
+DATABASE_NAME="IndustrySyncDB"
 
 cd "$HOME_DIR"
 
@@ -23,7 +23,7 @@ echo "Clonazione del progetto Flask..."
 sudo rm -rf "$FLASK_DIR"
 mkdir -p "$FLASK_DIR"
 sudo git clone --branch datacenter https://github.com/riccardopanico/flask_project.git "$FLASK_DIR" >/dev/null 2>&1
-sudo cp "$SCRIPT_DIR/.env_flask_server" "$FLASK_DIR/.env"
+sudo cp "$SCRIPT_DIR/.env_flask" "$FLASK_DIR/.env"
 sudo chown -R webserver:www-data "$FLASK_DIR"
 sudo chmod -R 775 "$FLASK_DIR"
 

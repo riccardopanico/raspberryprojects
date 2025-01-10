@@ -2,7 +2,7 @@ SCRIPT_DIR="/home/pi/setup"
 PROJECT_DIR="/var/www/html/raspberryprojects"
 FLASK_DIR="$PROJECT_DIR/python/flask_project"
 MIGRATIONS_DIR="$FLASK_DIR/migrations/versions"
-DATABASE_NAME="raspberryprojects"
+DATABASE_NAME="IndustrySyncDB"
 
 cd "$FLASK_DIR"
 
@@ -41,7 +41,7 @@ SCRIPT_DIR="/home/pi/setup"
 PROJECT_DIR="/var/www/html/raspberryprojects"
 FLASK_DIR="$PROJECT_DIR/python/flask_project"
 MIGRATIONS_DIR="$FLASK_DIR/migrations/versions"
-DATABASE_NAME="raspberryprojects"
+DATABASE_NAME="IndustrySyncDB"
 
 sudo rm -rf "$FLASK_DIR"
 
@@ -95,7 +95,7 @@ SCRIPT_DIR="/home/pi/setup"
 PROJECT_DIR="/var/www/html/raspberryprojects"
 FLASK_DIR="$PROJECT_DIR/python/flask_project"
 MIGRATIONS_DIR="$FLASK_DIR/migrations/versions"
-DATABASE_NAME="raspberryprojects"
+DATABASE_NAME="IndustrySyncDB"
 
 sudo systemctl restart mysql
 sudo mysql -u root -praspberry -e "

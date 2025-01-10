@@ -19,8 +19,8 @@ def upgrade():
         {
             "id": 1,
             "badge": "0010452223",
-            "username": None,
-            "password_hash": None,
+            "username": "fake_username",
+            "password_hash": "fake_password_hash",
             "user_type": "human",
             "name": "John",
             "last_name": "Doe",
