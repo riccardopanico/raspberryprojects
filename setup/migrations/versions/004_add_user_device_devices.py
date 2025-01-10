@@ -29,29 +29,29 @@ def upgrade():
         }
     ])
 
-    # Insert data into 'devices' table
-    devices_table = Device.__table__
-    op.bulk_insert(devices_table, [
-        {
-            "id": 1,
-            "device_id": None,
-            "user_id": None,
-            "mac_address": "00:1A:2B:3C:4D:5E",
-            "ip_address": "192.168.0.93",
-            "gateway": None,
-            "subnet_mask": None,
-            "dns_address": None,
-            "port_address": None,
-            "username": None,
-            "password": None,
-            "created_at": created_at_value
-        }
-    ])
+    # # Insert data into 'devices' table
+    # devices_table = Device.__table__
+    # op.bulk_insert(devices_table, [
+    #     {
+    #         "id": 1,
+    #         "device_id": None,
+    #         "user_id": None,
+    #         "mac_address": "00:1A:2B:3C:4D:5E",
+    #         "ip_address": "192.168.0.93",
+    #         "gateway": None,
+    #         "subnet_mask": None,
+    #         "dns_address": None,
+    #         "port_address": None,
+    #         "username": None,
+    #         "password": None,
+    #         "created_at": created_at_value
+    #     }
+    # ])
 
-    # Update 'device_id' in 'variables' table
-    variables_table = Variables.__table__
-    op.execute(
-        variables_table.update()
-        .where(variables_table.c.device_id == None)  # Aggiorna solo le variabili senza device associato
-        .values(device_id=1)  # Associa il dispositivo locale
-    )
+    # # Update 'device_id' in 'variables' table
+    # variables_table = Variables.__table__
+    # op.execute(
+    #     variables_table.update()
+    #     .where(variables_table.c.device_id == None)  # Aggiorna solo le variabili senza device associato
+    #     .values(device_id=1)  # Associa il dispositivo locale
+    # )
