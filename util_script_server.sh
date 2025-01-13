@@ -1,5 +1,38 @@
-#!/bin/bash
+SCRIPT_DIR="/home/webserver/setup"
+FLASK_DIR="/home/webserver/flask_project"
+MIGRATIONS_DIR="$FLASK_DIR/migrations/versions"
+HOME_DIR="/home/webserver"
+DATABASE_NAME="IndustrySyncDB"
 
+cd "$HOME_DIR"
+
+echo "Configurazione di MariaDB..."
+sudo mysql -u root -praspberry -e "
+DROP USER IF EXISTS 'niva'@'%';
+CREATE USER 'niva'@'%' IDENTIFIED BY '01NiVa18';
+DROP DATABASE IF EXISTS $DATABASE_NAME;
+CREATE DATABASE IF NOT EXISTS $DATABASE_NAME;
+GRANT ALL PRIVILEGES ON *.* TO 'niva'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+"
+sudo systemctl restart mysql
+
+echo "Configurazione del virtual environment per il progetto Flask..."
+cd "$FLASK_DIR"
+python3 -m venv "$FLASK_DIR/venv"
+
+if [ -d "$FLASK_DIR/venv" ]; then
+    source "$FLASK_DIR/venv/bin/activate"
+    flask db init >/dev/null 2>&1
+    flask db migrate -m "Inizializzazione del database" >/dev/null 2>&1
+    flask db upgrade >/dev/null 2>&1
+    deactivate
+else
+    echo "Errore: il virtual environment non è stato creato correttamente."
+    exit 1
+fi
+
+################################################################
 SCRIPT_DIR="/home/webserver/setup"
 FLASK_DIR="/home/webserver/flask_project"
 MIGRATIONS_DIR="$FLASK_DIR/migrations/versions"
@@ -57,4 +90,3 @@ else
     echo "Errore: il virtual environment non è stato creato correttamente."
     exit 1
 fi
-
