@@ -14,14 +14,14 @@ def upgrade():
     created_at_value = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     op.bulk_insert(variables_table, [
         {"variable_code": "articolo", "variable_name": "Articolo", "string_value": None, "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
-        {"variable_code": "commessa", "variable_name": "Commessa", "string_value": None, "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
+        {"variable_code": "commessa", "variable_name": "Commessa", "string_value": '123', "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "data_cambio_olio", "variable_name": "Data Cambio Olio", "string_value": "07/11/2024 16:28:37", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "data_cambio_spola", "variable_name": "Data Cambio Spola", "string_value": "12/11/2024 16:24:36", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "distanza_reset_olio", "variable_name": "Distanza Reset Olio", "string_value": None, "numeric_value": 100, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "dns_nameservers", "variable_name": "DNS Name Servers", "string_value": "8.8.8.8", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "fattore_taratura", "variable_name": "Fattore Taratura", "string_value": None, "numeric_value": 78, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "gateway", "variable_name": "Gateway", "string_value": "192.168.10.253", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
-        {"variable_code": "interconnection_id", "variable_name": "ID Macchina", "string_value": None, "numeric_value": 5, "boolean_value": None, "device_id": None, "created_at": created_at_value},
+        {"variable_code": "interconnection_id", "variable_name": "ID Macchina", "string_value": None, "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "badge", "variable_name": "Badge", "string_value": "0010452223", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "ip_local_server", "variable_name": "IP Server Locale", "string_value": "192.168.10.207", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "ip_macchina", "variable_name": "IP Macchina", "string_value": "192.168.10.201", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
