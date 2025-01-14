@@ -1,7 +1,7 @@
 Attività:
 
 X 1. Refactoring dello script di installazione per configurare Raspberry OS Lite in modo standardizzato e replicabile, semplificando l'installazione su più unità.
-2. Riconfigurazione e test del touch screen per stabilizzare l'interfaccia.
+X 2. Riconfigurazione e test del touch screen per stabilizzare l'interfaccia.
 3. Testing e validazione dell'app MF1, con correzioni di bug e ottimizzazioni per soddisfare i requisiti.
 4. Progettazione di un sistema OAuth2 per garantire accessi sicuri e operazioni autorizzate.
 5. Drivers per MF1, Datacenter e Cloud
@@ -18,11 +18,11 @@ X 1. Refactoring dello script di installazione per configurare Raspberry OS Lite
       - [API] Endpoint per l'aggiornamento dello stato dei task [MF1].
 
    2. Devices
-      - [Job] Sincronizzazione dei dispositivi e notifica di cambiamenti di credenziali [Datacenter].
-      - [API] Endpoint per l'aggiornamento delle credenziali dei dispositivi [MF1].
+      X - [Job] Sincronizzazione dei dispositivi e notifica di cambiamenti di credenziali [Datacenter].
+      X - [API] Endpoint per l'aggiornamento delle credenziali dei dispositivi [MF1].
 
    3. LogData
-      - [API] Endpoint per l'esposizione dei log di sistema [MF1].
+      X - [API] Endpoint per l'esposizione dei log di sistema [MF1].
       - [Job] Richiesta dei log da MF1 e memorizzazione [Datacenter].
       - [Job] Invio dei log al Cloud [Datacenter].
       - [API] Endpoint per la ricezione dei log dal Datacenter [Cloud].

@@ -27,7 +27,7 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item" style="zoom: 1.23;">
                 <a class="nav-link" href="#" role="button" style="padding: 0; font-size: 28px;">
-                    <b style="margin-right: 3px;">ID&nbsp;<span>{{ $device_id }}</span></b>
+                    <b style="margin-right: 3px;">ID&nbsp;<span>{{ $interconnection_id }}</span></b>
                 </a>
             </li>
         </ul>
@@ -55,7 +55,7 @@
                 </div>
                 <input type="text" class="font-lg form-control" placeholder="ID Macchina" disabled>
                 <div class="input-group-append">
-                    <span class="input-group-text" style="color: #6c757d">{{ $device_id }}</span>
+                    <span class="input-group-text" style="color: #6c757d">{{ $interconnection_id }}</span>
                 </div>
             </div> --}}
             <div class="input-group input-group-lg mb-3">

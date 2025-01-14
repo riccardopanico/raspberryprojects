@@ -126,7 +126,7 @@ sudo cp "$SCRIPT_DIR/.env_laravel" "$ENV_FILE"
 sudo sed -i "s/^DB_CONNECTION=.*/DB_CONNECTION=mysql/" "$ENV_FILE"
 sudo sed -i "s/^DB_HOST=.*/DB_HOST=localhost/" "$ENV_FILE"
 sudo sed -i "s/^DB_PORT=.*/DB_PORT=3306/" "$ENV_FILE"
-sudo sed -i "s/^DB_DATABASE=.*/DB_DATABASE=raspberryprojects/" "$ENV_FILE"
+sudo sed -i "s/^DB_DATABASE=.*/DB_DATABASE=$DATABASE_NAME/" "$ENV_FILE"
 sudo sed -i "s/^DB_USERNAME=.*/DB_USERNAME=niva/" "$ENV_FILE"
 sudo sed -i "s/^DB_PASSWORD=.*/DB_PASSWORD=01NiVa18/" "$ENV_FILE"
 
@@ -164,10 +164,3 @@ for file in $(ls "$SCRIPT_DIR/migrations/versions/"*.py | sort); do
 done
 flask db upgrade
 deactivate
-
-echo "Creazione dei servizi in corso..."
-sudo mkdir -p /etc/systemd/system/getty@tty1.service.d
-sudo cp "$SCRIPT_DIR/systemd/chromium-kiosk.service" /etc/systemd/system/chromium-kiosk.service
-sudo cp "$SCRIPT_DIR/systemd/flask.service" /etc/systemd/system/flask.service
-sudo cp "$SCRIPT_DIR/systemd/getty-override.conf" /etc/systemd/system/getty@tty1.service.d/getty-override.conf
-sudo systemctl daemon-reload >/dev/null 2>&1

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Tasks;
+use App\Models\Device;
 use App\Models\LogData;
 use App\Models\Campionatura;
 use Illuminate\Http\Request;
@@ -38,6 +39,8 @@ class HomeController extends Controller
     public function reports(Request $request)
     {
         extract($this->loadAllVariables());
+
+        $device_id = Device::where('interconnection_id', $interconnection_id->getValue())->first()->id;
 
         // Query per dati totali
         $dati_totali = LogData::where('device_id', $device_id)
@@ -93,6 +96,9 @@ class HomeController extends Controller
         try {
             $setting = $request->setting;
             $value = $request->value;
+            extract($this->loadAllVariables());
+
+            $device_id = Device::where('interconnection_id', $interconnection_id->getValue())->first()->id;
 
             switch ($setting) {
                 case '______':
@@ -105,7 +111,7 @@ class HomeController extends Controller
                 case 'richiesta_filato':
                 case 'richiesta_intervento':
                     Tasks::create([
-                        'device_id' => $this->device_id,
+                        'device_id' => $device_id,
                         'task_type' => $setting,
                         'status' => 'UNASSIGNED'
                     ]);
