@@ -34,10 +34,6 @@ class Variables extends Model
 
     public function setValue($value)
     {
-        if (is_null($value)) {
-            throw new \InvalidArgumentException("Il valore non può essere null.");
-        }
-
         $logData = [
             'user_id'    => Auth::id(),
             'device_id'  => $this->device_id,
@@ -47,6 +43,12 @@ class Variables extends Model
         $this->boolean_value = null;
         $this->string_value = null;
         $this->numeric_value = null;
+
+        if (is_null($value)) {
+            $this->save();
+            LogData::create($logData);
+            return;
+        }
 
         if (is_bool($value)) {
             $logData['boolean_value'] = $this->boolean_value = $value ? 1 : 0;
@@ -59,7 +61,6 @@ class Variables extends Model
         }
 
         $this->save();
-
         LogData::create($logData);
     }
 }
