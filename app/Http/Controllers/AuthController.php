@@ -11,7 +11,8 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $error = session('error');
-
+        $this->user_id->setValue(null);
+        $this->badge->setValue(null);
         return view('MF1.login', get_defined_vars());
     }
 
