@@ -40,7 +40,7 @@ class HomeController extends Controller
     {
         extract($this->loadAllVariables());
 
-        $device_id = Device::where('interconnection_id', $interconnection_id->getValue())->first()->id;
+        $device_id = Device::where('interconnection_id', $interconnection_id)->first()->id;
 
         // Query per dati totali
         $dati_totali = LogData::where('device_id', $device_id)
@@ -98,16 +98,9 @@ class HomeController extends Controller
             $value = $request->value;
             extract($this->loadAllVariables());
 
-            $device_id = Device::where('interconnection_id', $interconnection_id->getValue())->first()->id;
+            $device_id = Device::where('interconnection_id', $interconnection_id)->first()->id;
 
             switch ($setting) {
-                case '______':
-                    $this->______->setValue(1);
-                    break;
-                case 'data_cambio_olio':
-                case 'data_cambio_spola':
-                    $this->{$setting}->setValue($value);
-                    break;
                 case 'richiesta_filato':
                 case 'richiesta_intervento':
                     Tasks::create([
