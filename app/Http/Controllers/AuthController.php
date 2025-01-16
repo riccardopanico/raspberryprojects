@@ -10,6 +10,7 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
+        extract($this->loadAllVariables());
         $error = session('error');
         $this->user_id->setValue(null);
         $this->badge->setValue(null);
