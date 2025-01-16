@@ -4,6 +4,7 @@
             <a style="padding: 0 1.5vw; font-size: 28px;" class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
     </ul>
+    @if ($interconnection_id)
     <ul class="navbar-nav ml-auto">
         <li class="nav-item" style="zoom: 1.23;">
             <a class="nav-link" href="#" role="button" style="padding: 0; font-size: 28px;">
@@ -11,6 +12,7 @@
             </a>
         </li>
     </ul>
+    @endif
     <ul class="navbar-nav ml-auto">
         <li class="nav-item" style="zoom: 1.23;">
             <a style="padding: 0 1.5vw; font-size: 28px;" class="nav-link" href="{{ route('logout') }}" role="button">

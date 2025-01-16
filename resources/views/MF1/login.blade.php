@@ -24,6 +24,7 @@
                 </li>
             </ul>
         </div>
+        @if ($interconnection_id)
         <ul class="navbar-nav ml-auto">
             <li class="nav-item" style="zoom: 1.23;">
                 <a class="nav-link" href="#" role="button" style="padding: 0; font-size: 28px;">
@@ -31,6 +32,7 @@
                 </a>
             </li>
         </ul>
+        @endif
     </nav>
 @endsection
 
