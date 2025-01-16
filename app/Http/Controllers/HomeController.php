@@ -179,9 +179,10 @@ class HomeController extends Controller
 
                     $start = Carbon::parse($campionatura->start);
                     $stop = Carbon::parse($campionatura->stop);
-                    $log_orlatura = LogOrlatura::whereBetween('data', [$start, $stop])->get();
-                    $consumo = round($log_orlatura->sum('consumo'), 2);
-                    $tempo = round($log_orlatura->sum('tempo'));
+
+                    $log_data = LogData::whereBetween('created_at', [$start, $stop])->get();
+                    $consumo = round($log_data->sum('numeric_value'), 2);
+                    $tempo = $log_data->count(); // Example: each log entry represents one unit of time
 
                     $response = [
                         'success' => true,
@@ -194,10 +195,10 @@ class HomeController extends Controller
             }
 
             DB::commit();
-        } catch (\Exception $th) {
+        } catch (\Exception $e) {
             DB::rollback();
 
-            $response = ['success' => false, 'msg' => $th->getMessage()];
+            $response = ['success' => false, 'msg' => $e->getMessage()];
         }
 
         return response()->json($response);
