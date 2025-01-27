@@ -39,7 +39,7 @@ def upgrade():
         {"variable_code": "richiesta_filato", "variable_name": "Richiesta Filato", "string_value": None, "numeric_value": None, "boolean_value": 0, "device_id": None, "created_at": created_at_value},
         {"variable_code": "richiesta_intervento", "variable_name": "Richiesta Intervento", "string_value": None, "numeric_value": None, "boolean_value": 0, "device_id": None, "created_at": created_at_value},
         {"variable_code": "subnet", "variable_name": "Subnet", "string_value": "255.255.255.0", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
-        {"variable_code": "websocket_host", "variable_name": "WebSocket Host", "string_value": "192.168.0.97", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
+        {"variable_code": "websocket_host", "variable_name": "WebSocket Host", "string_value": "raspberryprojects.local", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "websocket_port", "variable_name": "WebSocket Port", "string_value": None, "numeric_value": 8765, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "encoder_consumo", "variable_name": "Consumo Encoder", "string_value": None, "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "encoder_operativita", "variable_name": "Operatività Encoder", "string_value": None, "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},

@@ -80,6 +80,7 @@ sudo cp -a "$SCRIPT_DIR/os_sync/." /
 echo "Sostituzione dei parametri in corso..."
 sed -i "s/^\(transform *= *\).*/\1$(if [ "$ROTAZIONE_DYSPLAY" == "0" ]; then echo 'normal'; else echo "$ROTAZIONE_DYSPLAY"; fi)/" /home/pi/.config/wayfire.ini
 sed -i "s|__PATH__|$FLASK_DIR|g" /etc/systemd/system/flask.service
+sed -i "s|logoniva|logoniva$ROTAZIONE_DYSPLAY|g" /usr/share/plymouth/themes/niva/niva.script
 
 echo "Creazione del database in corso..."
 sudo mysql -u root -praspberry -e "
@@ -144,7 +145,7 @@ sudo cp "$SCRIPT_DIR/.env_laravel" "$ENV_FILE"
 sudo sed -i "s/^DB_CONNECTION=.*/DB_CONNECTION=mysql/" "$ENV_FILE"
 sudo sed -i "s/^DB_HOST=.*/DB_HOST=localhost/" "$ENV_FILE"
 sudo sed -i "s/^DB_PORT=.*/DB_PORT=3306/" "$ENV_FILE"
-sudo sed -i "s/^DB_DATABASE=.*/DB_DATABASE=raspberryprojects/" "$ENV_FILE"
+sudo sed -i "s/^DB_DATABASE=.*/DB_DATABASE=$DATABASE_NAME/" "$ENV_FILE"
 sudo sed -i "s/^DB_USERNAME=.*/DB_USERNAME=niva/" "$ENV_FILE"
 sudo sed -i "s/^DB_PASSWORD=.*/DB_PASSWORD=01NiVa18/" "$ENV_FILE"
 

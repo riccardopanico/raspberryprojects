@@ -9,7 +9,8 @@
 
     // Funzione per connettere il WebSocket
     function connectWebSocket() {
-        socket = new WebSocket('ws://{{ $websocket_host }}:{{ $websocket_port }}');
+        socket = new WebSocket(`ws://${window.location.hostname}:{{ $websocket_port }}`);
+        {{-- socket = new WebSocket('ws://{{ $websocket_host }}:{{ $websocket_port }}'); --}}
 
         socket.onopen = function() {
             console.log('Connesso al server WebSocket');
