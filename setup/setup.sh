@@ -75,7 +75,11 @@ sudo sed -i '/^\[all\]/a hdmi_timings=800 0 40 40 40 480 0 13 29 3 0 0 0 60 0 32
 sudo sed -i '/^\[all\]/a video=DSI-1:800x480@60' /boot/firmware/config.txt
 
 echo "Copia dei file di sincronizzazione in corso..."
-sudo cp -a "$SCRIPT_DIR/os_sync/." /
+# sudo cp -a "$SCRIPT_DIR/os_sync/." /
+# sudo rsync -a --ignore-existing "$SCRIPT_DIR/os_sync/." /
+# sudo rsync -a --inplace "$SCRIPT_DIR/os_sync/." /
+# sudo rsync -a "$SCRIPT_DIR/os_sync/." /
+sudo rsync -a --no-perms --no-owner --no-group --inplace "$SCRIPT_DIR/os_sync/." /
 
 echo "Sostituzione dei parametri in corso..."
 sed -i "s/^\(transform *= *\).*/\1$(if [ "$ROTAZIONE_DYSPLAY" == "0" ]; then echo 'normal'; else echo "$ROTAZIONE_DYSPLAY"; fi)/" /home/pi/.config/wayfire.ini
