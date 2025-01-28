@@ -74,17 +74,22 @@ sudo sed -i '/^\[all\]/a dpi_output_format=0x7f216' /boot/firmware/config.txt
 sudo sed -i '/^\[all\]/a hdmi_timings=800 0 40 40 40 480 0 13 29 3 0 0 0 60 0 32000000 6' /boot/firmware/config.txt
 sudo sed -i '/^\[all\]/a video=DSI-1:800x480@60' /boot/firmware/config.txt
 
-echo "Copia dei file di sincronizzazione in corso..."
 # sudo cp -a "$SCRIPT_DIR/os_sync/." /
 # sudo rsync -a --ignore-existing "$SCRIPT_DIR/os_sync/." /
 # sudo rsync -a --inplace "$SCRIPT_DIR/os_sync/." /
 # sudo rsync -a "$SCRIPT_DIR/os_sync/." /
+echo "Copia dei file di sincronizzazione in corso..."
 sudo rsync -a --no-perms --no-owner --no-group --inplace "$SCRIPT_DIR/os_sync/." /
 
 echo "Sostituzione dei parametri in corso..."
-sed -i "s/^\(transform *= *\).*/\1$(if [ "$ROTAZIONE_DYSPLAY" == "0" ]; then echo 'normal'; else echo "$ROTAZIONE_DYSPLAY"; fi)/" /home/pi/.config/wayfire.ini
-sed -i "s|__PATH__|$FLASK_DIR|g" /etc/systemd/system/flask.service
-sed -i "s|logoniva|logoniva$ROTAZIONE_DYSPLAY|g" /usr/share/plymouth/themes/niva/niva.script
+sudo sed -i "s/^\(transform *= *\).*/\1$(if [ "$ROTAZIONE_DYSPLAY" == "0" ]; then echo 'normal'; else echo "$ROTAZIONE_DYSPLAY"; fi)/" /home/pi/.config/wayfire.ini
+sudo sed -i "s|__PATH__|$FLASK_DIR|g" /etc/systemd/system/flask.service
+sudo sed -i "s|logoniva|logoniva$ROTAZIONE_DYSPLAY|g" /usr/share/plymouth/themes/niva/niva.script
+
+echo "Reimpostazione dei permessi in corso..."
+sudo chown -R pi:pi /home/pi/.config
+sudo chown -R root:root /etc/systemd/system
+sudo chown -R root:root /usr/share/plymouth/themes/niva
 
 echo "Creazione del database in corso..."
 sudo mysql -u root -praspberry -e "
