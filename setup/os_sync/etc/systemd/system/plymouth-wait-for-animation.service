@@ -1,0 +1,13 @@
+[Unit]
+Description=Waits for Plymouth animation to finish
+Before=plymouth-quit.service display-manager.service
+
+[Service]
+Type=oneshot
+# per pi5
+# ExecStart=/usr/bin/sleep 7
+# per pi4
+ExecStart=/usr/bin/sleep 13
+
+[Install]
+WantedBy=plymouth-start.service

@@ -1,15 +1,38 @@
-image = Image("logoniva.png");
-
-pos_x = Window.GetWidth()/2 - image.GetWidth()/2;
-pos_y = Window.GetHeight()/2 - image.GetHeight()/2;
-
-sprite = Sprite(image);
-sprite.SetX(pos_x);
-sprite.SetY(pos_y);
-
-fun refresh_callback () {
-  sprite.SetOpacity(1);
-  sprite.SetZ(15);
+Window.SetBackgroundTopColor (0, 0, 0);
+Window.SetBackgroundBottomColor (0, 0, 0);
+for(i = 1; i <= 209; i++)
+{
+  image[i].image = Image("image-" + i + ".png");
+  image[i].sprite = Sprite(image[i].image);
+  image[i].sprite.SetOpacity(0);
+  image[i].x = Window.GetX() + Window.GetWidth() / 2 - image[i].image.GetWidth() / 2;
+  image[i].y = Window.GetY() + Window.GetHeight() / 2 - image[i].image.GetHeight() / 2;
+  image[i].sprite.SetPosition(image[i].x, image[i].y, 0);
 }
 
-Plymouth.SetRefreshFunction (refresh_callback);
+index = 1;
+fun boot_callback()
+{
+  if(index >= 209 + 1)
+  {
+    image[209].sprite.SetOpacity(1);
+  }
+  else
+  {
+    for(i = 1; i <= 209; i++)
+    {
+      if(index != i)
+      {
+        image[i].sprite.SetOpacity(0);
+      }
+      else
+      {
+        image[i].sprite.SetOpacity(1);
+      }
+    }
+    index++;
+  }
+}
+
+Plymouth.SetRefreshFunction(boot_callback);
+Plymouth.SetQuitFunction(boot_callback);

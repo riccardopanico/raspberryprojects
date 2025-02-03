@@ -1,7 +1,16 @@
 [Plymouth Theme]
-Name=Tema Niva
-Description=Tema personalizzato Niva
+Name=niva
+Description=Tema Niva
 ModuleName=script
+
+[boot-up]
+UseEndAnimation=true
+
+[shutdown]
+UseEndAnimation=true
+
+[reboot]
+UseEndAnimation=true
 
 [script]
 ImageDir=/usr/share/plymouth/themes/niva

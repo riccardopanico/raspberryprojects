@@ -1,16 +1,19 @@
 #!/bin/bash
 
+USER="pi"
+# USER="webserver"
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
-FLASK_DIR="/home/webserver/flask_project"
+# SCRIPT_DIR="/home/$USER/setup"
+FLASK_DIR="/home/$USER/flask_project"
 MIGRATIONS_DIR="$FLASK_DIR/migrations/versions"
+HOME_DIR="/home/$USER"
 DATABASE_NAME="IndustrySyncDB"
 
 echo "Installazione delle dipendenze in corso..."
-sudo apt install -y --no-install-recommends mariadb-server python3-pip python3-dev build-essential libmariadb-dev git >/dev/null 2>&1
+sudo apt install -y --no-install-recommends mariadb-server python3-pip python3-dev build-essential libmariadb-dev git apache2 npm uuid-runtime >/dev/null 2>&1
 echo "Installazione completata!"
 
 echo "Configurazione di MariaDB..."
-sudo systemctl restart mysql
 sudo mysql -u root -praspberry -e "
 DROP USER IF EXISTS 'niva'@'%';
 CREATE USER 'niva'@'%' IDENTIFIED BY '01NiVa18';
@@ -19,18 +22,17 @@ CREATE DATABASE IF NOT EXISTS $DATABASE_NAME;
 GRANT ALL PRIVILEGES ON *.* TO 'niva'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 "
-
 echo "Abilito connessioni da esterno (optional)"
 sudo bash -c 'echo "[mysqld]" >> /etc/mysql/my.cnf'
 sudo bash -c 'echo "bind-address = 0.0.0.0" >> /etc/mysql/my.cnf'
+sudo systemctl restart mysql
 
 echo "Clonazione del progetto Flask..."
-if [ -d "$FLASK_DIR" ]; then
-    sudo rm -rf "$FLASK_DIR"
-fi
+sudo rm -rf "$FLASK_DIR"
+mkdir -p "$FLASK_DIR"
 sudo git clone --branch datacenter https://github.com/riccardopanico/flask_project.git "$FLASK_DIR" >/dev/null 2>&1
 sudo cp "$SCRIPT_DIR/.env_flask" "$FLASK_DIR/.env"
-sudo chown -R webserver:www-data "$FLASK_DIR"
+sudo chown -R "$USER:www-data" "$FLASK_DIR"
 sudo chmod -R 775 "$FLASK_DIR"
 
 echo "Configurazione del virtual environment per il progetto Flask..."
@@ -44,20 +46,6 @@ if [ -d "$FLASK_DIR/venv" ]; then
     flask db init >/dev/null 2>&1
     flask db migrate -m "Inizializzazione del database" >/dev/null 2>&1
     flask db upgrade >/dev/null 2>&1
-    echo "Copia e processamento delle migrazioni personalizzate..."
-    PREVIOUS_REVISION=$(flask db heads | grep -oE "^[a-f0-9]{12}")
-    mkdir -p "$MIGRATIONS_DIR"
-    for file in $(ls "$SCRIPT_DIR/migrations/versions/"*.py | sort); do
-        NEW_REVISION=$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]' | head -c 12)
-        BASENAME=$(basename "$file" .py)
-        TARGET_FILE="$MIGRATIONS_DIR/${NEW_REVISION}_$(echo "$BASENAME" | tr ' ' '_').py"
-        cp "$file" "$TARGET_FILE"
-        sed -i "s/^revision = None/revision = '$NEW_REVISION'/g" "$TARGET_FILE"
-        sed -i "s/^down_revision = None/down_revision = '$PREVIOUS_REVISION'/g" "$TARGET_FILE"
-        echo "Migrazione personalizzata processata: $TARGET_FILE"
-        PREVIOUS_REVISION=$NEW_REVISION
-    done
-    flask db upgrade >/dev/null 2>&1
     deactivate
 else
     echo "Errore: il virtual environment non è stato creato correttamente."
@@ -65,7 +53,8 @@ else
 fi
 
 echo "Creazione dei servizi in corso..."
-sudo cp "$SCRIPT_DIR/systemd/flask_server.service" /etc/systemd/system/flask.service
+sudo cp "$SCRIPT_DIR/os_sync/etc/systemd/system/flask.service" /etc/systemd/system/flask.service
+sudo sed -i "s|__PATH__|$FLASK_DIR|g" /etc/systemd/system/flask.service
 sudo systemctl daemon-reload >/dev/null 2>&1
 sudo systemctl enable flask.service
 

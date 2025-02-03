@@ -53,9 +53,9 @@ sudo sed -i "$ s/$/ vt.global_cursor_default=0/" /boot/firmware/cmdline.txt
 sudo sed -i "$ s/$/ loglevel=0/" /boot/firmware/cmdline.txt
 sudo sed -i "$ s/$/ elevator=deadline/" /boot/firmware/cmdline.txt
 sudo sed -i "$ s/$/ dwc_otg.lpm_enable=0/" /boot/firmware/cmdline.txt
-if [ "$ROTAZIONE_DYSPLAY" == "0" ]; then
-    sudo sed -i "$ s/$/ boot=silent/" /boot/firmware/cmdline.txt
-fi
+# if [ "$ROTAZIONE_DYSPLAY" == "0" ]; then
+#     sudo sed -i "$ s/$/ boot=silent/" /boot/firmware/cmdline.txt
+# fi
 
 echo "Configurazione config.txt in corso..."
 # sudo sed -i '/^\[all\]/a # Configurazione dello schermo HDMI-1' /boot/firmware/config.txt
@@ -84,7 +84,7 @@ sudo rsync -a --no-perms --no-owner --no-group --inplace "$SCRIPT_DIR/os_sync/."
 echo "Sostituzione dei parametri in corso..."
 sudo sed -i "s/^\(transform *= *\).*/\1$(if [ "$ROTAZIONE_DYSPLAY" == "0" ]; then echo 'normal'; else echo "$ROTAZIONE_DYSPLAY"; fi)/" /home/pi/.config/wayfire.ini
 sudo sed -i "s|__PATH__|$FLASK_DIR|g" /etc/systemd/system/flask.service
-sudo sed -i "s|logoniva|logoniva$ROTAZIONE_DYSPLAY|g" /usr/share/plymouth/themes/niva/niva.script
+# sudo sed -i "s|logoniva|logoniva$ROTAZIONE_DYSPLAY|g" /usr/share/plymouth/themes/niva/niva.script
 
 echo "Reimpostazione dei permessi in corso..."
 sudo chown -R pi:pi /home/pi/.config
@@ -194,13 +194,20 @@ done
 flask db upgrade >/dev/null 2>&1
 deactivate
 
-echo "Riavvio di Plymouth..."
-sudo plymouth-set-default-theme -R niva --rebuild-initrd >/dev/null 2>&1
-sudo update-initramfs -u >/dev/null 2>&1
-echo "Riavvio di vsftpd..."
-sudo systemctl restart vsftpd >/dev/null 2>&1
+echo Installazione del tema niva...
+sudo update-alternatives --quiet --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/niva/niva.plymouth 100  >/dev/null 2>&1
+sudo update-alternatives --quiet --set default.plymouth /usr/share/plymouth/themes/niva/niva.plymouth  >/dev/null 2>&1
+sudo update-initramfs -u  >/dev/null 2>&1
+# sudo plymouthd && sudo plymouth --show-splash && sleep 7 && sudo plymouth quit
+# sudo plymouthd && sudo plymouth --show-splash && sleep 7 && sudo plymouth deactivate && sudo plymouth quit
+
+# sudo plymouth-set-default-theme -R niva --rebuild-initrd >/dev/null 2>&1
+# sudo update-initramfs -u >/dev/null 2>&1
+
 echo "Riavvio dei servizi..."
 sudo systemctl daemon-reload >/dev/null 2>&1
+sudo systemctl restart vsftpd >/dev/null 2>&1
+sudo systemctl enable plymouth-wait-for-animation.service >/dev/null 2>&1
 
 echo "
 #######  ###  #     #  #######
