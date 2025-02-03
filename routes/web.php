@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::any('reports', [HomeController::class, 'reports'])->name('reports');
     Route::any('impostazioni', [HomeController::class, 'impostazioni'])->name('impostazioni');
     Route::any('manuale', [HomeController::class, 'manuale'])->name('manuale');
+    Route::any('lavorazione', [HomeController::class, 'lavorazione'])->name('lavorazione');
     Route::post('settingsSave', [HomeController::class, 'settingsSave'])->name('settingsSave');
     Route::post('settingsSaveAll', [HomeController::class, 'settingsSaveAll'])->name('settingsSaveAll');
     Route::any('reboot', [HomeController::class, 'reboot'])->name('reboot');

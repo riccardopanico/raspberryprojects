@@ -41,6 +41,13 @@
                         <p>MANUALE D'USO</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('lavorazione') }}"
+                        class="nav-link no-border {{ request()->routeIs('lavorazione') ? 'active' : '' }}">
+                        <i class="fas fa-cogs pl-2 pr-1"></i>
+                        <p>SEZIONE DI LAVORAZIONE</p>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>

@@ -30,6 +30,11 @@ class HomeController extends Controller
         return view('MF1.home', get_defined_vars());
     }
 
+    public function lavorazione(Request $request)
+    {
+        return view('MF1.lavorazione', get_defined_vars());
+    }
+
     public function impostazioni(Request $request)
     {
         extract($this->loadAllVariables());
