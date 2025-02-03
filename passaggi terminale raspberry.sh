@@ -5,6 +5,7 @@ sudo raspi-config
 
 scp C:\xampp\htdocs\raspberryprojects\setup.zip pi@192.168.0.97:/home/pi/setup.zip
 
+unzip setup.zip && cd setup && chmod +x setup.sh && ./setup.sh
 unzip setup.zip && cd setup && chmod +x setup.sh && ./setup.sh 270
 unzip setup.zip && cd setup && chmod +x setup_server.sh && ./setup_server.sh
 
@@ -39,5 +40,43 @@ cd /home/webserver/flask_project
 source venv/bin/activate
 /home/webserver/flask_project/venv/bin/gunicorn --workers 1 --threads 8 --timeout 60 --bind 0.0.0.0:5000 manage:app
 
+sudo systemctl stop flask.service
+cd /home/pi/flask_project
+source venv/bin/activate
+/home/pi/flask_project/venv/bin/gunicorn --workers 1 --threads 8 --timeout 60 --bind 0.0.0.0:5000 manage:app
+
 # se websocket non funziona
 pkill -f "python"
+
+stduser
+PwD01NiVa18
+
+
+
+
+
+
+
+
+
+
+
+
+
+chmod +x install.sh && chmod +x uninstall.sh && chmod +x test.sh
+
+
+
+
+sudo nano /etc/systemd/system/plymouth-wait-for-animation.service
+sudo nano /usr/share/plymouth/themes/niva/niva.plymouth
+sudo nano /etc/plymouth/plymouthd.conf
+
+
+sudo systemctl daemon-reload
+sudo update-initramfs -u
+
+sudo systemctl enable plymouth-wait-for-animation.service
+sudo systemctl start plymouth-wait-for-animation.service
+sudo nano /etc/plymouth/plymouthd.conf
+sudo apt-get install plymouth plymouth-themes

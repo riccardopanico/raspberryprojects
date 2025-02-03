@@ -1,7 +1,9 @@
-SCRIPT_DIR="/home/webserver/setup"
-FLASK_DIR="/home/webserver/flask_project"
+USER="pi"
+# USER="webserver"
+SCRIPT_DIR="/home/$USER/setup"
+FLASK_DIR="/home/$USER/flask_project"
 MIGRATIONS_DIR="$FLASK_DIR/migrations/versions"
-HOME_DIR="/home/webserver"
+HOME_DIR="/home/$USER"
 DATABASE_NAME="IndustrySyncDB"
 
 cd "$HOME_DIR"
@@ -33,10 +35,12 @@ else
 fi
 
 ################################################################
-SCRIPT_DIR="/home/webserver/setup"
-FLASK_DIR="/home/webserver/flask_project"
+USER="pi"
+# USER="webserver"
+SCRIPT_DIR="/home/$USER/setup"
+FLASK_DIR="/home/$USER/flask_project"
 MIGRATIONS_DIR="$FLASK_DIR/migrations/versions"
-HOME_DIR="/home/webserver"
+HOME_DIR="/home/$USER"
 DATABASE_NAME="IndustrySyncDB"
 
 cd "$HOME_DIR"
@@ -57,7 +61,7 @@ sudo rm -rf "$FLASK_DIR"
 mkdir -p "$FLASK_DIR"
 sudo git clone --branch datacenter https://github.com/riccardopanico/flask_project.git "$FLASK_DIR" >/dev/null 2>&1
 sudo cp "$SCRIPT_DIR/.env_flask" "$FLASK_DIR/.env"
-sudo chown -R webserver:www-data "$FLASK_DIR"
+sudo chown -R "$USER:www-data" "$FLASK_DIR"
 sudo chmod -R 775 "$FLASK_DIR"
 
 echo "Configurazione del virtual environment per il progetto Flask..."
