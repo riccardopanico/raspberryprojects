@@ -10,7 +10,7 @@ HOME_DIR="/home/$USER"
 DATABASE_NAME="IndustrySyncDB"
 
 echo "Installazione delle dipendenze in corso..."
-sudo apt install -y --no-install-recommends mariadb-server python3-pip python3-dev build-essential libmariadb-dev git apache2 npm uuid-runtime >/dev/null 2>&1
+sudo apt install -y --no-install-recommends mariadb-server python3-pip python3-dev build-essential libmariadb-dev git apache2 npm uuid-runtime libaio1 >/dev/null 2>&1
 echo "Installazione completata!"
 
 echo "Configurazione di MariaDB..."
