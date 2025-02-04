@@ -1,169 +1,209 @@
 @extends('MF1.index')
 @section('main')
-{{-- <div class="card mt-2 mb-1">
-    <div class="card-body p-0"> --}}
-
-        <div class="row mt-3 font-lg">
-            <div class="col-12">
-                <ul class="nav nav-tabs" id="tacchiTab" role="tablist" style="font-size: 24px;">
+    <div class="col-12 col-sm-6 pr-0 pl-0 pt-1 pb-0">
+        <div class="card card-primary card-outline card-outline-tabs">
+            <div class="card-header p-0 border-bottom-0">
+                <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="INFO-tab" data-toggle="pill" href="#INFO" role="tab" aria-controls="INFO" aria-selected="false"><i class="fa fa-info-circle"></i></a>
+                        <a class="nav-link active" id="INFO-tab" data-toggle="pill" href="#INFO" role="tab"
+                            aria-controls="INFO" aria-selected="true" style="font-weight: 550; font-size: 17px;">
+                            <i class="fa fa-info-circle"></i>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="TC-tab" data-toggle="pill" href="#TC" role="tab" aria-controls="TC" aria-selected="false">TACCHI</a>
+                        <a class="nav-link" id="TC-tab" data-toggle="pill" href="#TC" role="tab"
+                            aria-controls="TC" aria-selected="false" style="font-weight: 550; font-size: 17px;">TACCHI</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="SU-tab" data-toggle="pill" href="#SU" role="tab" aria-controls="SU" aria-selected="false">SUOLE</a>
+                        <a class="nav-link" id="SU-tab" data-toggle="pill" href="#SU" role="tab"
+                            aria-controls="SU" aria-selected="false" style="font-weight: 550; font-size: 17px;">SUOLE</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="PE-tab" data-toggle="pill" href="#PE" role="tab" aria-controls="PE" aria-selected="false">PELLAMI</a>
+                        <a class="nav-link" id="PE-tab" data-toggle="pill" href="#PE" role="tab"
+                            aria-controls="PE" aria-selected="false" style="font-weight: 550; font-size: 17px;">PELLAMI</a>
                     </li>
                 </ul>
-                <div class="tab-content" id="tacchiTabContent" style="width: 100%;">
-
-                    <div class="tab-pane fade active show" id="INFO" role="tabpanel" aria-labelledby="INFO-tab">
-                        <div class="row" style="font-size: 26px;">
-                            <div class="col-12">
-                                <div class="row callout callout-secondary mb-0" style="padding: 0.5rem;">
-                                    <div class="col-12" style="white-space: nowrap;"> Prefisso </div>
-                                    <div class="col-12" style="white-space: nowrap;"> <span id="prefisso" class="badge bg-primary font-lg"> -- </span> </div>
+            </div>
+            <div class="card-body" id="tacchiTabContent" style="padding: 0;">
+                <div class="tab-content" id="custom-tabs-four-tabContent">
+                    <div class="tab-pane fade show active" id="INFO" role="tabpanel" aria-labelledby="INFO-tab"
+                        style="padding: 7px;">
+                        <tr>
+                            <td class="custom-cell p-0">
+                                <div class="header-section"
+                                    style="text-align: left; font-size: 24px; padding-left: 8px; padding-top: 0; background-color: #ffffff;">
+                                    Prefisso</div>
+                                <div class="badge bg-primary bg-gradient value-section" id="prefisso"
+                                    style="text-align: left; font-size: 15px; padding: 5px; margin-left: 12px; margin-bottom: 12px;">
+                                    ---</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="custom-cell p-0">
+                                <div class="header-section"
+                                    style="text-align: left; font-size: 24px; padding-left: 8px; padding-top: 7px; border-top: 1px solid #dee2e6; background-color: #ffffff;">
+                                    Lotto</div>
+                                <div class="badge bg-primary bg-gradient value-section" id="lotto"
+                                    style="text-align: left; font-size: 15px; padding: 5px; margin-left: 12px; margin-bottom: 12px;">
+                                    ---</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="custom-cell p-0">
+                                <div class="header-section"
+                                    style="text-align: left; font-size: 24px; padding-left: 8px; padding-top: 7px; border-top: 1px solid #dee2e6; background-color: #ffffff;">
+                                    Articolo</div>
+                                <div class="badge bg-primary bg-gradient value-section" id="articolo"
+                                    style="text-align: left; font-size: 15px; padding: 5px; margin-left: 12px; margin-bottom: 12px;">
+                                    ---</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="custom-cell p-0">
+                                <div class="header-section"
+                                    style="text-align: left; font-size: 24px; padding-left: 8px; padding-top: 7px; padding-bottom: 3px; border-top: 1px solid #dee2e6; background-color: #ffffff;">
+                                    Note di lavorazione</div>
+                                <div class="value-section" style="padding-top: 0;">
+                                    <textarea class="form-control" rows="8" disabled></textarea>
                                 </div>
-                                <div class="row callout callout-secondary mb-0" style="padding: 0.5rem;">
-                                    <div class="col-12" style="white-space: nowrap;"> Lotto </div>
-                                    <div class="col-12" style="white-space: nowrap;"> <span id="lotto" class="badge bg-primary font-lg"> -- </span> </div>
-                                </div>
-                                <div class="row callout callout-secondary mb-0" style="padding: 0.5rem;">
-                                    <div class="col-12" style="white-space: nowrap;"> Articolo </div>
-                                    <div class="col-12"> <span id="articolo" class="badge bg-primary font-lg"> -- </span> </div>
-                                </div>
-                                <div class="row callout callout-secondary mb-0" style="padding: 0.5rem;">
-                                    <div class="col-12" style="white-space: nowrap;"> &nbsp; </div>
-                                    <div class="col-12"> <span {{-- id="T1codlavor" --}} class="{{-- badge bg-primary --}} font-lg"> &nbsp; </span> </div>
-                                </div>
-                            </div>
-                        </div>
+                            </td>
+                        </tr>
                     </div>
-                    <div class="tab-pane fade" id="TC" role="tabpanel" aria-labelledby="TC-tab">
-                        <div class="row" style="font-size: 26px;">
-                            <div class="col-12">
-                                <div class="row callout callout-secondary mb-0" style="padding: 0.5rem;">
-                                    <div class="col-12" style="white-space: nowrap;"> Codice Lavorante Tacchi </div>
-                                    <div class="col-12" style="white-space: nowrap;"> <span id="TCcodlavor" class="badge bg-primary font-lg"> -- </span> </div>
-                                </div>
-                                <div class="row callout callout-secondary mb-0" style="padding: 0.5rem;">
-                                    <div class="col-12" style="white-space: nowrap;"> Data Lavorazione Tacchi </div>
-                                    <div class="col-12" style="white-space: nowrap;"> <span id="TCdata_lavor" class="badge bg-primary font-lg"> -- </span> </div>
-                                </div>
-                                <div class="row callout callout-secondary mb-0" style="padding: 0.5rem;">
-                                    <div class="col-12" style="white-space: nowrap;"> Data Lavorazione Tacchi Madre </div>
-                                    <div class="col-12"> <span id="T1data_lavor" class="badge bg-primary font-lg"> -- </span> </div>
-                                </div>
-                                <div class="row callout callout-secondary mb-0" style="padding: 0.5rem;">
-                                    <div class="col-12" style="white-space: nowrap;"> &nbsp; </div>
-                                    <div class="col-12"> <span {{-- id="T1codlavor" --}} class="{{-- badge bg-primary --}} font-lg"> &nbsp; </span> </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="tab-pane fade" id="TC" role="tabpanel" aria-labelledby="TC-tab"
+                        style="padding: 7px;">
+                        <tr>
+                            <td class="custom-cell p-0">
+                                <div class="header-section"
+                                    style="text-align: left; font-size: 24px; padding-left: 8px; padding-top: 0; background-color: #ffffff;">
+                                    Codice Lavorante Tacchi</div>
+                                <div class="badge bg-primary bg-gradient value-section" id="TCcodlavor"
+                                    style="text-align: left; font-size: 15px; padding: 5px; margin-left: 12px; margin-bottom: 12px;">
+                                    ---</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="custom-cell p-0">
+                                <div class="header-section"
+                                    style="text-align: left; font-size: 24px; padding-left: 8px; padding-top: 7px; border-top: 1px solid #dee2e6; background-color: #ffffff;">
+                                    Data Lavorazione Tacchi</div>
+                                <div class="badge bg-primary bg-gradient value-section" id="TCdata_lavor"
+                                    style="text-align: left; font-size: 15px; padding: 5px; margin-left: 12px; margin-bottom: 12px;">
+                                    ---</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="custom-cell p-0">
+                                <div class="header-section"
+                                    style="text-align: left; font-size: 24px; padding-left: 8px; padding-top: 7px; border-top: 1px solid #dee2e6; background-color: #ffffff;">
+                                    Data Lavorazione Tacchi Madre</div>
+                                <div class="badge bg-primary bg-gradient value-section" id="T1data_lavor"
+                                    style="text-align: left; font-size: 15px; padding: 5px; margin-left: 12px; margin-bottom: 12px;">
+                                    ---</div>
+                            </td>
+                        </tr>
                     </div>
                     <div class="tab-pane fade" id="SU" role="tabpanel" aria-labelledby="SU-tab">
-                        <div class="row" style="font-size: 26px;">
-                            <div class="col-12">
-                                <div class="row callout callout-secondary mb-0" style="padding: 0.5rem;">
-                                    <table class="table table-bordered" style="zoom: 0.89; font-weight: 400;">
-                                        <thead style="text-align: center; line-height: 0; ">
-                                            <tr>
-                                                <th>Taglia</th>
-                                                <th>Situazione</th>
-                                                <th>Ordinato</th>
-                                            </tr>
-                                        </thead>
-                                        {{-- 051051500186 --}}
-                                        <tbody style=" line-height: 0; ">
-                                        @for ($i = 32; $i <= 45; $i += 0.5)
-                                            <tr data-CODMIS="{{ $i }}">
-                                                <td style="font-weight: bold;" class="text-primary">{{ $i }}</td>
-                                                <td style="text-align: center;" class="QTSIT">0</td>
-                                                <td style="text-align: center;" class="QTORF">0</td>
-                                            </tr>
-                                        @endfor
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                        <div style="overflow-y: scroll; width: 371px; height: 523px;">
+                            <table class="table" style="margin-bottom: 0;">
+                                <thead>
+                                    <tr>
+                                        <th style="border-top: none; text-align: center; background-color: #f2f2f2;">Taglia
+                                        </th>
+                                        <th style="border-top: none; text-align: center; background-color: #f2f2f2;">
+                                            Situazione</th>
+                                        <th style="border-top: none; text-align: center; background-color: #f2f2f2;">
+                                            Ordinato</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="/*display: block;*/ max-height: 475px; overflow-y: scroll;">
+                                    @for ($i = 32; $i <= 45; $i += 0.5)
+                                        <tr data-CODMIS="{{ $i }}">
+                                            <td style="text-align: center; font-weight: bold; border-bottom-color: #c3cad2; background-color: #f2f2f2;"
+                                                class="text-primary">{{ $i }}</td>
+                                            <td style="text-align: center;" class="QTSIT">0</td>
+                                            <td style="text-align: center;" class="QTORF">0</td>
+                                        </tr>
+                                    @endfor
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="PE" role="tabpanel" aria-labelledby="PE-tab">
-                        <div class="row callout callout-secondary mb-0" style="padding: 0.5rem;">
-                            <div class="col-12" style="margin-bottom: 120px;">
-                                <div id="PE1situazione" class="row border-bottom" style="font-size: 26px;">
-                                    <div class="col-6 border-right">
-                                        <div class="description-block">
-                                            <h5 class="description-header" style="font-weight: 900; font-size: 24px;">Pellame 1</h5>
-                                            <span class="CODART text-primary description-text" style="font-size: 20px;"> -- </span>
+                        <table class="table table-striped" style="margin-bottom: 0; width: 100%; table-layout: fixed;">
+                            <tbody>
+                                <tr id="PE1situazione">
+                                    <td class="custom-cell" colspan="2">
+                                        <div class="header-section" style="padding-bottom: 0; padding-top: 7px;">Pellame 1</div>
+                                        <div class="CODART header-section" style="padding-top: 0;">---</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="custom-cell" style="border-right: 1px solid #dee2e6; width: 50%;">
+                                        <div class="d-flex justify-content-between" style="display: flex; flex-grow: 1;">
+                                            <span class="value-section"
+                                                style="font-weight: 500; margin: 7px;">Sit.:</span>
+                                            <span class="QTSIT value-section" style="font-weight: 600; margin: 7px;">--</span>
                                         </div>
-                                    </div>
-                                    <div class="col-3 border-right">
-                                        <div class="description-block">
-                                            <h5 class="description-header" style="font-weight: 900; font-size: 24px;">Sit.</h5>
-                                            <span class="QTSIT description-text" style="font-size: 20px;"> -- </span>
+                                    </td>
+                                    <td class="custom-cell">
+                                        <div class="d-flex justify-content-between" style="display: flex; flex-grow: 1;">
+                                            <span class="value-section"
+                                                style="font-weight: 500; margin: 7px;">Ord.:</span>
+                                            <span class="QTORF value-section" style="font-weight: 600; margin: 7px;">--</span>
                                         </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <div class="description-block">
-                                            <h5 class="description-header" style="font-weight: 900; font-size: 24px;">Ord.</h5>
-                                            <span class="QTORF description-text" style="font-size: 20px;"> -- </span>
+                                    </td>
+                                </tr>
+                                <tr id="PE2situazione">
+                                    <td class="custom-cell" colspan="2">
+                                        <div class="header-section" style="padding-bottom: 0; padding-top: 7px;">Pellame 2</div>
+                                        <div class="CODART header-section" style="padding-top: 0;">---</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="custom-cell" style="border-right: 1px solid #dee2e6; width: 50%;">
+                                        <div class="d-flex justify-content-between" style="display: flex; flex-grow: 1;">
+                                            <span class="value-section"
+                                                style="font-weight: 500; margin: 7px;">Sit.:</span>
+                                            <span class="QTSIT value-section" style="font-weight: 600; margin: 7px;">--</span>
                                         </div>
-                                    </div>
-                                </div>
-                                <div id="PE2situazione" class="row border-bottom" style="font-size: 26px;">
-                                    <div class="col-6 border-right">
-                                        <div class="description-block">
-                                            <h5 class="description-header" style="font-weight: 900; font-size: 24px;">Pellame 2</h5>
-                                            <span class="CODART text-primary description-text" style="font-size: 20px;"> -- </span>
+                                    </td>
+                                    <td class="custom-cell">
+                                        <div class="d-flex justify-content-between" style="display: flex; flex-grow: 1;">
+                                            <span class="value-section"
+                                                style="font-weight: 500; margin: 7px;">Ord.:</span>
+                                            <span class="QTORF value-section" style="font-weight: 600; margin: 7px;">--</span>
                                         </div>
-                                    </div>
-                                    <div class="col-3 border-right">
-                                        <div class="description-block">
-                                            <h5 class="description-header" style="font-weight: 900; font-size: 24px;">Sit.</h5>
-                                            <span class="QTSIT description-text" style="font-size: 20px;"> -- </span>
+                                    </td>
+                                </tr>
+                                <tr id="PE3situazione">
+                                    <td class="custom-cell" colspan="2">
+                                        <div class="header-section" style="padding-bottom: 0; padding-top: 7px;">Pellame 3</div>
+                                        <div class="CODART header-section" style="padding-top: 0;">---</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="custom-cell" style="border-right: 1px solid #dee2e6; width: 50%;">
+                                        <div class="d-flex justify-content-between" style="display: flex; flex-grow: 1;">
+                                            <span class="value-section"
+                                                style="font-weight: 500; margin: 7px;">Sit.:</span>
+                                            <span class="QTSIT value-section" style="font-weight: 600; margin: 7px;">--</span>
                                         </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <div class="description-block">
-                                            <h5 class="description-header" style="font-weight: 900; font-size: 24px;">Ord.</h5>
-                                            <span class="QTORF description-text" style="font-size: 20px;"> -- </span>
+                                    </td>
+                                    <td class="custom-cell">
+                                        <div class="d-flex justify-content-between" style="display: flex; flex-grow: 1;">
+                                            <span class="value-section"
+                                                style="font-weight: 500; margin: 7px;">Ord.:</span>
+                                            <span class="QTORF value-section" style="font-weight: 600; margin: 7px;">--</span>
                                         </div>
-                                    </div>
-                                </div>
-                                <div id="PE3situazione" class="row border-bottom" style="font-size: 26px;">
-                                    <div class="col-6 border-right">
-                                        <div class="description-block">
-                                            <h5 class="description-header" style="font-weight: 900; font-size: 24px;">Pellame 3</h5>
-                                            <span class="CODART text-primary description-text" style="font-size: 20px;"> -- </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-3 border-right">
-                                        <div class="description-block">
-                                            <h5 class="description-header" style="font-weight: 900; font-size: 24px;">Sit.</h5>
-                                            <span class="QTSIT description-text" style="font-size: 20px;"> -- </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <div class="description-block">
-                                            <h5 class="description-header" style="font-weight: 900; font-size: 24px;">Ord.</h5>
-                                            <span class="QTORF description-text" style="font-size: 20px;"> -- </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-
-    {{-- </div>
-</div> --}}
+    </div>
 @endsection
 
 @section('script')
@@ -270,7 +310,10 @@
                 type: 'POST',
                 dataType: 'json',
                 url: "{{ route('settingsSave') }}",
-                data: { setting: setting, value: value }
+                data: {
+                    setting: setting,
+                    value: value
+                }
             }).done(function(data) {
                 if (data.success) {
                     Swal.fire({

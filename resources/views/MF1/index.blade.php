@@ -13,7 +13,7 @@
         <div class="content-wrapper" style="zoom: 1.38;">
             @yield('breadcrumb')
             <section class="content pt-2">
-                <div class="container-fluid">
+                <div class="container-fluid p-0">
                     @yield('main')
                 </div>
             </section>

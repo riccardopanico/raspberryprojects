@@ -44,8 +44,8 @@
                 <li class="nav-item">
                     <a href="{{ route('lavorazione') }}"
                         class="nav-link no-border {{ request()->routeIs('lavorazione') ? 'active' : '' }}">
-                        <i class="fas fa-cogs pl-2 pr-1"></i>
-                        <p>SEZIONE DI LAVORAZIONE</p>
+                        <i class="fas fa-file-invoice pl-2 pr-1"></i>
+                        <p>BOLLA LAV.</p>
                     </a>
                 </li>
             </ul>
