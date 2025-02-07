@@ -1,5 +1,5 @@
-USER="pi"
-# USER="webserver"
+# USER="pi"
+USER="webserver"
 SCRIPT_DIR="/home/$USER/setup"
 FLASK_DIR="/home/$USER/flask_project"
 MIGRATIONS_DIR="$FLASK_DIR/migrations/versions"
@@ -35,8 +35,8 @@ else
 fi
 
 ################################################################
-USER="pi"
-# USER="webserver"
+# USER="pi"
+USER="webserver"
 SCRIPT_DIR="/home/$USER/setup"
 FLASK_DIR="/home/$USER/flask_project"
 MIGRATIONS_DIR="$FLASK_DIR/migrations/versions"

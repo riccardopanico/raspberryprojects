@@ -38,21 +38,21 @@ class HomeController extends Controller
     {
         extract($this->loadAllVariables());
 
-        $device_id = Device::where('interconnection_id', $interconnection_id)->first()->id;
+        $device = Device::where('interconnection_id', $interconnection_id)->first();
 
         // Query per dati totali
-        $dati_totali = LogData::where('device_id', $device_id)
+        $dati_totali = LogData::where('device_id', $device->id)
             ->where('variable_id', $this->encoder_consumo->id)
             ->selectRaw('SUM(numeric_value) as consumo_totale')
             ->first();
 
-        $tempo_totale = LogData::where('device_id', $device_id)
+        $tempo_totale = LogData::where('device_id', $device->id)
             ->where('variable_id', $this->encoder_operativita->id)
             ->selectRaw('SUM(numeric_value) as tempo_totale')
             ->first();
 
         // Trova la data dell'ultima commessa nel log fino ad ora
-        $start_commessa = LogData::where('device_id', $device_id)
+        $start_commessa = LogData::where('device_id', $device->id)
             ->where('variable_id', $this->commessa->id)
             ->where('string_value', $commessa)
             ->max('created_at');
@@ -60,13 +60,13 @@ class HomeController extends Controller
         $stop_commessa = Carbon::now()->format('Y-m-d H:i:s');
 
         // Query per dati commessa
-        $dati_commessa = LogData::where('device_id', $device_id)
+        $dati_commessa = LogData::where('device_id', $device->id)
             ->where('variable_id', $this->encoder_consumo->id)
             ->whereBetween('created_at', [$start_commessa, $stop_commessa])
             ->selectRaw('SUM(numeric_value) as consumo_commessa')
             ->first();
 
-        $tempo_commessa = LogData::where('device_id', $device_id)
+        $tempo_commessa = LogData::where('device_id', $device->id)
             ->where('variable_id', $this->encoder_operativita->id)
             ->whereBetween('created_at', [$start_commessa, $stop_commessa])
             ->selectRaw('SUM(numeric_value) as tempo_commessa')
@@ -90,6 +90,7 @@ class HomeController extends Controller
     {
         extract($this->loadAllVariables());
         try {
+            $device = Device::where('interconnection_id', $interconnection_id)->first();
             $codice_tecnico = $request->input('codice_tecnico');
 
             $payload = [];
@@ -99,7 +100,7 @@ class HomeController extends Controller
 
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json'
-            ])->post("http://$ip_local_server:$porta_local_server/api/recipe/tecnici", $payload);
+            ])->post("http://{$device->gateway}:{$device->port_address}/api/recipe/tecnici", $payload);
 
             if ($response->failed()) {
                 return response()->json([
@@ -132,13 +133,13 @@ class HomeController extends Controller
             $value = $request->value;
             extract($this->loadAllVariables());
 
-            $device_id = Device::where('interconnection_id', $interconnection_id)->first()->id;
+            $device = Device::where('interconnection_id', $interconnection_id)->first();
 
             switch ($setting) {
                 case 'richiesta_filato':
                 case 'richiesta_intervento':
                     Tasks::create([
-                        'device_id' => $device_id,
+                        'device_id' => $device->id,
                         'task_type' => $setting,
                         'status' => 'UNASSIGNED'
                     ]);
@@ -154,12 +155,12 @@ class HomeController extends Controller
                     $payload = [
                         'telefono' => '3298006664',
                         // 'telefono' => $tecnico['TELEFONO'],
-                        'messaggio' => 'Richiesta di intervento richiesta per dalla macchina "' . $device_id . '" da ' . $tecnico['NOME'] . ' ' . $tecnico['COGNOME']
+                        'messaggio' => 'Richiesta di intervento richiesta per dalla macchina "' . $device->id . '" da ' . $tecnico['NOME'] . ' ' . $tecnico['COGNOME']
                     ];
 
                     Http::withHeaders([
                         'Content-Type' => 'application/json'
-                    ])->post("http://$ip_local_server:$porta_local_server/api/recipe/sms", $payload);
+                    ])->post("http://{$device->gateway}:{$device->port_address}/api/recipe/sms", $payload);
 
                     break;
                 case 'commessa':
@@ -335,6 +336,8 @@ class HomeController extends Controller
         try {
             extract($this->loadAllVariables());
 
+            $device = Device::where('interconnection_id', $interconnection_id)->first();
+
             $parsedData = $this->parseBarcode($barcode);
 
             if (isset($parsedData['success']) && $parsedData['success'] === false) {
@@ -348,7 +351,7 @@ class HomeController extends Controller
 
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json'
-            ])->post("http://$ip_local_server:$porta_local_server/api/$endpoint", $payload);
+            ])->post("http://{$device->gateway}:{$device->port_address}/api/$endpoint", $payload);
 
             return json_decode($response->body());
         } catch (\Exception $th) {
