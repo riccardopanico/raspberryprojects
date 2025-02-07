@@ -1,4 +1,4 @@
-@extends('MF1.index')
+@extends(env('APP_NAME') . '.index')
 @section('main')
     <div class="card mt-2">
         <div class="card-body p-0">

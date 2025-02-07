@@ -14,24 +14,10 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('reports') }}"
-                        class="nav-link no-border {{ request()->routeIs('reports') ? 'active' : '' }}">
+                    <a href="#" onclick="openModal('richiesta_intervento')"
+                        class="nav-link no-border">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>REPORTS</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('impostazioni') }}"
-                        class="nav-link no-border {{ request()->routeIs('impostazioni') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-cog"></i>
-                        <p>IMPOSTAZIONI</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('campionatura') }}"
-                        class="nav-link no-border {{ request()->routeIs('campionatura') ? 'active' : '' }}">
-                        <i class="fas fa-flask pl-2 pr-1"></i>
-                        <p>CAMPIONATURA</p>
+                        <p>INTERVENTO</p>
                     </a>
                 </li>
                 <li class="nav-item">

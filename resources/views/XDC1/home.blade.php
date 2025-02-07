@@ -1,5 +1,6 @@
-@extends('MF1.index')
+@extends(env('APP_NAME') . '.index')
 @section('main')
+<input id="commessa" name="commessa">
     <div class="col-12 col-sm-6 pr-0 pl-0 pt-1 pb-0">
         <div class="card card-primary card-outline card-outline-tabs">
             <div class="card-header p-0 border-bottom-0">
@@ -35,7 +36,7 @@
                                     Prefisso</div>
                                 <div class="badge bg-primary bg-gradient value-section" id="prefisso"
                                     style="text-align: left; font-size: 15px; padding: 5px; margin-left: 12px; margin-bottom: 12px;">
-                                    ---</div>
+                                    --</div>
                             </td>
                         </tr>
                         <tr>
@@ -45,7 +46,7 @@
                                     Lotto</div>
                                 <div class="badge bg-primary bg-gradient value-section" id="lotto"
                                     style="text-align: left; font-size: 15px; padding: 5px; margin-left: 12px; margin-bottom: 12px;">
-                                    ---</div>
+                                    --</div>
                             </td>
                         </tr>
                         <tr>
@@ -55,7 +56,7 @@
                                     Articolo</div>
                                 <div class="badge bg-primary bg-gradient value-section" id="articolo"
                                     style="text-align: left; font-size: 15px; padding: 5px; margin-left: 12px; margin-bottom: 12px;">
-                                    ---</div>
+                                    --</div>
                             </td>
                         </tr>
                         <tr>
@@ -64,7 +65,7 @@
                                     style="text-align: left; font-size: 24px; padding-left: 8px; padding-top: 7px; padding-bottom: 3px; border-top: 1px solid #dee2e6; background-color: #ffffff;">
                                     Note di lavorazione</div>
                                 <div class="value-section" style="padding-top: 0;">
-                                    <textarea class="form-control" rows="8" disabled></textarea>
+                                    <textarea class="form-control" rows="5" disabled id="note_lavorazione" style="font-size: 24px;"></textarea>
                                 </div>
                             </td>
                         </tr>
@@ -78,7 +79,7 @@
                                     Codice Lavorante Tacchi</div>
                                 <div class="badge bg-primary bg-gradient value-section" id="TCcodlavor"
                                     style="text-align: left; font-size: 15px; padding: 5px; margin-left: 12px; margin-bottom: 12px;">
-                                    ---</div>
+                                    --</div>
                             </td>
                         </tr>
                         <tr>
@@ -88,7 +89,7 @@
                                     Data Lavorazione Tacchi</div>
                                 <div class="badge bg-primary bg-gradient value-section" id="TCdata_lavor"
                                     style="text-align: left; font-size: 15px; padding: 5px; margin-left: 12px; margin-bottom: 12px;">
-                                    ---</div>
+                                    --</div>
                             </td>
                         </tr>
                         <tr>
@@ -98,7 +99,7 @@
                                     Data Lavorazione Tacchi Madre</div>
                                 <div class="badge bg-primary bg-gradient value-section" id="T1data_lavor"
                                     style="text-align: left; font-size: 15px; padding: 5px; margin-left: 12px; margin-bottom: 12px;">
-                                    ---</div>
+                                    --</div>
                             </td>
                         </tr>
                     </div>
@@ -130,11 +131,11 @@
                     </div>
                     <div class="tab-pane fade" id="PE" role="tabpanel" aria-labelledby="PE-tab">
                         <table class="table table-striped" style="margin-bottom: 0; width: 100%; table-layout: fixed;">
-                            <tbody>
-                                <tr id="PE1situazione">
+                            <tbody id="PE1situazione">
+                                <tr>
                                     <td class="custom-cell" colspan="2">
                                         <div class="header-section" style="padding-bottom: 0; padding-top: 7px;">Pellame 1</div>
-                                        <div class="CODART header-section" style="padding-top: 0;">---</div>
+                                        <div class="CODART header-section" style="padding-top: 0;">--</div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -153,10 +154,14 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr id="PE2situazione">
+                            </tbody>
+                        </table>
+                        <table class="table table-striped" style="margin-bottom: 0; width: 100%; table-layout: fixed;">
+                            <tbody id="PE2situazione">
+                                <tr>
                                     <td class="custom-cell" colspan="2">
                                         <div class="header-section" style="padding-bottom: 0; padding-top: 7px;">Pellame 2</div>
-                                        <div class="CODART header-section" style="padding-top: 0;">---</div>
+                                        <div class="CODART header-section" style="padding-top: 0;">--</div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -175,10 +180,14 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr id="PE3situazione">
+                            </tbody>
+                        </table>
+                        <table class="table table-striped" style="margin-bottom: 0; width: 100%; table-layout: fixed;">
+                            <tbody id="PE3situazione">
+                                <tr>
                                     <td class="custom-cell" colspan="2">
                                         <div class="header-section" style="padding-bottom: 0; padding-top: 7px;">Pellame 3</div>
-                                        <div class="CODART header-section" style="padding-top: 0;">---</div>
+                                        <div class="CODART header-section" style="padding-top: 0;">--</div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -210,6 +219,7 @@
     <script>
         var forzaFocus = true;
         var $commessa = $("#commessa");
+        var tecnici = @json($tecnici);
 
         function gestisciFocus() {
             if (forzaFocus) {
@@ -220,6 +230,7 @@
         $(document).ready(function() {
             gestisciFocus();
             stateButton();
+            getSettings();
         });
 
         $(document).on('click touchend', function(e) {
@@ -299,6 +310,7 @@
                     errorTitle: '<strong>Commessa</strong><br>non salvata!',
                     onSuccess: () => {
                         $('#commessa_view').text(value);
+                        getSettings();
                     }
                 }
             };
@@ -348,5 +360,106 @@
                 stateButton();
             });
         }
+
+        function getSettings() {
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                async: true,
+                url: "{{ route('getSettings') }}",
+                data: {}
+            }).done(function(data) {
+                console.log(data);
+
+                // Mappatura diretta delle chiavi
+                Object.keys(data).forEach(function(key) {
+                    let valore = data[key];
+
+                    switch (key) {
+                        case "TCdata_lavor":
+                        case "T1data_lavor":
+                            $(`#${key}`).text(valore ? moment(valore).format('DD/MM/YYYY') : '--');
+                            break;
+                        case "PE1situazione":
+                        case "PE2situazione":
+                        case "PE3situazione":
+                            let situazione = JSON.parse(valore);
+                            let $container = $(`#${key}`);
+                            if (Array.isArray(situazione) && situazione.length > 0) {
+                                let first = situazione[0];
+                                $container.find(".CODART").text(first.CODART);
+                                $container.find(".QTSIT").text(first.QTSIT);
+                                let qtorfElem = $container.find(".QTORF");
+                                if (first.CONSUMO_MINORE_QTSIT == 1) {
+                                    qtorfElem.css('color', 'red').text(first.QTORF);
+                                } else {
+                                    qtorfElem.css('color', '').text(first.QTORF);
+                                }
+                            } else {
+                                $container.find(".description-text").text("--");
+                            }
+                            break;
+                        case "SUsituazione":
+                            let suSituazione = JSON.parse(valore);
+                            if (Array.isArray(suSituazione) && suSituazione.length > 0) {
+                                $('tr[data-CODMIS] .QTSIT').text(0);
+                                $('tr[data-CODMIS] .QTORF').text(0);
+                                suSituazione.forEach(function(item) {
+                                    let row = $(`tr[data-CODMIS="${item.CODMIS}"]`);
+                                    row.find(".QTSIT").text(item.QTSIT);
+                                    let qtorfElem = row.find(".QTORF");
+                                    if (item.CONSUMO_MINORE_QTSIT == 1) {
+                                        qtorfElem.css('color', 'red').text(item.QTORF);
+                                    } else {
+                                        qtorfElem.css('color', '').text(item.QTORF);
+                                    }
+                                });
+                            } else {
+                                $('tr[data-CODMIS] .QTSIT').text(0);
+                                $('tr[data-CODMIS] .QTORF').text(0);
+                            }
+                            break;
+                        case "richiesta_manutenzione":
+                            let avviso = valore != '0' ? `
+                                <div class="col-12 alert alert-warning alert-dismissible" style="margin: 0; height: 65px;">
+                                    <h5 class="font-md"><i class="icon fas fa-exclamation-triangle"></i> Manutenzione Richiesta!</h5>
+                                </div>` : `
+                                <div class="col-12 alert alert-success alert-dismissible" style="margin: 0; height: 65px;">
+                                    <h5 class="font-md"><i class="icon fas fa-check"></i> Macchina in Funzione!</h5>
+                                </div>`;
+                            $('#avviso_manutenzione').html(avviso);
+                            $('#richiesta_manutenzione').toggleClass('d-none', valore != '0');
+                            $('#conferma_intervento').toggleClass('d-none', valore == '0');
+                            break;
+                        case "TCcodlavor":
+                        case "T1codlavor":
+                        case "id_macchina":
+                        case "ip_macchina":
+                        case "subnet":
+                        case "gateway":
+                        case "dns_nameservers":
+                        case "ip_local_server":
+                        case "porta_local_server":
+                        case "network_name":
+                        case "prefisso":
+                        case "lotto":
+                        case "articolo":
+                            $(`#${key}`).text(valore ? valore : '--');
+                            break;
+                        case "note_lavorazione":
+                            $(`#${key}`).val(valore ? valore : '');
+                            break;
+                        default:
+                            $(`#${key}`).text(valore);
+                            break;
+                    }
+                });
+
+            }).fail(function(jqXHR, textStatus) {
+                console.log(jqXHR, textStatus);
+                Swal.fire('Errore Generico!', '', 'error');
+            });
+        }
+
     </script>
 @endsection

@@ -9,36 +9,29 @@ use App\Models\LogData;
 use App\Models\Campionatura;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
     public function home(Request $request)
     {
-        $richiesta_filato = 0;
-        $richiesta_intervento = 0;
-
         extract($this->loadAllVariables());
 
-        $tasks = Tasks::whereNotIn('status', ['CANCELED', 'COMPLETED'])
-            ->select('task_type', DB::raw('count(*) as count'))
-            ->groupBy('task_type')
-            ->get()
-            ->each(function ($task) use (&$richiesta_filato, &$richiesta_intervento) {
-                ${$task->task_type} = $task->count ? 1 : 0;
-            });
+        if (!session()->has('tecnici')) {
+            $tecnici = $this->getTecnici($request)->original['data'];
+            session(['tecnici' => $tecnici]);
+            session()->save();
+        } else {
+            $tecnici = session('tecnici');
+        }
 
-        return view('MF1.home', get_defined_vars());
-    }
-
-    public function lavorazione(Request $request)
-    {
-        return view('MF1.lavorazione', get_defined_vars());
+        return view(env('APP_NAME') . '.home', get_defined_vars());
     }
 
     public function impostazioni(Request $request)
     {
         extract($this->loadAllVariables());
-        return view('MF1.impostazioni', get_defined_vars());
+        return view(env('APP_NAME') . '.impostazioni', get_defined_vars());
     }
 
     public function reports(Request $request)
@@ -84,15 +77,51 @@ class HomeController extends Controller
         $tempo_totale = round($tempo_totale->tempo_totale ?? 0, 2);
         $consumo_commessa = round($dati_commessa->consumo_commessa ?? 0, 2);
         $tempo_commessa = round($tempo_commessa->tempo_commessa ?? 0, 2);
-
-        return view('MF1.reports', get_defined_vars());
+        return view(env('APP_NAME') . '.reports', get_defined_vars());
     }
-
 
     public function manuale(Request $request)
     {
         extract($this->loadAllVariables());
-        return view('MF1.manuale', get_defined_vars());
+        return view(env('APP_NAME') . '.manuale', get_defined_vars());
+    }
+
+    public function getTecnici(Request $request)
+    {
+        extract($this->loadAllVariables());
+        try {
+            $codice_tecnico = $request->input('codice_tecnico');
+
+            $payload = [];
+            if (!empty($codice_tecnico)) {
+                $payload['codice_tecnico'] = $codice_tecnico;
+            }
+
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json'
+            ])->post("http://$ip_local_server:$porta_local_server/api/recipe/tecnici", $payload);
+
+            if ($response->failed()) {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Errore nella richiesta al server Flask',
+                    'details' => $response->body()
+                ], 500);
+            }
+
+            $data = $response->json();
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getSettings()
+    {
+        return $this->loadAllVariables();
     }
 
     public function settingsSave(Request $request)
@@ -113,6 +142,67 @@ class HomeController extends Controller
                         'task_type' => $setting,
                         'status' => 'UNASSIGNED'
                     ]);
+                    $tecnico = collect(session('tecnici'))->firstWhere('ID', $value);
+
+                    if (is_null($tecnico)) {
+                        return response()->json([
+                            'success' => false,
+                            'error' => 'Tecnico non trovato'
+                        ], 404);
+                    }
+
+                    $payload = [
+                        'telefono' => '3298006664',
+                        // 'telefono' => $tecnico['TELEFONO'],
+                        'messaggio' => 'Richiesta di intervento richiesta per dalla macchina "' . $device_id . '" da ' . $tecnico['NOME'] . ' ' . $tecnico['COGNOME']
+                    ];
+
+                    Http::withHeaders([
+                        'Content-Type' => 'application/json'
+                    ])->post("http://$ip_local_server:$porta_local_server/api/recipe/sms", $payload);
+
+                    break;
+                case 'commessa':
+                    $barcode = $value;
+                    $barcodeData = $this->parseBarcode($barcode);
+
+                    if (isset($barcodeData['success']) && !$barcodeData['success']) {
+                        return $barcodeData;
+                    }
+
+                    $this->{$setting}->setValue($barcode);
+
+                    // Pulizia delle impostazioni precedenti
+                    foreach (['T1codlavor', 'T1data_lavor', 'TCcodlavor', 'TCdata_lavor'] as $code) {
+                        $this->{$code}->setValue(null);
+                    }
+
+                    // Recupero dati delle fasi di lavorazione
+                    $responseFasi = collect($this->getFaseGa2($barcode));
+                    if ($responseFasi->get('success') && isset($responseFasi['data'])) {
+                        foreach ($responseFasi['data'] as $fase) {
+                            $this->{$fase->CODFASE . 'codlavor'}->setValue($fase->CODLAVOR);
+                            $this->{$fase->CODFASE . 'data_lavor'}->setValue($fase->DATA);
+                        }
+                    }
+
+                    // Recupero informazioni lotto e articolo
+                    $responseInfo = collect($this->getInfoGa2($barcode));
+                    if ($responseInfo->get('success')) {
+                        $this->prefisso->setValue($responseInfo['data'][0]);
+                        $this->lotto->setValue($responseInfo['data'][1]);
+                        $this->articolo->setValue($responseInfo['data'][2]);
+                        $this->note_lavorazione->setValue($responseInfo['data'][3]);
+                    }
+
+                    // Recupero delle situazioni per vari codici
+                    foreach ([20 => 'SUsituazione', 1 => 'PE1situazione', 2 => 'PE2situazione', 3 => 'PE3situazione'] as $codice => $settingKey) {
+                        $responseSituazione = collect($this->getSituazioneGa2($barcode, $codice));
+                        if ($responseSituazione->get('success')) {
+                            $this->{$settingKey}->setValue(json_encode($responseSituazione['data']));
+                        }
+                    }
+
                     break;
                 default:
                     $this->{$setting}->setValue($value);
@@ -120,11 +210,10 @@ class HomeController extends Controller
             }
 
             DB::commit();
-
             return ['success' => true];
+
         } catch (\Exception $th) {
             DB::rollback();
-
             return ['success' => false, 'msg' => $th->getMessage()];
         }
     }
@@ -152,7 +241,7 @@ class HomeController extends Controller
     public function campionatura(Request $request)
     {
         extract($this->loadAllVariables());
-        return view('MF1.campionatura', get_defined_vars());
+        return view(env('APP_NAME') . '.campionatura', get_defined_vars());
     }
 
     public function signalCampionatura(Request $request)
@@ -207,5 +296,78 @@ class HomeController extends Controller
         }
 
         return response()->json($response);
+    }
+
+    private function parseBarcode($barcode)
+    {
+        $barcode_length = strlen($barcode);
+
+        if (!in_array($barcode_length, [11, 12, 14])) {
+            return ['success' => false, 'msg' => 'Lunghezza barcode errata!'];
+        }
+
+        if ($barcode_length == 11) {
+            return [
+                'codpref' => intval(substr($barcode, 0, 2)),
+                'nlotto' => intval(substr($barcode, 2, 4)),
+                'progr' => intval(substr($barcode, 6, 3)),
+                'nfasebol' => intval(substr($barcode, 9, 1))
+            ];
+        } elseif ($barcode_length == 12) {
+            return [
+                'codpref' => intval(substr($barcode, 1, 2)),
+                'nlotto' => intval(substr($barcode, 3, 4)),
+                'progr' => intval(substr($barcode, 7, 3)),
+                'nfasebol' => intval(substr($barcode, 10, 1))
+            ];
+        } else { // $barcode_length == 14
+            return [
+                'codpref' => intval(substr($barcode, 1, 2)),
+                'nlotto' => intval(substr($barcode, 3, 4)),
+                'progr' => intval(substr($barcode, 7, 3)),
+                'nfasebol' => intval(substr($barcode, 10, 3))
+            ];
+        }
+    }
+
+    private function processBarcodeRequest($barcode, $endpoint, $extraParams = [])
+    {
+        try {
+            extract($this->loadAllVariables());
+
+            $parsedData = $this->parseBarcode($barcode);
+
+            if (isset($parsedData['success']) && $parsedData['success'] === false) {
+                return $parsedData; // Restituisce errore di lunghezza barcode
+            }
+
+            $payload = array_merge([
+                'codpref' => $parsedData['codpref'],
+                'nlotto' => $parsedData['nlotto']
+            ], $extraParams);
+
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json'
+            ])->post("http://$ip_local_server:$porta_local_server/api/$endpoint", $payload);
+
+            return json_decode($response->body());
+        } catch (\Exception $th) {
+            return ['success' => false, 'msg' => $th->getMessage()];
+        }
+    }
+
+    public function getFaseGa2($barcode)
+    {
+        return $this->processBarcodeRequest($barcode, 'recipe/fase');
+    }
+
+    public function getSituazioneGa2($barcode, $codice)
+    {
+        return $this->processBarcodeRequest($barcode, 'recipe/situazione', ['codice' => $codice]);
+    }
+
+    public function getInfoGa2($barcode)
+    {
+        return $this->processBarcodeRequest($barcode, 'recipe/info');
     }
 }

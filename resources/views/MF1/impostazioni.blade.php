@@ -1,4 +1,4 @@
-@extends('MF1.index')
+@extends(env('APP_NAME') . '.index')
 @section('main')
     <form id="form_impostazioni">
         <label for="parametro_olio" class="font-lg" style="color: #000;">Parametro Olio</label>

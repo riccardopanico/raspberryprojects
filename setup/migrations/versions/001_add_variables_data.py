@@ -24,7 +24,7 @@ def upgrade():
         {"variable_code": "fattore_taratura", "variable_name": "Fattore Taratura", "string_value": None, "numeric_value": 78, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "gateway", "variable_name": "Gateway", "string_value": "192.168.10.253", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "badge", "variable_name": "Badge", "string_value": "0010452223", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
-        {"variable_code": "ip_local_server", "variable_name": "IP Server Locale", "string_value": "192.168.10.207", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
+        {"variable_code": "ip_local_server", "variable_name": "IP Server Locale", "string_value": "192.168.0.245", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "ip_macchina", "variable_name": "IP Macchina", "string_value": "192.168.10.201", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "last_barcode", "variable_name": "Ultimo Barcode Scansionato", "string_value": "123", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "manuale_uso", "variable_name": "Manuale d'uso", "string_value": "manuale_uso.pdf", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
@@ -35,7 +35,7 @@ def upgrade():
         {"variable_code": "parametro_olio_attivo", "variable_name": "Parametro Olio Attivo", "string_value": None, "numeric_value": None, "boolean_value": 0, "device_id": None, "created_at": created_at_value},
         {"variable_code": "parametro_spola", "variable_name": "Parametro Spola (metri)", "string_value": None, "numeric_value": 100, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "parametro_spola_attivo", "variable_name": "Parametro Spola Attivo", "string_value": None, "numeric_value": None, "boolean_value": 0, "device_id": None, "created_at": created_at_value},
-        {"variable_code": "porta_local_server", "variable_name": "Porta Server Locale", "string_value": None, "numeric_value": 1404, "boolean_value": None, "device_id": None, "created_at": created_at_value},
+        {"variable_code": "porta_local_server", "variable_name": "Porta Server Locale", "string_value": None, "numeric_value": 5000, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "richiesta_filato", "variable_name": "Richiesta Filato", "string_value": None, "numeric_value": None, "boolean_value": 0, "device_id": None, "created_at": created_at_value},
         {"variable_code": "richiesta_intervento", "variable_name": "Richiesta Intervento", "string_value": None, "numeric_value": None, "boolean_value": 0, "device_id": None, "created_at": created_at_value},
         {"variable_code": "subnet", "variable_name": "Subnet", "string_value": "255.255.255.0", "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
@@ -55,3 +55,5 @@ def upgrade():
         {"variable_code": "TCcodlavor", "variable_name": "Codice Lavorante", "string_value": None, "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "TCdata_lavor", "variable_name": "Data Lavorazione", "string_value": None, "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "note_lavorazione", "variable_name": "Note Lavorazione", "string_value": None, "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
+    ]
+)

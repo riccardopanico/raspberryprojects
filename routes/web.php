@@ -25,13 +25,13 @@ Route::middleware('auth')->group(function () {
     Route::any('reports', [HomeController::class, 'reports'])->name('reports');
     Route::any('impostazioni', [HomeController::class, 'impostazioni'])->name('impostazioni');
     Route::any('manuale', [HomeController::class, 'manuale'])->name('manuale');
-    Route::any('lavorazione', [HomeController::class, 'lavorazione'])->name('lavorazione');
     Route::post('settingsSave', [HomeController::class, 'settingsSave'])->name('settingsSave');
     Route::post('settingsSaveAll', [HomeController::class, 'settingsSaveAll'])->name('settingsSaveAll');
     Route::any('reboot', [HomeController::class, 'reboot'])->name('reboot');
     Route::any('shutdown', [HomeController::class, 'shutdown'])->name('shutdown');
     Route::any('campionatura', [HomeController::class, 'campionatura'])->name('campionatura');
     Route::any('signalCampionatura', [HomeController::class, 'signalCampionatura'])->name('signalCampionatura');
+    Route::any('getSettings', [HomeController::class, 'getSettings'])->name('getSettings');
 });
 
 Route::any('clear-cache', function () {
