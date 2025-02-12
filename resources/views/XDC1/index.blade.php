@@ -24,6 +24,7 @@
     </div>
     @include(env('APP_NAME') . '.commons.script')
     @if(Route::currentRouteName() != 'login')
+        @include(env('APP_NAME') . '.commons.websocket')
         @include(env('APP_NAME') . '.commons.modal')
     @endif
     @yield('script')

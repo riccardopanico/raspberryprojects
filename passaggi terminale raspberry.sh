@@ -13,14 +13,14 @@ sudo systemctl status chromium-kiosk.service
 sudo systemctl stop chromium-kiosk.service
 sudo systemctl disable chromium-kiosk.service
 sudo systemctl restart chromium-kiosk.service
-sudo systemctl status flask.service
+
+sudo systemctl stop flask.service
+sudo systemctl daemon-reload
 sudo systemctl disable flask.service
 sudo systemctl enable flask.service
 sudo systemctl start flask.service
 sudo systemctl restart flask.service
-sudo systemctl stop flask.service
-sudo systemctl disable flask.service
-sudo systemctl daemon-reload
+sudo systemctl status flask.service
 python /var/www/html/raspberryprojects/python/flask_project/manage.py
 python /home/pi/flask_project/manage.py
 
