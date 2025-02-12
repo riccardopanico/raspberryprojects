@@ -8,17 +8,9 @@ Group=pi
 Environment="DISPLAY=:0"
 Environment="XAUTHORITY=/home/pi/.Xauthority"
 
-# ExecStartPre=/usr/bin/xrandr --output DSI-1 --rotate normal
-# ExecStartPre=/usr/bin/xrandr --output DSI-1 --rotate right
-# ExecStartPre=/usr/bin/xrandr --output DSI-1 --rotate inverted
-# ExecStartPre=/usr/bin/xinput set-prop "10-0038 generic ft5x06 (79)" "Coordinate Transformation Matrix" 1 0 0 0 1 0 0 0 1
-# ExecStartPre=/usr/bin/xinput set-prop "10-0038 generic ft5x06 (79)" "Coordinate Transformation Matrix" 0 1 0 -1 0 1 0 0 1
-# ExecStartPre=/usr/bin/xinput set-prop "10-0038 generic ft5x06 (79)" "Coordinate Transformation Matrix" -1 0 1 0 -1 1 0 0 1
-# ExecStartPre=/usr/bin/xrandr --output HDMI-1 --mode 800x480 --rotate right --rate 66 --brightness 1.0
-# ExecStartPre=/usr/bin/xinput set-prop "WaveShare ws170120" "Coordinate Transformation Matrix" 0 1 0 -1 0 1 0 0 1
+ExecStartPre=/usr/bin/xrandr --output DSI-1 --rotate __ROTATION__
+ExecStartPre=/usr/bin/xinput set-prop "10-0038 generic ft5x06 (79)" "Coordinate Transformation Matrix" __TRANSFORMATION__
 
-ExecStartPre=/usr/bin/xrandr --output DSI-1 --rotate left
-ExecStartPre=/usr/bin/xinput set-prop "10-0038 generic ft5x06 (79)" "Coordinate Transformation Matrix" 0 -1 1 1 0 0 0 0 1
 ExecStartPre=/usr/bin/xset s off
 ExecStartPre=/usr/bin/xset -dpms
 ExecStartPre=/usr/bin/xset s noblank

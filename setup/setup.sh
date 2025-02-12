@@ -35,15 +35,24 @@ sudo cp /boot/firmware/config.txt /boot/firmware/config.txt.bak
 sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.bak
 
 echo "Configurazione cmdline.txt in corso..."
-if [ "$ROTAZIONE_DYSPLAY" == "90" ]; then
-    sudo sed -i "$ s/$/ fbcon=rotate:1/" /boot/firmware/cmdline.txt
-elif [ "$ROTAZIONE_DYSPLAY" == "180" ]; then
-    sudo sed -i "$ s/$/ fbcon=rotate:2/" /boot/firmware/cmdline.txt
-elif [ "$ROTAZIONE_DYSPLAY" == "270" ]; then
-    sudo sed -i "$ s/$/ fbcon=rotate:3/" /boot/firmware/cmdline.txt
-else
-    sudo sed -i "$ s/$/ fbcon=rotate:0/" /boot/firmware/cmdline.txt
-fi
+case "$ROTAZIONE_DYSPLAY" in
+    "90")
+        ROTAZIONE="right"
+        MATRICE="0 -1 1 1 0 0 0 0 1"
+        sudo sed -i "$ s/$/ fbcon=rotate:1/" /boot/firmware/cmdline.txt ;;
+    "180")
+        ROTAZIONE="normal"
+        MATRICE="-1 0 1 0 -1 1 0 0 1"
+        sudo sed -i "$ s/$/ fbcon=rotate:2/" /boot/firmware/cmdline.txt ;;
+    "270")
+        ROTAZIONE="left"
+        MATRICE="0 1 0 -1 0 1 0 0 1"
+        sudo sed -i "$ s/$/ fbcon=rotate:3/" /boot/firmware/cmdline.txt ;;
+    *)
+        ROTAZIONE="normal"
+        MATRICE="1 0 0 0 1 0 0 0 1"
+        sudo sed -i "$ s/$/ fbcon=rotate:0/" /boot/firmware/cmdline.txt ;;
+esac
 sudo sed -i "$ s/$/ video=DSI-1:800x480@60/" /boot/firmware/cmdline.txt
 sudo sed -i "$ s/$/ rotate=$ROTAZIONE_DYSPLAY/" /boot/firmware/cmdline.txt
 sudo sed -i "$ s/$/ splash/" /boot/firmware/cmdline.txt
@@ -85,6 +94,8 @@ sudo rsync -a --no-perms --no-owner --no-group --inplace "$SCRIPT_DIR/os_sync/."
 echo "Sostituzione dei parametri in corso..."
 sudo sed -i "s/^\(transform *= *\).*/\1$(if [ "$ROTAZIONE_DYSPLAY" == "0" ]; then echo 'normal'; else echo "$ROTAZIONE_DYSPLAY"; fi)/" /home/pi/.config/wayfire.ini
 sudo sed -i "s|__PATH__|$FLASK_DIR|g" /etc/systemd/system/flask.service
+sudo sed -i "s|__ROTATION__|$ROTAZIONE|g" /etc/systemd/system/chromium-kiosk.service
+sudo sed -i "s|__TRANSFORMATION__|$MATRICE|g" /etc/systemd/system/chromium-kiosk.service
 # sudo sed -i "s|logoniva|logoniva$ROTAZIONE_DYSPLAY|g" /usr/share/plymouth/themes/niva/niva.script
 
 echo "Reimpostazione dei permessi in corso..."

@@ -5,14 +5,42 @@ sudo raspi-config
 
 scp C:\xampp\htdocs\raspberryprojects\setup.zip pi@192.168.0.97:/home/pi/setup.zip
 
-unzip setup.zip && cd setup && chmod +x setup.sh && ./setup.sh "APP_NAME"
-unzip setup.zip && cd setup && chmod +x setup.sh && ./setup.sh "APP_NAME" 270
+unzip setup.zip && cd setup && chmod +x setup.sh && ./setup.sh "RP1"
+unzip setup.zip && cd setup && chmod +x setup.sh && ./setup.sh "RP1" 270
 unzip setup.zip && cd setup && chmod +x setup_server.sh && ./setup_server.sh
 
-sudo systemctl status chromium-kiosk.service
+
+
+
+ROTAZIONE_DYSPLAY="0"
+echo "Configurazione cmdline.txt in corso..."
+case "$ROTAZIONE_DYSPLAY" in
+    "90")
+        ROTAZIONE="right"
+        MATRICE="0 -1 1 1 0 0 0 0 1"
+        sudo sed -i "$ s/$/ fbcon=rotate:1/" /boot/firmware/cmdline.txt ;;
+    "180")
+        ROTAZIONE="normal"
+        MATRICE="-1 0 1 0 -1 1 0 0 1"
+        sudo sed -i "$ s/$/ fbcon=rotate:2/" /boot/firmware/cmdline.txt ;;
+    "270")
+        ROTAZIONE="left"
+        MATRICE="0 1 0 -1 0 1 0 0 1"
+        sudo sed -i "$ s/$/ fbcon=rotate:3/" /boot/firmware/cmdline.txt ;;
+    *)
+        ROTAZIONE="normal"
+        MATRICE="1 0 0 0 1 0 0 0 1"
+        sudo sed -i "$ s/$/ fbcon=rotate:0/" /boot/firmware/cmdline.txt ;;
+esac
+sudo sed -i "s|__ROTATION__|$ROTAZIONE|g" /etc/systemd/system/chromium-kiosk.service
+sudo sed -i "s|__TRANSFORMATION__|$MATRICE|g" /etc/systemd/system/chromium-kiosk.service
 sudo systemctl stop chromium-kiosk.service
+sudo systemctl daemon-reload
 sudo systemctl disable chromium-kiosk.service
+sudo systemctl enable chromium-kiosk.service
+sudo systemctl start chromium-kiosk.service
 sudo systemctl restart chromium-kiosk.service
+sudo systemctl status chromium-kiosk.service
 
 sudo systemctl stop flask.service
 sudo systemctl daemon-reload
@@ -55,20 +83,7 @@ stduser
 PwD01NiVa18
 
 
-
-
-
-
-
-
-
-
-
-
-
 chmod +x install.sh && chmod +x uninstall.sh && chmod +x test.sh
-
-
 
 
 sudo nano /etc/systemd/system/plymouth-wait-for-animation.service
