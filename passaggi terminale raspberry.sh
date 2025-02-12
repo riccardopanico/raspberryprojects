@@ -5,8 +5,8 @@ sudo raspi-config
 
 scp C:\xampp\htdocs\raspberryprojects\setup.zip pi@192.168.0.97:/home/pi/setup.zip
 
-unzip setup.zip && cd setup && chmod +x setup.sh && ./setup.sh
-unzip setup.zip && cd setup && chmod +x setup.sh && ./setup.sh 270
+unzip setup.zip && cd setup && chmod +x setup.sh && ./setup.sh "APP_NAME"
+unzip setup.zip && cd setup && chmod +x setup.sh && ./setup.sh "APP_NAME" 270
 unzip setup.zip && cd setup && chmod +x setup_server.sh && ./setup_server.sh
 
 sudo systemctl status chromium-kiosk.service
@@ -14,6 +14,9 @@ sudo systemctl stop chromium-kiosk.service
 sudo systemctl disable chromium-kiosk.service
 sudo systemctl restart chromium-kiosk.service
 sudo systemctl status flask.service
+sudo systemctl disable flask.service
+sudo systemctl enable flask.service
+sudo systemctl start flask.service
 sudo systemctl restart flask.service
 sudo systemctl stop flask.service
 sudo systemctl disable flask.service

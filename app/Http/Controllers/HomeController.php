@@ -15,7 +15,18 @@ class HomeController extends Controller
 {
     public function home(Request $request)
     {
+        $richiesta_filato = 0;
+        $richiesta_intervento = 0;
+
         extract($this->loadAllVariables());
+
+        $tasks = Tasks::whereNotIn('status', ['CANCELED', 'COMPLETED'])
+            ->select('task_type', DB::raw('count(*) as count'))
+            ->groupBy('task_type')
+            ->get()
+            ->each(function ($task) use (&$richiesta_filato, &$richiesta_intervento) {
+                ${$task->task_type} = $task->count ? 1 : 0;
+            });
 
         if (!session()->has('tecnici')) {
             $tecnici = $this->getTecnici($request)->original['data'];

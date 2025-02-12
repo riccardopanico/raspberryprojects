@@ -46,6 +46,7 @@
     <script>
         var forzaFocus = true;
         var $commessa = $("#commessa");
+        var tecnici = @json($tecnici);
 
         function gestisciFocus() {
             if (forzaFocus) {
