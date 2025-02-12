@@ -91,6 +91,8 @@ flask db upgrade
 deactivate
 
 ###############################################
+# APP_NAME="MF1"
+APP_NAME="XDC1"
 SCRIPT_DIR="/home/pi/setup"
 PROJECT_DIR="/var/www/html/raspberryprojects"
 FLASK_DIR="$PROJECT_DIR/python/flask_project"
@@ -123,8 +125,7 @@ sudo npm run dev >/dev/null 2>&1
 echo "Creazione .env..."
 ENV_FILE="$PROJECT_DIR/.env"
 sudo cp "$SCRIPT_DIR/.env_laravel" "$ENV_FILE"
-# sudo sed -i "s/^APP_NAME=.*/APP_NAME=MF1/" "$ENV_FILE"
-sudo sed -i "s/^APP_NAME=.*/APP_NAME=XDC1/" "$ENV_FILE"
+sudo sed -i "s/^APP_NAME=.*/APP_NAME=$APP_NAME/" "$ENV_FILE"
 sudo sed -i "s/^DB_CONNECTION=.*/DB_CONNECTION=mysql/" "$ENV_FILE"
 sudo sed -i "s/^DB_HOST=.*/DB_HOST=localhost/" "$ENV_FILE"
 sudo sed -i "s/^DB_PORT=.*/DB_PORT=3306/" "$ENV_FILE"
