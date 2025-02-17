@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=niva_0
+Description=Niva 0
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/niva_0
+ScriptFile=/usr/share/plymouth/themes/niva_0/niva_0.script

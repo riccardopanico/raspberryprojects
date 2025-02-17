@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=niva_180
+Description=Niva 180
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/niva_180
+ScriptFile=/usr/share/plymouth/themes/niva_180/niva_180.script
