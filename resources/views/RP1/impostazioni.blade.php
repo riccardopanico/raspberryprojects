@@ -78,6 +78,24 @@
 } */
     </style>
 
+<script>
+    function sincronizzaDipendenti() {
+        Swal.fire({
+            icon: 'question',
+            title: `Vuoi sincronizzare i dipendenti?`,
+            showCancelButton: true,
+            confirmButtonText: 'Conferma',
+            cancelButtonText: 'Annulla',
+            showClass: { popup: '', },
+            hideClass: { popup: '', }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                queueMessage({ action: "sincronizzaDipendenti" });
+                sendMessage();
+            }
+        });
+    }
+</script>
     <div class="row" id="impostazioni_page" style="display: inline-flex;">
         <div class="col-12"
             style="padding: 0; position: fixed; top: 60px; right: 0; bottom: 0; left: 0; background-color: #343a40; color: #fff;">
@@ -117,22 +135,22 @@
 
 @section('script')
 <script>
-    function sincronizzaDipendenti() {
-        Swal.fire({
-            icon: 'question',
-            title: `Vuoi sincronizzare i dipendenti?`,
-            showCancelButton: true,
-            confirmButtonText: 'Conferma',
-            cancelButtonText: 'Annulla',
-            showClass: { popup: '', },
-            hideClass: { popup: '', }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                queueMessage({ action: "sincronizzaDipendenti" });
-                sendMessage();
-            }
-        });
-    }
+    // function sincronizzaDipendenti() {
+    //     Swal.fire({
+    //         icon: 'question',
+    //         title: `Vuoi sincronizzare i dipendenti?`,
+    //         showCancelButton: true,
+    //         confirmButtonText: 'Conferma',
+    //         cancelButtonText: 'Annulla',
+    //         showClass: { popup: '', },
+    //         hideClass: { popup: '', }
+    //     }).then((result) => {
+    //         if (result.isConfirmed) {
+    //             queueMessage({ action: "sincronizzaDipendenti" });
+    //             sendMessage();
+    //         }
+    //     });
+    // }
 
     function aggiornaPIN() {
         let pin = $('#pin').val();
