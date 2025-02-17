@@ -13,11 +13,25 @@
                         <p>HOME</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" onclick="openModal('richiesta_intervento')"
-                        class="nav-link no-border">
+                {{-- <li class="nav-item">
+                    <a href="{{ route('reports') }}"
+                        class="nav-link no-border {{ request()->routeIs('reports') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>INTERVENTO</p>
+                        <p>REPORTS</p>
+                    </a>
+                </li> --}}
+                <li class="nav-item">
+                    <a href="{{ route('impostazioni') }}"
+                        class="nav-link no-border {{ request()->routeIs('impostazioni') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>IMPOSTAZIONI</p>
+                    </a>
+                </li>
+                {{-- <li class="nav-item">
+                    <a href="{{ route('campionatura') }}"
+                        class="nav-link no-border {{ request()->routeIs('campionatura') ? 'active' : '' }}">
+                        <i class="fas fa-flask pl-2 pr-1"></i>
+                        <p>CAMPIONATURA</p>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -26,7 +40,7 @@
                         <i class="fas fa-file-pdf pl-2 pr-1"></i>
                         <p>MANUALE D'USO</p>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </nav>
     </div>

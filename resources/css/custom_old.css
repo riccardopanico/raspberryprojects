@@ -77,11 +77,10 @@ body {
 }
 
 .zoom-swal-popup {
-    font-size: 22px;
+    font-size: 1.7rem;
     transform: scale(1.0);
-    border-radius: 20px;
 }
-/*
+
 #KioskBoard-VirtualKeyboard {
     zoom: 1.3;
     height: 50%;
@@ -97,7 +96,7 @@ body {
         font-size: 25px !important;
         width: calc(33.3333% - 25px);
     }
-} */
+}
 
 .modal-fullscreen {
     width: 100%;
@@ -131,35 +130,13 @@ body {
     border-radius: 0 !important;
 }
 
-.swal2-popup {
-    padding: 0;
-}
-
 .swal2-styled {
+    border-radius: 0 !important;
+    background-color: #0d6efd !important;
+    color: #fff !important;
     font-size: 1.8rem !important;
     transform: scale(1.0) !important;
-    padding: 20px 37px !important;
-    margin-bottom: 55px;
-}
-
-.swal2-title, .swal2-html-container {
-    font-size: 45px;
-    padding-top: 7px;
-}
-
-.swal2-html-container {
-    font-size: 35px;
-    padding-top: 0;
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
-
-.swal2-actions {
-    margin-top: 0;
-}
-
-.swal2-success {
-    margin-top: 30px;
+    padding: 23px 40px !important;
 }
 
 input::placeholder {

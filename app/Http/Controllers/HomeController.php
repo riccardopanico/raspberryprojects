@@ -9,12 +9,18 @@ use App\Models\LogData;
 use App\Models\Campionatura;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
     public function home(Request $request)
     {
+        if (env('APP_NAME') === 'RP1'){
+            $this->user_id->setValue(null);
+            Auth::logout();
+        }
+
         $richiesta_filato = 0;
         $richiesta_intervento = 0;
 

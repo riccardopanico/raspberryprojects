@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" {{-- style="height: auto;zoom: 1.25;" --}} style="height: 800px; overflow: hidden;">
+<html lang="en" {{-- style="height: auto;zoom: 1.25;" --}} style="overflow: hidden;">
 @include(env('APP_NAME') . '.commons.head')
 
-<body class="layout-fixed layout-footer-fixed layout-navbar-fixed sidebar-closed sidebar-collapse">
+<body class="dark-mode layout-fixed layout-footer-fixed @if(Route::currentRouteName() != 'login') layout-navbar-fixed @endif sidebar-closed sidebar-collapse">
     <div class="wrapper">
         @if (Route::currentRouteName() == 'login')
             @yield('navbar')
@@ -12,8 +12,8 @@
         @include(env('APP_NAME') . '.commons.sidebar')
         <div class="content-wrapper" style="zoom: 1.38;">
             @yield('breadcrumb')
-            <section class="content pt-2">
-                <div class="container-fluid p-0">
+            <section class="content @if(Route::currentRouteName() != 'login') pt-2 @else  p-3 @endif">
+                <div class="container-fluid">
                     @yield('main')
                 </div>
             </section>

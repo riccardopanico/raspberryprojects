@@ -65,24 +65,6 @@
                     isWaitingForServer = false;
                     sendMessage();
                     break;
-                case "dati_orlatura":
-                    let data = parsedData['data'];
-                    $('[data-key="consumo_commessa"]').text(`${(data.consumo_commessa/100).toFixed(2)} m`);
-                    $('[data-key="tempo_commessa"]').text(formatTimeInHoursMinutesSeconds(data.tempo_commessa));
-                    $('[data-key="consumo_totale"]').text(`${(data.consumo_totale/100).toFixed(2)} m`);
-                    $('[data-key="tempo_totale"]').text(formatTimeInHoursMinutesSeconds(data.tempo_totale));
-                    try {
-                        if(campionaturaId){
-                            $('#consumo_campionatura').text(`${(data.consumo_campionatura/100).toFixed(2)} m`);
-                            $('#tempo_campionatura').text(formatTimeInHoursMinutesSeconds(data.tempo_campionatura));
-                        }
-                    } catch (error) {
-                        // console.log(error);
-                    }
-                    break;
-                case "alert_spola":
-                    openModal('alert_spola');
-                    break;
                 case "alert_olio":
                     openModal('alert_olio');
                     break;

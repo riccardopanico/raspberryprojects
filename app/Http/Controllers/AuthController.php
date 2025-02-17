@@ -13,7 +13,8 @@ class AuthController extends Controller
         extract($this->loadAllVariables());
         $error = session('error');
         $this->user_id->setValue(null);
-        $this->badge->setValue(null);
+        if (env('APP_NAME') !== 'RP1')
+            $this->badge->setValue(null);
         return view(env('APP_NAME') . '.login', get_defined_vars());
     }
 
@@ -24,7 +25,8 @@ class AuthController extends Controller
             Auth::login($user);
 
             $this->user_id->setValue($user->id);
-            $this->badge->setValue($user->badge);
+            if (env('APP_NAME') !== 'RP1')
+                $this->badge->setValue($user->badge);
 
             return redirect()->intended('home');
         } catch (\Throwable $th) {
@@ -34,7 +36,8 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $this->badge->setValue(null);
+        if (env('APP_NAME') !== 'RP1')
+            $this->badge->setValue(null);
         $this->user_id->setValue(null);
 
         Auth::logout();

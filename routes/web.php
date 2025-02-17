@@ -19,13 +19,22 @@ Route::any('login', [AuthController::class, 'login'])->name('login');
 Route::any('logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('signin', [AuthController::class, 'signin'])->name('signin');
 
-Route::middleware('auth')->group(function () {
+if (env('APP_NAME') !== 'RP1') {
+    Route::middleware('auth')->group(function () {
+        Route::any('/', [HomeController::class, 'home']);
+        Route::any('home', [HomeController::class, 'home'])->name('home');
+        Route::post('settingsSave', [HomeController::class, 'settingsSave'])->name('settingsSave');
+    });
+} else {
     Route::any('/', [HomeController::class, 'home']);
     Route::any('home', [HomeController::class, 'home'])->name('home');
+    Route::post('settingsSave', [HomeController::class, 'settingsSave'])->name('settingsSave');
+}
+
+Route::middleware('auth')->group(function () {
     Route::any('reports', [HomeController::class, 'reports'])->name('reports');
     Route::any('impostazioni', [HomeController::class, 'impostazioni'])->name('impostazioni');
     Route::any('manuale', [HomeController::class, 'manuale'])->name('manuale');
-    Route::post('settingsSave', [HomeController::class, 'settingsSave'])->name('settingsSave');
     Route::post('settingsSaveAll', [HomeController::class, 'settingsSaveAll'])->name('settingsSaveAll');
     Route::any('reboot', [HomeController::class, 'reboot'])->name('reboot');
     Route::any('shutdown', [HomeController::class, 'shutdown'])->name('shutdown');
