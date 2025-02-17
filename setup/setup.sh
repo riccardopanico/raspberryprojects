@@ -208,8 +208,8 @@ flask db upgrade >/dev/null 2>&1
 deactivate
 
 echo Installazione del tema niva...
-sudo update-alternatives --quiet --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/niva/niva.plymouth 100  >/dev/null 2>&1
-sudo update-alternatives --quiet --set default.plymouth /usr/share/plymouth/themes/niva/niva.plymouth  >/dev/null 2>&1
+sudo update-alternatives --quiet --install /usr/share/plymouth/themes/default.plymouth default.plymouth "/usr/share/plymouth/themes/niva_$ROTAZIONE_DYSPLAY/niva_$ROTAZIONE_DYSPLAY.plymouth" 100  >/dev/null 2>&1
+sudo update-alternatives --quiet --set default.plymouth "/usr/share/plymouth/themes/niva_$ROTAZIONE_DYSPLAY/niva_$ROTAZIONE_DYSPLAY.plymouth"  >/dev/null 2>&1
 sudo update-initramfs -u  >/dev/null 2>&1
 # sudo plymouthd && sudo plymouth --show-splash && sleep 7 && sudo plymouth quit
 # sudo plymouthd && sudo plymouth --show-splash && sleep 7 && sudo plymouth deactivate && sudo plymouth quit
