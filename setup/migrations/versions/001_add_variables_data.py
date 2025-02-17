@@ -55,5 +55,8 @@ def upgrade():
         {"variable_code": "TCcodlavor", "variable_name": "Codice Lavorante", "string_value": None, "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "TCdata_lavor", "variable_name": "Data Lavorazione", "string_value": None, "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
         {"variable_code": "note_lavorazione", "variable_name": "Note Lavorazione", "string_value": None, "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
+        {"variable_code": "api_base_url", "variable_name": "API Base URL", "string_value": None, "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
+        {"variable_code": "id_azienda", "variable_name": "ID Azienda", "string_value": None, "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
+        {"variable_code": "api_key", "variable_name": "API Key", "string_value": None, "numeric_value": None, "boolean_value": None, "device_id": None, "created_at": created_at_value},
     ]
 )

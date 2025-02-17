@@ -256,6 +256,15 @@ class HomeController extends Controller
         }
     }
 
+    public function aggiornaPin(Request $request)
+    {
+        $user = auth()->user();
+        $user->badge = $request->input('pin');
+        $user->save();
+
+        return response()->json(['success' => true, 'msg' => 'PIN aggiornato con successo!']);
+    }
+
     public function campionatura(Request $request)
     {
         extract($this->loadAllVariables());

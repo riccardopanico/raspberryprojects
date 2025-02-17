@@ -30,7 +30,10 @@ class AuthController extends Controller
 
             return redirect()->intended('home');
         } catch (\Throwable $th) {
-            return redirect()->route('login')->with(['error' => 'BADGE NON VALIDO!']);
+            if (env('APP_NAME') !== 'RP1')
+                return redirect()->route('login')->with(['error' => 'BADGE NON VALIDO!']);
+            else
+                return redirect()->route('login')->with(['error' => 'PIN NON VALIDO!']);
         }
     }
 

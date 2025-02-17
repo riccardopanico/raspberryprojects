@@ -58,19 +58,75 @@
             return;
         }
 
-        // Gestisci le diverse azioni
-        if (parsedData['action']) {
-            switch (parsedData['action']) {
-                case "readyForNext":
-                    isWaitingForServer = false;
-                    sendMessage();
-                    break;
-                case "alert_olio":
-                    openModal('alert_olio');
-                    break;
-                default:
-                    console.warn("Azione sconosciuta ricevuta dal server: ", parsedData['action']);
+        if (parsedData === 'pong') {
+            clearTimeout(pingTimeoutTimer);
+            clearTimeout(pingTimer);
+            pingTimer = setTimeout(function() {
+                // console.log('Ping inviato');
+                // schedulePing();
+            }, 2000);
+        } else {
+            if (parsedData['status'] && parsedData['status'] === "readyForNext") {
+                isWaitingForServer = false;
+                sendMessage();
             }
+
+            if (parsedData['message']) {
+                const icon = parsedData['icon'] ? parsedData['icon'] : null;
+                const popup = Swal.fire({
+                    title: parsedData['message'],
+                    icon: icon,
+                    showClass: { popup: '' },
+                    hideClass: { popup: '' }
+                });
+
+                if (parsedData['autoclose'] && parsedData['autoclose'] === true) {
+                    let timerAutoclose = parsedData['timer'] ? parsedData['timer'] : 2000;
+
+                    autocloseMsgTimer = setTimeout(function() {
+                        Swal.close();
+                        autocloseMsgTimer = null;
+                    }, timerAutoclose);
+
+                    popup.then(() => {
+                        if (autocloseMsgTimer !== null) {
+                            clearTimeout(autocloseMsgTimer);
+                            autocloseMsgTimer = null;
+                        }
+                    });
+                }
+            }
+
+            // if (parsedData['action']) {
+            //     if (parsedData['action'] === 'network_reset_warning') {
+            //         location.reload();
+            //     }
+            //     if (parsedData['action'] === 'autentica') {
+            //         setPage('menu_page');
+            //         sospendiFocus();
+            //     }
+            //     if (parsedData['action'] === 'refresh_page') {
+            //         location.reload();
+            //     }
+            //     if (parsedData['action'] === 'wifiList') {
+            //         $('#ssid').empty();
+            //         for (let i = 0; i < parsedData['wifiList'].length; i++) {
+            //             $('#ssid').append('<option value="' + parsedData['wifiList'][i] + '">' + parsedData['wifiList'][i] + '</option>');
+            //         }
+            //     }
+
+            //     if (parsedData['action'] === 'wifi_on') {
+            //         $('#wifi_led').removeClass('btn-danger').addClass('btn-success');
+            //         clearTimeout(wifiOnTimer);
+            //         wifiOnTimer = setTimeout(function() {
+            //             $('#wifi_led').removeClass('btn-success').addClass('btn-danger');
+            //         }, 10000);
+            //     }
+
+            //     if (parsedData['action'] === 'wifi_off') {
+            //         $('#wifi_led').removeClass('btn-success').addClass('btn-danger');
+            //     }
+            // }
         }
     }
 

@@ -24,7 +24,7 @@ echo "Aggiornamento dei pacchetti in corso..." && sudo apt upgrade -y >/dev/null
 echo "Aggiornamento del firmware Raspberry Pi in corso..." && sudo rpi-update -y >/dev/null 2>&1
 
 echo "Installazione delle dipendenze in corso..."
-sudo apt install -y --no-install-recommends xorg xserver-xorg-input-evdev xserver-xorg-input-libinput xinput-calibrator openbox chromium-browser git apache2 mariadb-server npm python3-pip python3-dev build-essential network-manager plymouth plymouth-themes vsftpd xinput arandr uuid-runtime >/dev/null 2>&1
+sudo apt install -y --no-install-recommends xorg xserver-xorg-input-evdev xserver-xorg-input-libinput xinput-calibrator openbox chromium-browser git apache2 mariadb-server npm python3-pip python3-dev build-essential network-manager plymouth plymouth-themes vsftpd xinput arandr uuid-runtime libgpiod-dev python3-libgpiod python3-lgpio >/dev/null 2>&1
 echo "Installazione completata!"
 
 echo "Backup dei file di configurazione in corso..."

@@ -32,8 +32,22 @@
 
 @section('script')
     <script>
+
+        var SwalPing = null;
+        var autocloseMsgTimer = null;
+        var wifiOnTimer = null;
+        var pingTimer;
+        var pingTimeoutTimer;
+
         var forzaFocus = true;
         var $badge = $("#badge");
+
+        function registraBadge(badge) {
+            if (autocloseMsgTimer === null) {
+                queueMessage({action: 'registraBadge', badge: badge});
+                sendMessage();
+            }
+        }
 
         function gestisciFocus() {
             if (forzaFocus) {
@@ -79,8 +93,9 @@
             if (e.keyCode === 13) {
                 var badge = $(this).val();
                 e.preventDefault();
-                console.log(badge);
-                settingsSave('badge', badge);
+                // console.log(badge);
+                // settingsSave('badge', badge);
+                registraBadge(badge);
                 gestisciFocus();
                 $(this).val('');
             }

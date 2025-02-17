@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 <div style="display: block; text-align: center; padding-top: 5px; padding-bottom: 45px;">
-                    <button type="submit" class="btn btn-primary" style="font-weight: 700; font-size: 18px;">Salva
+                    <button type="button" onclick="aggiornaPIN()" class="btn btn-primary" style="font-weight: 700; font-size: 18px;">Salva
                         Modifiche</button>
                 </div>
                 <div class="form-group row" style="font-size: 18px;">
@@ -112,4 +112,86 @@
             </div>
         </div>
     </div>
+@endsection
+
+
+@section('script')
+<script>
+    function sincronizzaDipendenti() {
+        Swal.fire({
+            icon: 'question',
+            title: `Vuoi sincronizzare i dipendenti?`,
+            showCancelButton: true,
+            confirmButtonText: 'Conferma',
+            cancelButtonText: 'Annulla',
+            showClass: { popup: '', },
+            hideClass: { popup: '', }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                queueMessage({ action: "sincronizzaDipendenti" });
+                sendMessage();
+            }
+        });
+    }
+
+    function aggiornaPIN() {
+        let pin = $('#pin').val();
+        let pinConferma = $('#pin_conferma').val();
+
+        if (!pin || !pinConferma) {
+            Swal.fire({
+                title: `I campi non possono essere vuoti!`,
+                icon: 'warning',
+                showClass: { popup: '' },
+                hideClass: { popup: '' }
+            });
+            return;
+        }
+
+        if (pin !== pinConferma) {
+            Swal.fire({
+                title: `I PIN non corrispondono!`,
+                icon: 'warning',
+                showClass: { popup: '' },
+                hideClass: { popup: '' }
+            });
+            return;
+        }
+
+        Swal.fire({
+            title: `Vuoi aggiornare il PIN?`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Conferma',
+            cancelButtonText: 'Annulla',
+            showClass: { popup: '', },
+            hideClass: { popup: '', }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/aggiornaPin',
+                    method: 'POST',
+                    data: {pin: pin},
+                    success: function(response) {
+                        $('#pin, #pin_conferma').val('');
+                        Swal.fire({
+                            title: response.msg,
+                            icon: response.success ? 'success' : 'error',
+                            showClass: { popup: '' },
+                            hideClass: { popup: '' }
+                        });
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            title: `Errore durante l'aggiornamento del PIN!`,
+                            icon: 'error',
+                            showClass: { popup: '' },
+                            hideClass: { popup: '' }
+                        });
+                    }
+                });
+            }
+        });
+    }
+</script>
 @endsection

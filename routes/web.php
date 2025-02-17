@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::any('impostazioni', [HomeController::class, 'impostazioni'])->name('impostazioni');
     Route::any('manuale', [HomeController::class, 'manuale'])->name('manuale');
     Route::post('settingsSaveAll', [HomeController::class, 'settingsSaveAll'])->name('settingsSaveAll');
+    Route::post('aggiornaPin', [HomeController::class, 'aggiornaPin'])->name('aggiornaPin');
     Route::any('reboot', [HomeController::class, 'reboot'])->name('reboot');
     Route::any('shutdown', [HomeController::class, 'shutdown'])->name('shutdown');
     Route::any('campionatura', [HomeController::class, 'campionatura'])->name('campionatura');
