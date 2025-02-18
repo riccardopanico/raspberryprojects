@@ -15,6 +15,7 @@
         return moment().format('DD/MM/YYYY HH:mm:ss');
     }
 
+    var tecnici = @json($tecnici ?: []);
     var $modal;
 
     function openModal(setting) {

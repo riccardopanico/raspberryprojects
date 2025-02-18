@@ -9,18 +9,12 @@ use App\Models\LogData;
 use App\Models\Campionatura;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
     public function home(Request $request)
     {
-        if (env('APP_NAME') === 'RP1'){
-            $this->user_id->setValue(null);
-            Auth::logout();
-        }
-
         $richiesta_filato = 0;
         $richiesta_intervento = 0;
 
@@ -100,6 +94,15 @@ class HomeController extends Controller
     public function manuale(Request $request)
     {
         extract($this->loadAllVariables());
+
+        if (!session()->has('tecnici')) {
+            $tecnici = $this->getTecnici($request)->original['data'];
+            session(['tecnici' => $tecnici]);
+            session()->save();
+        } else {
+            $tecnici = session('tecnici');
+        }
+
         return view(env('APP_NAME') . '.manuale', get_defined_vars());
     }
 
@@ -254,15 +257,6 @@ class HomeController extends Controller
 
             return ['success' => false, 'msg' => $th->getMessage()];
         }
-    }
-
-    public function aggiornaPin(Request $request)
-    {
-        $user = auth()->user();
-        $user->badge = $request->input('pin');
-        $user->save();
-
-        return response()->json(['success' => true, 'msg' => 'PIN aggiornato con successo!']);
     }
 
     public function campionatura(Request $request)
