@@ -12,10 +12,12 @@
         </li>
     </ul>
     <ul class="navbar-nav ml-auto">
+        @if(auth()->check())
         <li class="nav-item" style="zoom: 1.23;">
             <a style="padding: 0 1.5vw; font-size: 28px;/*  color: rgba(0,0,0,.5); */" class="nav-link" href="{{ route('logout') }}" role="button">
                 <i class="fas fa-sign-out-alt"></i>
             </a>
         </li>
+        @endif
     </ul>
 </nav>
