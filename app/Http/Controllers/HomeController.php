@@ -145,6 +145,32 @@ class HomeController extends Controller
         return $this->loadAllVariables();
     }
 
+    public function getInfoCartellino(Request $request)
+    {
+        try {
+            $today = Carbon::today();
+            $badge = $request->input('badge');
+
+            $logs = DB::table('log_data')
+                ->join('variables', 'log_data.variable_id', '=', 'variables.id')
+                ->where('variables.variable_code', '=', 'badge')
+                ->where('log_data.string_value', '=', $badge)
+                ->whereDate('log_data.created_at', '=', $today)
+                ->select(DB::raw('DATE_FORMAT(log_data.created_at, "%H:%i") as created_at'))
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => $logs
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'data' => []
+            ]);
+        }
+    }
+
     public function settingsSave(Request $request)
     {
         DB::beginTransaction();

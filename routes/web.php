@@ -29,6 +29,7 @@ if (env('APP_NAME') !== 'RP1') {
     Route::any('/', [HomeController::class, 'home']);
     Route::any('home', [HomeController::class, 'home'])->name('home');
     Route::post('settingsSave', [HomeController::class, 'settingsSave'])->name('settingsSave');
+    Route::any('getInfoCartellino', [HomeController::class, 'getInfoCartellino'])->name('getInfoCartellino');
 }
 
 Route::middleware('auth')->group(function () {

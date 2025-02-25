@@ -75,9 +75,17 @@
                 const icon = parsedData['icon'] ? parsedData['icon'] : null;
                 const popup = Swal.fire({
                     title: parsedData['message'],
+                    text: ' ',
                     icon: icon,
-                    showClass: { popup: '' },
-                    hideClass: { popup: '' }
+                    showCancelButton: false,
+                    showConfirmButton: !parsedData['success'],
+                    didOpen: () => {
+                        if(parsedData['timer']) {
+                            let secondi = parsedData['timer'] / 1000;
+                            startCountdown(secondi);
+                        }
+                    },
+                    willClose: () => { clearCountdown(); }
                 });
 
                 if (parsedData['autoclose'] && parsedData['autoclose'] === true) {
@@ -96,37 +104,6 @@
                     });
                 }
             }
-
-            // if (parsedData['action']) {
-            //     if (parsedData['action'] === 'network_reset_warning') {
-            //         location.reload();
-            //     }
-            //     if (parsedData['action'] === 'autentica') {
-            //         setPage('menu_page');
-            //         sospendiFocus();
-            //     }
-            //     if (parsedData['action'] === 'refresh_page') {
-            //         location.reload();
-            //     }
-            //     if (parsedData['action'] === 'wifiList') {
-            //         $('#ssid').empty();
-            //         for (let i = 0; i < parsedData['wifiList'].length; i++) {
-            //             $('#ssid').append('<option value="' + parsedData['wifiList'][i] + '">' + parsedData['wifiList'][i] + '</option>');
-            //         }
-            //     }
-
-            //     if (parsedData['action'] === 'wifi_on') {
-            //         $('#wifi_led').removeClass('btn-danger').addClass('btn-success');
-            //         clearTimeout(wifiOnTimer);
-            //         wifiOnTimer = setTimeout(function() {
-            //             $('#wifi_led').removeClass('btn-success').addClass('btn-danger');
-            //         }, 10000);
-            //     }
-
-            //     if (parsedData['action'] === 'wifi_off') {
-            //         $('#wifi_led').removeClass('btn-success').addClass('btn-danger');
-            //     }
-            // }
         }
     }
 
