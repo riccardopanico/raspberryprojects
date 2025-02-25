@@ -199,8 +199,7 @@ class HomeController extends Controller
                     }
 
                     $payload = [
-                        'telefono' => '3298006664',
-                        // 'telefono' => $tecnico['TELEFONO'],
+                        'telefono' => $tecnico['TELEFONO'],
                         'messaggio' => 'Richiesta di intervento richiesta per dalla macchina "' . $device->id . '" da ' . $tecnico['NOME'] . ' ' . $tecnico['COGNOME']
                     ];
 

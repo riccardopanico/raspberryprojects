@@ -489,7 +489,8 @@
                                     qtorfElem.css('color', '').text(first.QTORF);
                                 }
                             } else {
-                                $container.find(".description-text").text("--");
+                                $container.find(".QTSIT").text("--");
+                                $container.find(".QTORF").text("--");
                             }
                             break;
                         case "SUsituazione":

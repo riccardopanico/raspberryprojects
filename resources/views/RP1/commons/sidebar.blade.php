@@ -33,7 +33,7 @@
     <div class="sidebar-custom d-flex justify-content-center align-items-center">
         <a href="#" class="btn btn-block btn-danger btn-lg" style="font-weight: bold;" id="arresta"
             data-toggle="modal" onclick="openModal('arresta')">
-            <i class="fas fa-power-off pr-2"></i>ARRESTA
+            <i class="fas fa-power-off pr-2"></i>RIAVVIA
         </a>
     </div>
     @endif
