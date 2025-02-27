@@ -434,10 +434,10 @@
                         case "TCcodlavor":
                         case "T1codlavor":
                         case "id_macchina":
-                        case "ip_macchina":
-                        case "subnet":
+                        case "indirizzo_ip":
+                        case "subnet_mask":
                         case "gateway":
-                        case "dns_nameservers":
+                        case "dns":
                         case "ip_local_server":
                         case "porta_local_server":
                         case "network_name":

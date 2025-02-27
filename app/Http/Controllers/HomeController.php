@@ -45,6 +45,44 @@ class HomeController extends Controller
         return view(env('APP_NAME') . '.impostazioni', get_defined_vars());
     }
 
+    public function parametri(Request $request)
+    {
+        extract($this->loadAllVariables());
+        return view(env('APP_NAME') . '.parametri', get_defined_vars());
+    }
+
+    public function rete(Request $request)
+    {
+        extract($this->loadAllVariables());
+        return view(env('APP_NAME') . '.rete', get_defined_vars());
+    }
+
+    public function impostaRete(Request $request)
+    {
+        // dd($request->all());
+        $indirizzo_ip = $request->input('indirizzo_ip');
+        $subnet_mask = $request->input('subnet_mask');
+        $gateway = $request->input('gateway');
+        $dns = $request->input('dns');
+        $interfaccia = $request->input('interfaccia');
+
+        // Percorso dello script nella root del progetto Laravel
+        $scriptPath = base_path('set_ip.sh');
+
+        // Costruzione sicura del comando
+        $command = escapeshellcmd("sudo bash 192.168.0.102 192.168.0.101 24 192.168.10.253 8.8.8.8");
+        // $command = escapeshellcmd("sudo bash $scriptPath $interfaccia $indirizzo_ip $subnet_mask $gateway $dns");
+
+        // Esecuzione del comando
+        $output = shell_exec($command);
+        dd($output);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Impostazioni di rete applicate con successo.'
+        ]);
+    }
+
     public function reports(Request $request)
     {
         extract($this->loadAllVariables());

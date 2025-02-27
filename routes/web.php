@@ -34,8 +34,11 @@ if (env('APP_NAME') !== 'RP1') {
 
 Route::middleware('auth')->group(function () {
     Route::any('reports', [HomeController::class, 'reports'])->name('reports');
+    Route::any('parametri', [HomeController::class, 'parametri'])->name('parametri');
     Route::any('impostazioni', [HomeController::class, 'impostazioni'])->name('impostazioni');
+    Route::any('rete', [HomeController::class, 'rete'])->name('rete');
     Route::any('manuale', [HomeController::class, 'manuale'])->name('manuale');
+    Route::post('impostaRete', [HomeController::class, 'impostaRete'])->name('impostaRete');
     Route::post('settingsSaveAll', [HomeController::class, 'settingsSaveAll'])->name('settingsSaveAll');
     Route::post('aggiornaPin', [HomeController::class, 'aggiornaPin'])->name('aggiornaPin');
     Route::any('reboot', [HomeController::class, 'reboot'])->name('reboot');

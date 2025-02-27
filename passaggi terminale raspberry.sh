@@ -98,3 +98,7 @@ sudo systemctl enable plymouth-wait-for-animation.service
 sudo systemctl start plymouth-wait-for-animation.service
 sudo nano /etc/plymouth/plymouthd.conf
 sudo apt-get install plymouth plymouth-themes
+
+
+sudo ./set_ip.sh eth0 192.168.0.100 24 192.168.0.253 8.8.8.8
+sudo ./set_ip.sh wlan0 192.168.1.100 24 192.168.0.253 8.8.8.8 Niva_Office

@@ -27,6 +27,7 @@
         @include(env('APP_NAME') . '.commons.websocket')
         @include(env('APP_NAME') . '.commons.modal')
     @endif
+    @include(env('APP_NAME') . '.commons.loader')
     @yield('script')
 </body>
 

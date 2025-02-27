@@ -87,18 +87,14 @@
                     Swal.fire({
                         icon: "error",
                         title: "Errore sulla richiesta!",
-                        customClass: {
-                            popup: 'zoom-swal-popup'
-                        }
+                        customClass: { popup: 'zoom-swal-popup' }
                     });
                 }
             }).fail(function(jqXHR, textStatus) {
                 Swal.fire({
                     icon: "error",
                     title: "Errore generico!",
-                    customClass: {
-                        popup: 'zoom-swal-popup'
-                    }
+                    customClass: { popup: 'zoom-swal-popup' }
                 });
             });
         }

@@ -10,11 +10,11 @@
     // Funzione per connettere il WebSocket
     function connectWebSocket() {
         socket = new WebSocket(`ws://${window.location.hostname}:{{ $websocket_port }}`);
-        {{-- socket = new WebSocket('ws://{{ $websocket_host }}:{{ $websocket_port }}'); --}}
 
         socket.onopen = function() {
             console.log('Connesso al server WebSocket');
             isConnected = true;
+            toggleLoader(false);
             retryInterval = 1000; // Reimposta l'intervallo di riconnessione al valore iniziale
             if (messageQueue.length > 0) {
                 sendMessage();
@@ -63,6 +63,7 @@
             switch (parsedData['action']) {
                 case "readyForNext":
                     isWaitingForServer = false;
+                    toggleLoader(false); // Ferma il loader
                     sendMessage();
                     break;
                 case "dati_orlatura":
@@ -88,6 +89,45 @@
                     break;
                 default:
                     console.warn("Azione sconosciuta ricevuta dal server: ", parsedData['action']);
+            }
+        }
+
+        if (parsedData['message']) {
+            const icon = parsedData['icon'] ? parsedData['icon'] : null;
+            const popup = Swal.fire({
+                title: parsedData['message'],
+                text: ' ',
+                icon: icon,
+                showCancelButton: false,
+                showConfirmButton: parsedData['showConfirmButton'] ? parsedData['showConfirmButton'] : true,
+                customClass: {
+                    popup: 'zoom-swal-popup'
+                },
+                // didOpen: () => {
+                //     if(parsedData['timer']) {
+                //         let secondi = parsedData['timer'] / 1000;
+                //         // startCountdown(secondi);
+                //     }
+                // },
+                // willClose: () => { clearCountdown(); }
+            });
+
+            if (parsedData['autoclose'] && parsedData['autoclose'] === true) {
+                let timerAutoclose = parsedData['timer'] ? parsedData['timer'] : 2000;
+
+                autocloseMsgTimer = setTimeout(function() {
+                    if (!parsedData['showConfirmButton']) {
+                        Swal.close();
+                    }
+                    autocloseMsgTimer = null;
+                }, timerAutoclose);
+
+                popup.then(() => {
+                    if (autocloseMsgTimer !== null) {
+                        clearTimeout(autocloseMsgTimer);
+                        autocloseMsgTimer = null;
+                    }
+                });
             }
         }
     }

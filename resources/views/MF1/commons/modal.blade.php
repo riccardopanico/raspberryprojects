@@ -63,17 +63,13 @@
                 dialogClass: 'modal-dialog modal-xl modal-dialog-centered',
                 body: `
                     <div class="form-group" style="padding-right: 16px; padding-left: 16px; padding-top: 7px; padding-bottom: 0; margin-bottom: 0;">
-                        <label>Selezionare destinatario richiesta</label>
-                        <select id="destinatarioRichiesta" class="form-control" style="padding: 6px;">
-                            ${tecnici.map(tecnico => `<option value="${tecnico.ID}">${tecnico.NOME} ${tecnico.COGNOME}</option>`).join('')}
-                        </select>
                     </div><div class="text-center">Confermi di voler inoltrare la richiesta?</div>`,
                 footerClass: 'modal-footer justify-content-between',
                 footer: `<button type="button" class="btn btn-default btn-flat" style="background: red; color: white;" data-dismiss="modal">Annulla</button>
-                            <button type="button" class="btn btn-primary btn-flat" onclick="settingsSave('richiesta_intervento', $('#destinatarioRichiesta').val())" data-dismiss="modal">Conferma</button>`,
+                            <button type="button" class="btn btn-primary btn-flat" onclick="settingsSave('richiesta_intervento', 1)" data-dismiss="modal">Conferma</button>`,
             },
             'commessa': {
-                title: '<strong>Scansiona</strong>',
+                title: '<strong>Commessa</strong>',
                 body: '<input id="commessa_manuale" name="commessa_manuale" type="text" placeholder="Inserisci un valore..." class="form-control" data-kioskboard-type="numpad">',
                 footerClass: 'modal-footer justify-content-between',
                 footer: `<button type="button" class="btn btn-default btn-flat" style="background: red; color: white;" data-dismiss="modal">Annulla</button>
@@ -81,6 +77,7 @@
                 onShow: () => {
                     KioskBoard.run('#commessa_manuale');
                     setTimeout(() => {
+                        $('#commessa_manuale').addClass('kiosk-input');
                         $('#commessa_manuale').focus();
                     }, 500);
                 },
