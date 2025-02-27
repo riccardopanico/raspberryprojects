@@ -6,10 +6,9 @@
         <nav class="mt-3" style="zoom: 1.35;">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
-                {{-- <li class="nav-header text-center text-muted font-italic pt-0">
-                    @php $ip = trim(shell_exec('ip addr show | grep "inet " | grep -v "127.0.0.1" | cut -d" " -f6 | cut -d"/" -f1')) @endphp
-                    {{ $ip }}
-                </li> --}}
+                @if($ip = trim(shell_exec('ip addr show eth0 | grep "inet " | cut -d" " -f6 | cut -d"/" -f1')))
+                    <li class="nav-header text-center text-muted font-italic pt-0"> {{ $ip }} </li>
+                @endif
                 <li class="nav-item">
                     <a href="{{ route('home') }}"
                         class="nav-link no-border {{ request()->routeIs('home') || request()->path() == '/' ? 'active' : '' }}">
