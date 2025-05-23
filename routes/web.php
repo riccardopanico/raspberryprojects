@@ -19,33 +19,20 @@ Route::any('login', [AuthController::class, 'login'])->name('login');
 Route::any('logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('signin', [AuthController::class, 'signin'])->name('signin');
 
-if (env('APP_NAME') !== 'RP1') {
-    Route::middleware('auth')->group(function () {
-        Route::any('/', [HomeController::class, 'home']);
-        Route::any('home', [HomeController::class, 'home'])->name('home');
-        Route::post('settingsSave', [HomeController::class, 'settingsSave'])->name('settingsSave');
-    });
-} else {
+Route::middleware('auth')->group(function () {
     Route::any('/', [HomeController::class, 'home']);
     Route::any('home', [HomeController::class, 'home'])->name('home');
-    Route::post('settingsSave', [HomeController::class, 'settingsSave'])->name('settingsSave');
-    Route::any('getInfoCartellino', [HomeController::class, 'getInfoCartellino'])->name('getInfoCartellino');
-}
-
-Route::middleware('auth')->group(function () {
     Route::any('reports', [HomeController::class, 'reports'])->name('reports');
-    Route::any('parametri', [HomeController::class, 'parametri'])->name('parametri');
     Route::any('impostazioni', [HomeController::class, 'impostazioni'])->name('impostazioni');
-    Route::any('rete', [HomeController::class, 'rete'])->name('rete');
     Route::any('manuale', [HomeController::class, 'manuale'])->name('manuale');
-    Route::post('impostaRete', [HomeController::class, 'impostaRete'])->name('impostaRete');
+    Route::post('settingsSave', [HomeController::class, 'settingsSave'])->name('settingsSave');
     Route::post('settingsSaveAll', [HomeController::class, 'settingsSaveAll'])->name('settingsSaveAll');
-    Route::post('aggiornaPin', [HomeController::class, 'aggiornaPin'])->name('aggiornaPin');
     Route::any('reboot', [HomeController::class, 'reboot'])->name('reboot');
     Route::any('shutdown', [HomeController::class, 'shutdown'])->name('shutdown');
     Route::any('campionatura', [HomeController::class, 'campionatura'])->name('campionatura');
     Route::any('signalCampionatura', [HomeController::class, 'signalCampionatura'])->name('signalCampionatura');
     Route::any('getSettings', [HomeController::class, 'getSettings'])->name('getSettings');
+    Route::any('rete', [HomeController::class, 'rete'])->name('rete');
 });
 
 Route::any('clear-cache', function () {
