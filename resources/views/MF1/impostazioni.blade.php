@@ -81,6 +81,7 @@
                     parametro_spola: parseInt($("#parametro_spola").val()),
                     fattore_taratura: parseInt($("#fattore_taratura").val()),
                 }
+                // data: $("#form_impostazioni").serialize()
             }).done(function(data) {
                 if (data.success) {
                     $('#modal-xl').modal('hide');

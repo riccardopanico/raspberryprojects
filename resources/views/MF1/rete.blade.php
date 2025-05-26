@@ -137,6 +137,11 @@
                 <input type="text" value="{{ $dns }}" id="dns" name="dns" class="kiosk-input font-lg form-control no-border">
             </div>
 
+            <label for="ip_local_server" class="font-lg" style="color: #000;">IP Local Server</label>
+            <div class="input-group input-group-lg mb-2">
+                <input type="text" value="{{ $ip_local_server }}" id="ip_local_server" name="ip_local_server" class="kiosk-input font-lg form-control no-border">
+            </div>
+
             <div id="wifi_settings" style="display: none;">
                 <label for="ssid" class="font-lg" style="color: #000;">SSID Wi-Fi</label>
                 <div class="input-group input-group-lg mb-2">
@@ -233,8 +238,9 @@
             let subnet_mask = $('#subnet_mask').val();
             let gateway = $('#gateway').val();
             let dns = $('#dns').val();
+            let ip_local_server = $('#ip_local_server').val();
 
-            queueMessage({action: 'impostaRete', interfaccia_di_rete: interfaccia_di_rete, indirizzo_ip: indirizzo_ip, subnet_mask: subnet_mask, gateway: gateway, dns: dns});
+            queueMessage({action: 'impostaRete', interfaccia_di_rete: interfaccia_di_rete, indirizzo_ip: indirizzo_ip, subnet_mask: subnet_mask, gateway: gateway, dns: dns, ip_local_server: ip_local_server});
             sendMessage();
             toggleLoader(true); // Avvia il loader
         });

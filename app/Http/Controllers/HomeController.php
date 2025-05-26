@@ -39,12 +39,6 @@ class HomeController extends Controller
         return view(env('APP_NAME') . '.home', get_defined_vars());
     }
 
-    public function impostazioni(Request $request)
-    {
-        extract($this->loadAllVariables());
-        return view(env('APP_NAME') . '.impostazioni', get_defined_vars());
-    }
-
     public function parametri(Request $request)
     {
         extract($this->loadAllVariables());
@@ -70,7 +64,7 @@ class HomeController extends Controller
         $scriptPath = base_path('set_ip.sh');
 
         // Costruzione sicura del comando
-        $command = escapeshellcmd("sudo bash 192.168.0.102 192.168.0.101 24 192.168.10.253 8.8.8.8");
+        $command = escapeshellcmd("sudo bash 192.168.0.100 192.168.0.101 24 192.168.10.253 8.8.8.8");
         // $command = escapeshellcmd("sudo bash $scriptPath $interfaccia $indirizzo_ip $subnet_mask $gateway $dns");
 
         // Esecuzione del comando
@@ -81,6 +75,12 @@ class HomeController extends Controller
             'success' => true,
             'message' => 'Impostazioni di rete applicate con successo.'
         ]);
+    }
+
+    public function impostazioni(Request $request)
+    {
+        extract($this->loadAllVariables());
+        return view(env('APP_NAME') . '.impostazioni', get_defined_vars());
     }
 
     public function reports(Request $request)
@@ -132,15 +132,6 @@ class HomeController extends Controller
     public function manuale(Request $request)
     {
         extract($this->loadAllVariables());
-
-        if (!session()->has('tecnici')) {
-            $tecnici = $this->getTecnici($request)->original['data'];
-            session(['tecnici' => $tecnici]);
-            session()->save();
-        } else {
-            $tecnici = session('tecnici');
-        }
-
         return view(env('APP_NAME') . '.manuale', get_defined_vars());
     }
 
@@ -183,32 +174,6 @@ class HomeController extends Controller
         return $this->loadAllVariables();
     }
 
-    public function getInfoCartellino(Request $request)
-    {
-        try {
-            $today = Carbon::today();
-            $badge = $request->input('badge');
-
-            $logs = DB::table('log_data')
-                ->join('variables', 'log_data.variable_id', '=', 'variables.id')
-                ->where('variables.variable_code', '=', 'badge')
-                ->where('log_data.string_value', '=', $badge)
-                ->whereDate('log_data.created_at', '=', $today)
-                ->select(DB::raw('DATE_FORMAT(log_data.created_at, "%H:%i") as created_at'))
-                ->get();
-
-            return response()->json([
-                'success' => true,
-                'data' => $logs
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'data' => []
-            ]);
-        }
-    }
-
     public function settingsSave(Request $request)
     {
         DB::beginTransaction();
@@ -227,65 +192,67 @@ class HomeController extends Controller
                         'task_type' => $setting,
                         'status' => 'UNASSIGNED'
                     ]);
-                    $tecnico = collect(session('tecnici'))->firstWhere('ID', $value);
+                    $this->{$setting}->setValue($value);
+                    // $tecnico = collect(session('tecnici'))->firstWhere('ID', $value);
 
-                    if (is_null($tecnico)) {
-                        return response()->json([
-                            'success' => false,
-                            'error' => 'Tecnico non trovato'
-                        ], 404);
-                    }
+                    // if (is_null($tecnico)) {
+                    //     return response()->json([
+                    //         'success' => false,
+                    //         'error' => 'Tecnico non trovato'
+                    //     ], 404);
+                    // }
 
-                    $payload = [
-                        'telefono' => $tecnico['TELEFONO'],
-                        'messaggio' => 'Richiesta di intervento richiesta per dalla macchina "' . $device->id . '" da ' . $tecnico['NOME'] . ' ' . $tecnico['COGNOME']
-                    ];
+                    // $payload = [
+                    //     'telefono' => '3298006664',
+                    //     // 'telefono' => $tecnico['TELEFONO'],
+                    //     'messaggio' => 'Richiesta di intervento richiesta per dalla macchina "' . $device->id . '" da ' . $tecnico['NOME'] . ' ' . $tecnico['COGNOME']
+                    // ];
 
-                    Http::withHeaders([
-                        'Content-Type' => 'application/json'
-                    ])->post("http://{$device->gateway}:{$device->port_address}/api/recipe/sms", $payload);
+                    // Http::withHeaders([
+                    //     'Content-Type' => 'application/json'
+                    // ])->post("http://{$device->gateway}:{$device->port_address}/api/recipe/sms", $payload);
 
                     break;
                 case 'commessa':
                     $barcode = $value;
-                    $barcodeData = $this->parseBarcode($barcode);
+                    // $barcodeData = $this->parseBarcode($barcode);
 
-                    if (isset($barcodeData['success']) && !$barcodeData['success']) {
-                        return $barcodeData;
-                    }
+                    // if (isset($barcodeData['success']) && !$barcodeData['success']) {
+                    //     return $barcodeData;
+                    // }
 
                     $this->{$setting}->setValue($barcode);
 
-                    // Pulizia delle impostazioni precedenti
-                    foreach (['T1codlavor', 'T1data_lavor', 'TCcodlavor', 'TCdata_lavor'] as $code) {
-                        $this->{$code}->setValue(null);
-                    }
+                    // // Pulizia delle impostazioni precedenti
+                    // foreach (['T1codlavor', 'T1data_lavor', 'TCcodlavor', 'TCdata_lavor'] as $code) {
+                    //     $this->{$code}->setValue(null);
+                    // }
 
-                    // Recupero dati delle fasi di lavorazione
-                    $responseFasi = collect($this->getFaseGa2($barcode));
-                    if ($responseFasi->get('success') && isset($responseFasi['data'])) {
-                        foreach ($responseFasi['data'] as $fase) {
-                            $this->{$fase->CODFASE . 'codlavor'}->setValue($fase->CODLAVOR);
-                            $this->{$fase->CODFASE . 'data_lavor'}->setValue($fase->DATA);
-                        }
-                    }
+                    // // Recupero dati delle fasi di lavorazione
+                    // $responseFasi = collect($this->getFaseGa2($barcode));
+                    // if ($responseFasi->get('success') && isset($responseFasi['data'])) {
+                    //     foreach ($responseFasi['data'] as $fase) {
+                    //         $this->{$fase->CODFASE . 'codlavor'}->setValue($fase->CODLAVOR);
+                    //         $this->{$fase->CODFASE . 'data_lavor'}->setValue($fase->DATA);
+                    //     }
+                    // }
 
-                    // Recupero informazioni lotto e articolo
-                    $responseInfo = collect($this->getInfoGa2($barcode));
-                    if ($responseInfo->get('success')) {
-                        $this->prefisso->setValue($responseInfo['data'][0]);
-                        $this->lotto->setValue($responseInfo['data'][1]);
-                        $this->articolo->setValue($responseInfo['data'][2]);
-                        $this->note_lavorazione->setValue($responseInfo['data'][3]);
-                    }
+                    // // Recupero informazioni lotto e articolo
+                    // $responseInfo = collect($this->getInfoGa2($barcode));
+                    // if ($responseInfo->get('success')) {
+                    //     $this->prefisso->setValue($responseInfo['data'][0]);
+                    //     $this->lotto->setValue($responseInfo['data'][1]);
+                    //     $this->articolo->setValue($responseInfo['data'][2]);
+                    //     $this->note_lavorazione->setValue($responseInfo['data'][3]);
+                    // }
 
-                    // Recupero delle situazioni per vari codici
-                    foreach ([20 => 'SUsituazione', 1 => 'PE1situazione', 2 => 'PE2situazione', 3 => 'PE3situazione'] as $codice => $settingKey) {
-                        $responseSituazione = collect($this->getSituazioneGa2($barcode, $codice));
-                        if ($responseSituazione->get('success')) {
-                            $this->{$settingKey}->setValue(json_encode($responseSituazione['data']));
-                        }
-                    }
+                    // // Recupero delle situazioni per vari codici
+                    // foreach ([20 => 'SUsituazione', 1 => 'PE1situazione', 2 => 'PE2situazione', 3 => 'PE3situazione'] as $codice => $settingKey) {
+                    //     $responseSituazione = collect($this->getSituazioneGa2($barcode, $codice));
+                    //     if ($responseSituazione->get('success')) {
+                    //         $this->{$settingKey}->setValue(json_encode($responseSituazione['data']));
+                    //     }
+                    // }
 
                     break;
                 default:

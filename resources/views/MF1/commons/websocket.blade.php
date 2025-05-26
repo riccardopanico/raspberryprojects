@@ -35,7 +35,6 @@
         };
 
         socket.onerror = function(error) {
-            toggleLoader(false);
             console.error('Errore WebSocket', error);
             // Chiudi la connessione per avviare una riconnessione
             socket.close();
@@ -101,7 +100,9 @@
                 icon: icon,
                 showCancelButton: false,
                 showConfirmButton: parsedData['showConfirmButton'] ? parsedData['showConfirmButton'] : true,
-                customClass: { popup: 'zoom-swal-popup' },
+                customClass: {
+                    popup: 'zoom-swal-popup'
+                },
                 // didOpen: () => {
                 //     if(parsedData['timer']) {
                 //         let secondi = parsedData['timer'] / 1000;

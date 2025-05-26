@@ -38,7 +38,6 @@ class AuthController extends Controller
         $this->user_id->setValue(null);
 
         Auth::logout();
-        session()->flush();
 
         return redirect()->route('login');
     }

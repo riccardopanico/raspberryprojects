@@ -23,31 +23,31 @@ $(document).ready(function () {
         }
     }, 500);
 
-    var KioskBoardSelector = 'input:not(#badge,#commessa)';
+    // var KioskBoardSelector = 'input:not(#badge,#commessa)';
 
-    KioskBoard.init({
-        keysArrayOfObjects: null,
-        keysJsonUrl: "build/kioskboard/dist/kioskboard-keys-english.json",
-        language: 'it',
-        theme: 'material',
-        autoScroll: true,
-        capsLockActive: true,
-        cssAnimations: true,
-        cssAnimationsDuration: 360,
-        cssAnimationsStyle: 'slide',
-        keysSpacebarText: 'Space',
-        keysFontFamily: 'sans-serif',
-        keysFontWeight: 'bold',
-        keysEnterText: '<i class="fas fa-check" style="font-weight: bold;"></i>',
-        keysEnterCallback: function() {
+    // KioskBoard.init({
+    //     keysArrayOfObjects: null,
+    //     keysJsonUrl: "build/kioskboard/dist/kioskboard-keys-english.json",
+    //     language: 'it',
+    //     theme: 'material',
+    //     autoScroll: true,
+    //     capsLockActive: true,
+    //     cssAnimations: true,
+    //     cssAnimationsDuration: 360,
+    //     cssAnimationsStyle: 'slide',
+    //     keysSpacebarText: 'Space',
+    //     keysFontFamily: 'sans-serif',
+    //     keysFontWeight: 'bold',
+    //     keysEnterText: '<i class="fas fa-check" style="font-weight: bold;"></i>',
+    //     keysEnterCallback: function() {
 
-        },
-        keysEnterCanClose: true
-    });
+    //     },
+    //     keysEnterCanClose: true
+    // });
 
-    if($(KioskBoardSelector).length) {
-        KioskBoard.run(KioskBoardSelector);
-    }
+    // if($(KioskBoardSelector).length) {
+    //     KioskBoard.run(KioskBoardSelector);
+    // }
 
     // input:focus {
     //     color: #495057 !important;
