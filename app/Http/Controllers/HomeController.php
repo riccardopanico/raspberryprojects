@@ -9,12 +9,18 @@ use App\Models\LogData;
 use App\Models\Campionatura;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
     public function home(Request $request)
     {
+        if (env('APP_NAME') === 'RP1'){
+            $this->user_id->setValue(null);
+            Auth::logout();
+        }
+
         $richiesta_filato = 0;
         $richiesta_intervento = 0;
 
@@ -39,17 +45,35 @@ class HomeController extends Controller
         return view(env('APP_NAME') . '.home', get_defined_vars());
     }
 
+    public function getInfoCartellino(Request $request)
+    {
+        try {
+            $today = Carbon::today();
+            $badge = $request->input('badge');
+
+            $logs = DB::table('log_data')
+                ->join('variables', 'log_data.variable_id', '=', 'variables.id')
+                ->where('variables.variable_code', '=', 'badge')
+                ->where('log_data.string_value', '=', $badge)
+                ->whereDate('log_data.created_at', '=', $today)
+                ->select(DB::raw('DATE_FORMAT(log_data.created_at, "%H:%i") as created_at'))
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => $logs
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'data' => []
+            ]);
+        }
+    }
+
     public function impostazioni(Request $request)
     {
         extract($this->loadAllVariables());
-        
-        if (!session()->has('tecnici')) {
-            $tecnici = $this->getTecnici($request)->original['data'];
-            session(['tecnici' => $tecnici]);
-            session()->save();
-        } else {
-            $tecnici = session('tecnici');
-        }
         return view(env('APP_NAME') . '.impostazioni', get_defined_vars());
     }
 
@@ -96,30 +120,12 @@ class HomeController extends Controller
         $tempo_totale = round($tempo_totale->tempo_totale ?? 0, 2);
         $consumo_commessa = round($dati_commessa->consumo_commessa ?? 0, 2);
         $tempo_commessa = round($tempo_commessa->tempo_commessa ?? 0, 2);
-
-        if (!session()->has('tecnici')) {
-            $tecnici = $this->getTecnici($request)->original['data'];
-            session(['tecnici' => $tecnici]);
-            session()->save();
-        } else {
-            $tecnici = session('tecnici');
-        }
-
         return view(env('APP_NAME') . '.reports', get_defined_vars());
     }
 
     public function manuale(Request $request)
     {
         extract($this->loadAllVariables());
-
-        if (!session()->has('tecnici')) {
-            $tecnici = $this->getTecnici($request)->original['data'];
-            session(['tecnici' => $tecnici]);
-            session()->save();
-        } else {
-            $tecnici = session('tecnici');
-        }
-        
         return view(env('APP_NAME') . '.manuale', get_defined_vars());
     }
 
@@ -135,11 +141,9 @@ class HomeController extends Controller
                 $payload['codice_tecnico'] = $codice_tecnico;
             }
 
-            $IP = $this->ip_local_server->getValue();
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json'
-            ])->post("http://{$IP}:{$device->port_address}/api/recipe/tecnici", $payload);
-            // ])->post("http://{$device->gateway}:{$device->port_address}/api/recipe/tecnici", $payload);
+            ])->post("http://{$device->gateway}:{$device->port_address}/api/recipe/tecnici", $payload);
 
             if ($response->failed()) {
                 return response()->json([
@@ -192,16 +196,14 @@ class HomeController extends Controller
                     }
 
                     $payload = [
-                        // 'telefono' => '3356052675',
-                        'telefono' => $tecnico['TELEFONO'],
+                        'telefono' => '3298006664',
+                        // 'telefono' => $tecnico['TELEFONO'],
                         'messaggio' => 'Richiesta di intervento richiesta per dalla macchina "' . $device->id . '" da ' . $tecnico['NOME'] . ' ' . $tecnico['COGNOME']
                     ];
-                    
-                    $IP = $this->ip_local_server->getValue();
+
                     Http::withHeaders([
                         'Content-Type' => 'application/json'
-                    ])->post("http://{$IP}:{$device->port_address}/api/recipe/sms", $payload);
-                    // ])->post("http://{$device->gateway}:{$device->port_address}/api/recipe/sms", $payload);
+                    ])->post("http://{$device->gateway}:{$device->port_address}/api/recipe/sms", $payload);
 
                     break;
                 case 'commessa':
@@ -280,18 +282,18 @@ class HomeController extends Controller
         }
     }
 
+    public function aggiornaPin(Request $request)
+    {
+        $user = auth()->user();
+        $user->badge = $request->input('pin');
+        $user->save();
+
+        return response()->json(['success' => true, 'msg' => 'PIN aggiornato con successo!']);
+    }
+
     public function campionatura(Request $request)
     {
         extract($this->loadAllVariables());
-
-        if (!session()->has('tecnici')) {
-            $tecnici = $this->getTecnici($request)->original['data'];
-            session(['tecnici' => $tecnici]);
-            session()->save();
-        } else {
-            $tecnici = session('tecnici');
-        }
-
         return view(env('APP_NAME') . '.campionatura', get_defined_vars());
     }
 
@@ -399,11 +401,10 @@ class HomeController extends Controller
                 'nlotto' => $parsedData['nlotto']
             ], $extraParams);
 
-            $IP = $this->ip_local_server->getValue();
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json'
-            ])->post("http://{$IP}:{$device->port_address}/api/$endpoint", $payload);
-            // ])->post("http://{$device->gateway}:{$device->port_address}/api/$endpoint", $payload);
+            ])->post("http://{$device->gateway}:{$device->port_address}/api/$endpoint", $payload);
+
             return json_decode($response->body());
         } catch (\Exception $th) {
             return ['success' => false, 'msg' => $th->getMessage()];
@@ -413,21 +414,6 @@ class HomeController extends Controller
     public function getFaseGa2($barcode)
     {
         return $this->processBarcodeRequest($barcode, 'recipe/fase');
-    }
-
-    public function rete(Request $request)
-    {
-        extract($this->loadAllVariables());
-
-        if (!session()->has('tecnici')) {
-            $tecnici = $this->getTecnici($request)->original['data'];
-            session(['tecnici' => $tecnici]);
-            session()->save();
-        } else {
-            $tecnici = session('tecnici');
-        }
-
-        return view(env('APP_NAME') . '.rete', get_defined_vars());
     }
 
     public function getSituazioneGa2($barcode, $codice)
